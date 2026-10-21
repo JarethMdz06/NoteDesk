@@ -189,13 +189,14 @@
                     <!-- ================= LISTA DE TAREAS ================= -->
 
                     <ScrollViewer VerticalScrollBarVisibility="Hidden"
-                                  Height="360">
+                                  Height="360"
+                                  Background="#FFFBF6DB">
 
                         <StackPanel>
 
                             <!-- TAREA 1 -->
 
-                            <Border Style="{StaticResource TaskCardStyle}">
+                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
 
                                 <Grid>
 
@@ -244,7 +245,7 @@
 
                             <!-- TAREA 2 -->
 
-                            <Border Style="{StaticResource TaskCardStyle}">
+                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
 
                                 <Grid>
 
@@ -293,7 +294,7 @@
 
                             <!-- TAREA 3 -->
 
-                            <Border Style="{StaticResource TaskCardStyle}">
+                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
 
                                 <Grid>
 
@@ -351,7 +352,7 @@
 
                             <!-- TAREA 4 -->
 
-                            <Border Style="{StaticResource TaskCardStyle}">
+                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
 
                                 <Grid>
 
@@ -393,7 +394,7 @@
 
                             <!-- TAREA 5 -->
 
-                            <Border Style="{StaticResource TaskCardStyle}">
+                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
 
                                 <Grid>
 
@@ -434,7 +435,7 @@
 
                             <!-- TAREA 6 -->
 
-                            <Border Style="{StaticResource TaskCardStyle}">
+                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
 
                                 <Grid>
 
@@ -849,7 +850,7 @@
                                         <Ellipse Stroke="#D0EBE8"
                                                  StrokeThickness="10"/>
 
-                                        <Ellipse Stroke="#26B2A8"
+                                        <Ellipse Stroke="#FF0C8078"
                                                  StrokeThickness="10"
                                                  StrokeDashArray="3,1"
                                                  StrokeDashOffset="1"/>
