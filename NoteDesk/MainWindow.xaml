@@ -83,13 +83,73 @@
 
                         <Border HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
-                                Margin="0,-12,32,0"
-                                Width="18"
-                                Height="45"
-                                CornerRadius="9"
+                                Margin="0,-16,9,0"
+                                Width="28"
+                                Height="76"
+                                CornerRadius="10"
                                 BorderBrush="#A3485E"
-                                BorderThickness="3"
+                                BorderThickness="5"
                                 Background="Transparent"/>
+                        <Button
+                                Width="50"
+                                Height="50"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Margin="0,0,32,12"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Padding="0">
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+
+                                    <Grid Width="50"
+                                          Height="50">
+
+                                        <!-- Círculo rojo -->
+                                        <Ellipse Width="50"
+                                                 Height="50"
+                                                 Fill="#E74C4C"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center">
+
+                                            <Ellipse.Effect>
+                                                <DropShadowEffect BlurRadius="10"
+                                                                  ShadowDepth="3"
+                                                                  Opacity="0.30"/>
+                                            </Ellipse.Effect>
+
+                                        </Ellipse>
+
+                                        <!-- Signo + centrado -->
+                                        <Grid Width="20"
+                                              Height="20"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center">
+
+                                            <Border Width="2"
+                                                    Height="20"
+                                                    Background="White"
+                                                    CornerRadius="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+
+                                            <Border Width="20"
+                                                    Height="2"
+                                                    Background="White"
+                                                    CornerRadius="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+
+                                        </Grid>
+
+                                    </Grid>
+
+                                </ControlTemplate>
+                            </Button.Template>
+
+                        </Button>
 
                     </Grid>
 
@@ -167,7 +227,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        
+
 
                                     </StackPanel>
 
@@ -316,7 +376,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        
+
 
                                     </StackPanel>
 
@@ -357,7 +417,7 @@
                                                    FontSize="15"
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
-                                        
+
 
                                     </StackPanel>
 
@@ -399,7 +459,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        
+
 
                                     </StackPanel>
 
@@ -670,7 +730,7 @@
                     <Border Background="#F8F4EA"
                             CornerRadius="16"
                             Padding="26"
-                            Effect="{StaticResource CardShadow}">
+                            Effect="{StaticResource CardShadow}" Height="246">
 
                         <StackPanel>
 
@@ -728,7 +788,7 @@
 
                                             </Border>
 
-                                            
+
 
                                         </StackPanel>
 
@@ -763,7 +823,7 @@
 
                                             </Border>
 
-                                           
+
 
                                         </StackPanel>
 
