@@ -858,7 +858,7 @@
                                         <StackPanel VerticalAlignment="Center"
                                                     HorizontalAlignment="Center">
 
-                                            <TextBlock Text="33%"
+                                            <TextBlock Text="0%"
                                                        FontSize="18"
                                                        FontWeight="Bold"
                                                        Foreground="#111111"
