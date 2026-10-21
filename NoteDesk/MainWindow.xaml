@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!-- ================= HEADER / BARRA SUPERIOR ================= -->
-            <Grid Grid.Row="0" Margin="20,15,20,5">
+            <Grid Grid.Row="0" Margin="773,15,20,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -24,7 +24,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Campo de Búsqueda -->
-                <Border Grid.Column="2" Width="220" Height="32" CornerRadius="16" Background="#F4EEE0" Padding="10,0">
+                <Border Grid.Column="1" Height="32" CornerRadius="16" Background="#F4EEE0" Padding="10,0" Grid.ColumnSpan="2" Margin="3,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -45,16 +45,16 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- COLUMNA IZQUIERDA -->
-                <StackPanel Grid.Column="0">
+                <StackPanel Grid.Column="0" Height="623" VerticalAlignment="Top">
                     <!-- NOTA ADHESIVA AMARILLA -->
                     <Grid Margin="0,0,0,20">
-                        <Border Background="#EBB83A" CornerRadius="12" Padding="25,20" Effect="{StaticResource StickyShadow}">
+                        <Border Background="#EBB83A" CornerRadius="12" Padding="25,20" Effect="{StaticResource StickyShadow}" Margin="0,-45,0,0">
                             <StackPanel>
                                 <TextBlock Text="Mis Tareas" FontSize="42" FontWeight="Bold" FontFamily="Segoe Script, Brush Script MT, Cursive" Foreground="#1A1A1A"/>
                                 <TextBlock Text="Pequeños pasos, grandes logros ♡" FontSize="15" FontFamily="Segoe Print, Comic Sans MS" Foreground="#333333" Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
-                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-12,35,0" Width="18" Height="45" CornerRadius="9" BorderBrush="#A3485E" BorderThickness="3" Background="Transparent"/>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-59,32,0" Width="18" Height="45" CornerRadius="9" BorderBrush="#A3485E" BorderThickness="3" Background="Transparent"/>
                     </Grid>
 
                     <!-- FILTRO -->
@@ -107,7 +107,7 @@
                                 </Grid>
                             </Border>
 
-                            <Border Style="{StaticResource TaskCardStyle}" Background="#FDFBF7">
+                            <Border Style="{StaticResource TaskCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
