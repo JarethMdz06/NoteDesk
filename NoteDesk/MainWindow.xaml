@@ -167,10 +167,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        <TextBlock Text="🕒 Completada a las 08:30 AM"
-                                                   FontSize="12"
-                                                   Foreground="#777777"
-                                                   Margin="0,2,0,0"/>
+                                        
 
                                     </StackPanel>
 
@@ -200,10 +197,11 @@
                                     <Border Width="26"
                                             Height="26"
                                             CornerRadius="6"
-                                            Background="#3FA772"
+                                            BorderBrush="#888888"
+                                            BorderThickness="2"
                                             Margin="0,0,12,0">
 
-                                        <TextBlock Text="✓"
+                                        <TextBlock Text=""
                                                    Foreground="White"
                                                    FontWeight="Bold"
                                                    HorizontalAlignment="Center"
@@ -219,10 +217,6 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        <TextBlock Text="🕒 Completada a las 10:00 AM"
-                                                   FontSize="12"
-                                                   Foreground="#777777"
-                                                   Margin="0,2,0,0"/>
 
                                     </StackPanel>
 
@@ -267,14 +261,11 @@
                                         <StackPanel Orientation="Horizontal"
                                                     Margin="0,3,0,0">
 
-                                            <TextBlock Text="🕒 2:00 PM  |"
-                                                       FontSize="12"
-                                                       Foreground="#666666"/>
 
                                             <Border Background="#F1B1B1"
                                                     CornerRadius="8"
                                                     Padding="6,1"
-                                                    Margin="6,0,0,0">
+                                                    Margin="0,2,0,0">
 
                                                 <TextBlock Text="Entrega: mañana"
                                                            FontSize="11"
@@ -325,10 +316,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        <TextBlock Text="🕒 6:00 PM"
-                                                   FontSize="12"
-                                                   Foreground="#777777"
-                                                   Margin="0,2,0,0"/>
+                                        
 
                                     </StackPanel>
 
@@ -367,11 +355,7 @@
                                                    FontSize="15"
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
-
-                                        <TextBlock Text="🕒 8:00 PM  |  Duración estimada: 30 min"
-                                                   FontSize="12"
-                                                   Foreground="#777777"
-                                                   Margin="0,2,0,0"/>
+                                        
 
                                     </StackPanel>
 
@@ -413,10 +397,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-                                        <TextBlock Text="🕒 7:00 PM"
-                                                   FontSize="12"
-                                                   Foreground="#777777"
-                                                   Margin="0,2,0,0"/>
+                                        
 
                                     </StackPanel>
 
