@@ -709,7 +709,7 @@
                                                            FontWeight="Bold"
                                                            TextWrapping="Wrap"/>
 
-                                                <TextBlock Text="📋"
+                                                <TextBlock Text="."
                                                            FontSize="11"
                                                            HorizontalAlignment="Right"/>
 
@@ -728,9 +728,7 @@
 
                                             </Border>
 
-                                            <TextBlock Text="🕒 Hoy, 2:00 PM"
-                                                       FontSize="10"
-                                                       Foreground="#777777"/>
+                                            
 
                                         </StackPanel>
 
@@ -746,7 +744,7 @@
                                                            FontSize="11"
                                                            FontWeight="Bold"/>
 
-                                                <TextBlock Text="🏋️"
+                                                <TextBlock Text="."
                                                            FontSize="11"
                                                            HorizontalAlignment="Right"/>
 
@@ -765,9 +763,7 @@
 
                                             </Border>
 
-                                            <TextBlock Text="🕒 Hoy, 6:00 PM"
-                                                       FontSize="10"
-                                                       Foreground="#777777"/>
+                                           
 
                                         </StackPanel>
 
