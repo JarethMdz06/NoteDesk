@@ -190,7 +190,7 @@
 
                     <ScrollViewer VerticalScrollBarVisibility="Hidden"
                                   Height="360"
-                                  Background="#FFFBF6DB">
+                                  Background="#EBE2CD">
 
                         <StackPanel>
 
