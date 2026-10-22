@@ -5,8 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteDesk"
         mc:Ignorable="d"
-        Title="NewList" Height="340" Width="320">
-    <Grid>
-        
-    </Grid>
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Title="Crear Nueva Tarea" Height="700" Width="480"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- Este Border es el que le da la forma curva a toda la ventana -->
+    <Border Background="#EBE2CD" CornerRadius="22" Padding="20">
+
+        <!-- Un StackPanel principal para ordenar todo verticalmente en orden -->
+        <StackPanel VerticalAlignment="Top">
+
+            <!-- Título principal -->
+            <TextBlock Text="Crear Nueva Tarea"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       FontFamily="Segoe Script, Brush Script MT, Cursive"
+                       Foreground="#1A1A1A"/>
+
+            <!-- Subtítulo -->
+            <TextBlock Text="Pequeños pasos, grandes logros ♡"
+                       FontSize="14"
+                       FontFamily="Segoe Print, Comic Sans MS"
+                       Foreground="#333333"
+                       Margin="0,2,0,20"/>
+
+            <!-- Contenedor con bordes redondeados para el campo de texto -->
+            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4">
+                <TextBox x:Name="TxtTituloTarea"
+                         Text="Ej. Preparar presentación, Comprar pan..."
+                         Foreground="#555555"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         FontSize="14"
+                         Padding="8,6"
+                         VerticalContentAlignment="Center"/>
+            </Border>
+
+        </StackPanel>
+
+    </Border>
+
 </Window>
