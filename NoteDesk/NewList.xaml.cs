@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NoteDesk
 {
@@ -9,15 +10,6 @@ namespace NoteDesk
         public NewList()
         {
             InitializeComponent();
-        }
-
-        // Permite mover la ventana flotante sin bordes haciendo clic en cualquier parte de ella
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == MouseButtonState.Pressed)
-            {
-                this.DragMove();
-            }
         }
 
         // Cierra la ventana al hacer clic en cancelar
@@ -41,6 +33,40 @@ namespace NoteDesk
             if (PanelFechas != null)
             {
                 PanelFechas.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        // Lógica para el marcador de posición (Placeholder) en los TextBox
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                if (textBox.Text == "Ej. Preparar presentación, Comprar pan..." ||
+                    textBox.Text == "Agrega detalles adicionales...")
+                {
+                    textBox.Text = "";
+                    textBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A1A1A"));
+                }
+            }
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                if (string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    if (textBox.Name == "TxtTituloTarea")
+                    {
+                        textBox.Text = "Ej. Preparar presentación, Comprar pan...";
+                    }
+                    else if (textBox.Name == "TxtDescripcion")
+                    {
+                        textBox.Text = "Agrega detalles adicionales...";
+                    }
+
+                    textBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#888888"));
+                }
             }
         }
     }

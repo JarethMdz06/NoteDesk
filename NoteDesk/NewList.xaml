@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteDesk"
         mc:Ignorable="d"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Title="Crear Nueva Tarea" Height="730" Width="480"
-        AllowsTransparency="True"
-        WindowStyle="None"
-        Background="Transparent"
+        Background="#EBE2CD"
         WindowStartupLocation="CenterScreen">
 
     <!-- Recursos locales para estilizar el CheckBox como un Toggle Switch -->
@@ -39,8 +36,8 @@
         </Style>
     </Window.Resources>
 
-    <!-- Contenedor Principal con las esquinas curvas de la tarjeta -->
-    <Border Background="#EBE2CD" CornerRadius="22" Padding="25">
+    <!-- Contenedor Principal con un margen interior (Padding) para que respire el contenido -->
+    <Grid Margin="20">
 
         <StackPanel VerticalAlignment="Top">
 
@@ -63,12 +60,14 @@
             <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,12">
                 <TextBox x:Name="TxtTituloTarea"
                          Text="Ej. Preparar presentación, Comprar pan..."
-                         Foreground="#555555"
+                         Foreground="#888888"
                          Background="Transparent"
                          BorderThickness="0"
                          FontSize="13"
                          Padding="6,4"
-                         VerticalContentAlignment="Center"/>
+                         VerticalContentAlignment="Center"
+                         GotFocus="TextBox_GotFocus"
+                         LostFocus="TextBox_LostFocus"/>
             </Border>
 
             <!-- 2. Campo de Descripción -->
@@ -76,14 +75,16 @@
             <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="6" Margin="0,0,0,15">
                 <TextBox x:Name="TxtDescripcion"
                          Text="Agrega detalles adicionales..."
-                         Foreground="#555555"
+                         Foreground="#888888"
                          Background="Transparent"
                          BorderThickness="0"
                          FontSize="13"
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
                          Height="65"
-                         VerticalContentAlignment="Top"/>
+                         VerticalContentAlignment="Top"
+                         GotFocus="TextBox_GotFocus"
+                         LostFocus="TextBox_LostFocus"/>
             </Border>
 
             <!-- 3. Interruptor (Toggle Switch) para Fechas -->
@@ -156,5 +157,5 @@
 
         </StackPanel>
 
-    </Border>
+    </Grid>
 </Window>
