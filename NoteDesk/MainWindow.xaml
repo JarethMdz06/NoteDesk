@@ -921,7 +921,7 @@
 
                     <UniformGrid Grid.Column="0"
                                  Rows="1"
-                                 Columns="4"
+                                 Columns="2"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center">
 
@@ -941,42 +941,7 @@
                                        Foreground="#444444"/>
 
                         </StackPanel>
-
-                        <!-- Tareas -->
-
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-
-                            <TextBlock Text="☑"
-                                       FontSize="14"
-                                       Margin="0,0,5,0"
-                                       Foreground="#222222"/>
-
-                            <TextBlock Text="Tareas"
-                                       FontSize="13"
-                                       FontWeight="Bold"
-                                       Foreground="#222222"/>
-
-                        </StackPanel>
-
-                        <!-- Calendario -->
-
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-
-                            <TextBlock Text="📅"
-                                       FontSize="14"
-                                       Margin="0,0,5,0"/>
-
-                            <TextBlock Text="Calendario"
-                                       FontSize="13"
-                                       FontWeight="SemiBold"
-                                       Foreground="#444444"/>
-
-                        </StackPanel>
-
+                        
                         <!-- Ajustes -->
 
                         <StackPanel Orientation="Horizontal"
