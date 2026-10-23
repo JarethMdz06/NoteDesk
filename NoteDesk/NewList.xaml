@@ -6,67 +6,155 @@
         xmlns:local="clr-namespace:NoteDesk"
         mc:Ignorable="d"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        Title="Crear Nueva Tarea" Height="700" Width="480"
+        Title="Crear Nueva Tarea" Height="730" Width="480"
         AllowsTransparency="True"
         WindowStyle="None"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
 
-    <!-- Este Border es el que le da la forma curva a toda la ventana -->
-    <Border Background="#EBE2CD" CornerRadius="22" Padding="20">
+    <!-- Recursos locales para estilizar el CheckBox como un Toggle Switch -->
+    <Window.Resources>
+        <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid Width="46" Height="24">
+                            <!-- Fondo de la cápsula (Gris por defecto) -->
+                            <Border x:Name="SwitchBorder" Background="#CCCCCC" CornerRadius="12"/>
+                            <!-- Círculo deslizante -->
+                            <Ellipse x:Name="SwitchDot" Width="18" Height="18" Fill="White" HorizontalAlignment="Left" Margin="3,0,0,0"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!-- Cuando está activado: cambia a verde menta y mueve el círculo a la derecha -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchBorder" Property="Background" Value="#52B788"/>
+                                <Setter TargetName="SwitchDot" Property="HorizontalAlignment" Value="Right"/>
+                                <Setter TargetName="SwitchDot" Property="Margin" Value="0,0,3,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
-        <!-- Un StackPanel principal para ordenar todo verticalmente en orden -->
+    <!-- Contenedor Principal con las esquinas curvas de la tarjeta -->
+    <Border Background="#EBE2CD" CornerRadius="22" Padding="25">
+
         <StackPanel VerticalAlignment="Top">
 
-            <!-- Título principal -->
+            <!-- Título Principal -->
             <TextBlock Text="Crear Nueva Tarea"
-                       FontSize="32"
+                       FontSize="30"
                        FontWeight="Bold"
                        FontFamily="Segoe Script, Brush Script MT, Cursive"
                        Foreground="#1A1A1A"/>
 
             <!-- Subtítulo -->
             <TextBlock Text="Pequeños pasos, grandes logros ♡"
-                       FontSize="14"
+                       FontSize="13"
                        FontFamily="Segoe Print, Comic Sans MS"
                        Foreground="#333333"
-                       Margin="0,2,0,20"/>
+                       Margin="0,2,0,15"/>
 
-            <!-- Contenedor con bordes redondeados para el campo de texto -->
-            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4">
+            <!-- 1. Campo de Título de la Tarea -->
+            <TextBlock Text="Título de la tarea" FontSize="13" FontWeight="SemiBold" Foreground="#333333" Margin="0,0,0,4"/>
+            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,12">
                 <TextBox x:Name="TxtTituloTarea"
                          Text="Ej. Preparar presentación, Comprar pan..."
                          Foreground="#555555"
                          Background="Transparent"
                          BorderThickness="0"
-                         FontSize="14"
-                         Padding="8,6"
+                         FontSize="13"
+                         Padding="6,4"
                          VerticalContentAlignment="Center"/>
             </Border>
 
-            <!-- Etiqueta para indicar qué campo es -->
-            <TextBlock Text="Descripción"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="#333333"
-           Margin="0,15,0,6"/>
-
-            <!-- Contenedor con bordes redondeados para la Descripción -->
-            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="6">
+            <!-- 2. Campo de Descripción -->
+            <TextBlock Text="Descripción" FontSize="13" FontWeight="SemiBold" Foreground="#333333" Margin="0,0,0,4"/>
+            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="6" Margin="0,0,0,15">
                 <TextBox x:Name="TxtDescripcion"
-                         Text="Agrega detalles o notas adicionales..."
+                         Text="Agrega detalles adicionales..."
                          Foreground="#555555"
                          Background="Transparent"
                          BorderThickness="0"
-                         FontSize="14"
+                         FontSize="13"
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
-                         Height="80"
+                         Height="65"
                          VerticalContentAlignment="Top"/>
             </Border>
+
+            <!-- 3. Interruptor (Toggle Switch) para Fechas -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Añadir fecha de inicio/fin"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Foreground="#333333"
+                           VerticalAlignment="Center"/>
+
+                <!-- CheckBox aplicando nuestro estilo de interruptor -->
+                <CheckBox x:Name="ToggleFecha"
+                          Grid.Column="1"
+                          Style="{StaticResource ToggleSwitchStyle}"
+                          Checked="ToggleFecha_Checked"
+                          Unchecked="ToggleFecha_Unchecked"/>
+            </Grid>
+
+            <!-- 4. Panel condicional de Fechas (Oculto por defecto) -->
+            <StackPanel x:Name="PanelFechas" Visibility="Collapsed" Margin="0,0,0,15">
+
+                <!-- Hora de inicio -->
+                <TextBlock Text="Hora de inicio" FontSize="12" FontWeight="SemiBold" Foreground="#444444" Margin="0,2,0,3"/>
+                <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,8">
+                    <TextBox x:Name="TxtHoraInicio" Text="Ej. 09:00 AM" Foreground="#555555" Background="Transparent" BorderThickness="0" FontSize="12" Padding="6,4" VerticalContentAlignment="Center"/>
+                </Border>
+
+                <!-- Fecha -->
+                <TextBlock Text="Fecha" FontSize="12" FontWeight="SemiBold" Foreground="#444444" Margin="0,0,0,3"/>
+                <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,8">
+                    <TextBox x:Name="TxtFecha" Text="Ej. 25 de Abril, 2026" Foreground="#555555" Background="Transparent" BorderThickness="0" FontSize="12" Padding="6,4" VerticalContentAlignment="Center"/>
+                </Border>
+
+                <!-- Fin de tarea -->
+                <TextBlock Text="Fin de tarea" FontSize="12" FontWeight="SemiBold" Foreground="#444444" Margin="0,0,0,3"/>
+                <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4">
+                    <TextBox x:Name="TxtFinTarea" Text="Ej. 11:00 AM" Foreground="#555555" Background="Transparent" BorderThickness="0" FontSize="12" Padding="6,4" VerticalContentAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- 5. Botones de Acción (Inferior) -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                <Button Content="Cancelar" 
+                        Width="85" Height="30" 
+                        Background="Transparent" 
+                        BorderBrush="Transparent" 
+                        Foreground="#444444"
+                        Cursor="Hand"
+                        Click="BtnCancelar_Click"
+                        Margin="0,0,10,0"/>
+
+                <Button Content="Crear Tarea" 
+                        Width="105" Height="30" 
+                        Background="#52B788" 
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="8"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
 
         </StackPanel>
 
     </Border>
-
 </Window>
