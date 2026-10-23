@@ -44,6 +44,27 @@
                          VerticalContentAlignment="Center"/>
             </Border>
 
+            <!-- Etiqueta para indicar qué campo es -->
+            <TextBlock Text="Descripción"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="#333333"
+           Margin="0,15,0,6"/>
+
+            <!-- Contenedor con bordes redondeados para la Descripción -->
+            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="6">
+                <TextBox x:Name="TxtDescripcion"
+                         Text="Agrega detalles o notas adicionales..."
+                         Foreground="#555555"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         FontSize="14"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Height="80"
+                         VerticalContentAlignment="Top"/>
+            </Border>
+
         </StackPanel>
 
     </Border>
