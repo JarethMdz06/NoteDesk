@@ -43,14 +43,14 @@
 
             <!-- Título Principal -->
             <TextBlock Text="Crear Nueva Tarea"
-                       FontSize="30"
+                       FontSize="35"
                        FontWeight="Bold"
                        FontFamily="Segoe Script, Brush Script MT, Cursive"
                        Foreground="#1A1A1A"/>
 
             <!-- Subtítulo -->
             <TextBlock Text="Pequeños pasos, grandes logros ♡"
-                       FontSize="13"
+                       FontSize="15"
                        FontFamily="Segoe Print, Comic Sans MS"
                        Foreground="#333333"
                        Margin="0,2,0,15"/>
