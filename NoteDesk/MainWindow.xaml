@@ -280,15 +280,30 @@
                                         </Border>
 
                                     </StackPanel>
+                                    <!-- TRES PUNTOS CON MENÚ DESPLEGABLE -->
+                                    <Button Grid.Column="3"
+                                            Content="⋮"
+                                            FontSize="18"
+                                            Foreground="#777777"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Margin="5,0"
+                                            Padding="0">    
 
-                                    <!-- TRES PUNTOS -->
+                                        <!-- Menú que se abre al hacer clic -->
+                                        <Button.ContextMenu>
+                                            <ContextMenu Background="#F4EEE0" BorderBrush="#DCD3C1">
+                                                <MenuItem Header="✏️ Editar tarea" Foreground="#333333"/>
+                                                <MenuItem Header="📌 Cambiar prioridad" Foreground="#333333"/>
+                                                <Separator Background="#DCD3C1"/>
+                                                <MenuItem Header="🗑️ Eliminar tarea" Foreground="#D9534F"/>
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
 
-                                    <TextBlock Grid.Column="3"
-                                               Text="⋮"
-                                               FontSize="18"
-                                               Foreground="#777777"
-                                               VerticalAlignment="Center"
-                                               Margin="5,0"/>
+                                    </Button>
 
                                 </Grid>
 
