@@ -18,34 +18,38 @@ namespace NoteDesk
             this.Close();
         }
 
-        // Muestra el panel de fechas cuando el interruptor se enciende (verde)
+        // Muestra el panel de fecha cuando el switch está activado
         private void ToggleFecha_Checked(object sender, RoutedEventArgs e)
         {
-            if (PanelFechas != null)
+            if (PanelFecha != null)
             {
-                PanelFechas.Visibility = Visibility.Visible;
+                PanelFecha.Visibility = Visibility.Visible;
             }
         }
 
-        // Oculta el panel de fechas cuando el interruptor se apaga (gris)
+        // Oculta el panel de fecha cuando el switch está desactivado
         private void ToggleFecha_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (PanelFechas != null)
+            if (PanelFecha != null)
             {
-                PanelFechas.Visibility = Visibility.Collapsed;
+                PanelFecha.Visibility = Visibility.Collapsed;
             }
         }
 
-        // Lógica para el marcador de posición (Placeholder) en los TextBox
+        // Placeholder de los TextBox
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
                 if (textBox.Text == "Ej. Preparar presentación, Comprar pan..." ||
-                    textBox.Text == "Agrega detalles adicionales...")
+                    textBox.Text == "Agrega detalles adicionales..." ||
+                    textBox.Text == "Ej. 25 de Abril, 2026" ||
+                    textBox.Text == "Pega un enlace de Google Drive...")
                 {
                     textBox.Text = "";
-                    textBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A1A1A"));
+
+                    textBox.Foreground = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#1A1A1A"));
                 }
             }
         }
@@ -56,16 +60,29 @@ namespace NoteDesk
             {
                 if (string.IsNullOrWhiteSpace(textBox.Text))
                 {
-                    if (textBox.Name == "TxtTituloTarea")
+                    if (textBox.Name == "TxtTitulo")
                     {
-                        textBox.Text = "Ej. Preparar presentación, Comprar pan...";
+                        textBox.Text =
+                            "Ej. Preparar presentación, Comprar pan...";
                     }
                     else if (textBox.Name == "TxtDescripcion")
                     {
-                        textBox.Text = "Agrega detalles adicionales...";
+                        textBox.Text =
+                            "Agrega detalles adicionales...";
+                    }
+                    else if (textBox.Name == "TxtFecha")
+                    {
+                        textBox.Text =
+                            "Ej. 25 de Abril, 2026";
+                    }
+                    else if (textBox.Name == "TxtEnlaceDrive")
+                    {
+                        textBox.Text =
+                            "Pega un enlace de Google Drive...";
                     }
 
-                    textBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#888888"));
+                    textBox.Foreground = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#888888"));
                 }
             }
         }

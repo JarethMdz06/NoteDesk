@@ -8,4 +8,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\Img\GoogleDrive.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Img\GoogleDrive.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,6 @@
 ﻿<Window x:Class="NoteDesk.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
         Title="NoteDesk - Mis Tareas"
         Height="780"
         Width="1050"
@@ -59,7 +58,7 @@
                                 CornerRadius="12"
                                 Padding="25,20"
                                 Effect="{StaticResource StickyShadow}"
-                                Margin="0,0,0,0">
+                                Margin="0">
 
                             <StackPanel>
 
@@ -90,8 +89,10 @@
                                 BorderBrush="#A3485E"
                                 BorderThickness="5"
                                 Background="Transparent"/>
-                        <Button
-                                Width="50"
+
+                        <!-- BOTÓN + -->
+
+                        <Button Width="50"
                                 Height="50"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -102,12 +103,12 @@
                                 Padding="0">
 
                             <Button.Template>
+
                                 <ControlTemplate TargetType="Button">
 
                                     <Grid Width="50"
                                           Height="50">
 
-                                        <!-- Círculo rojo -->
                                         <Ellipse Width="50"
                                                  Height="50"
                                                  Fill="#E74C4C"
@@ -115,14 +116,17 @@
                                                  VerticalAlignment="Center">
 
                                             <Ellipse.Effect>
+
                                                 <DropShadowEffect BlurRadius="10"
                                                                   ShadowDepth="3"
                                                                   Opacity="0.30"/>
+
                                             </Ellipse.Effect>
 
                                         </Ellipse>
 
-                                        <!-- Signo + centrado -->
+                                        <!-- SIGNO + -->
+
                                         <Grid Width="20"
                                               Height="20"
                                               HorizontalAlignment="Center"
@@ -147,6 +151,7 @@
                                     </Grid>
 
                                 </ControlTemplate>
+
                             </Button.Template>
 
                         </Button>
@@ -194,23 +199,29 @@
 
                         <StackPanel>
 
+                            <!-- ====================================================== -->
                             <!-- TAREA 1 -->
+                            <!-- ====================================================== -->
 
-                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
+                            <Border Style="{StaticResource TaskCardStyle}">
 
                                 <Grid>
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
+
+                                    <!-- CHECK -->
 
                                     <Border Width="26"
                                             Height="26"
                                             CornerRadius="6"
                                             Background="#3FA772"
-                                            Margin="0,0,12,0">
+                                            Margin="0,0,10,0"
+                                            VerticalAlignment="Center">
 
                                         <TextBlock Text="✓"
                                                    Foreground="White"
@@ -220,19 +231,59 @@
 
                                     </Border>
 
-                                    <StackPanel Grid.Column="1"
+                                    <!-- ICONO DE CATEGORÍA -->
+
+                                    <Border x:Name="IconoCategoriaTarea1"
+                                            Grid.Column="1"
+                                            Width="28"
+                                            Height="28"
+                                            CornerRadius="8"
+                                            Background="#FFF7D6"
+                                            Margin="0,0,10,0"
+                                            VerticalAlignment="Center">
+
+                                        <TextBlock x:Name="TxtIconoCategoriaTarea1"
+                                                   Text="👤"
+                                                   FontSize="15"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+
+                                    </Border>
+
+                                    <!-- INFORMACIÓN -->
+
+                                    <StackPanel Grid.Column="2"
                                                 VerticalAlignment="Center">
 
-                                        <TextBlock Text="Desayunar"
+                                        <TextBlock x:Name="TxtTituloTarea1"
+                                                   Text="Desayunar"
                                                    FontSize="15"
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
+                                        <!-- PRIORIDAD -->
 
+                                        <Border x:Name="PanelPrioridadTarea1"
+                                                Background="#F1B1B1"
+                                                CornerRadius="8"
+                                                Padding="6,1"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,4,0,0"
+                                                Visibility="Visible">
+
+                                            <TextBlock x:Name="TxtPrioridadTarea1"
+                                                       Text="Prioridad Alta"
+                                                       FontSize="10"
+                                                       Foreground="#882222"
+                                                       FontWeight="SemiBold"/>
+
+                                        </Border>
 
                                     </StackPanel>
 
-                                    <TextBlock Grid.Column="2"
+                                    <!-- TRES PUNTOS -->
+
+                                    <TextBlock Grid.Column="3"
                                                Text="⋮"
                                                FontSize="18"
                                                Foreground="#777777"
@@ -243,9 +294,12 @@
 
                             </Border>
 
+                            <!-- ====================================================== -->
                             <!-- TAREA 2 -->
+                            <!-- ====================================================== -->
 
-                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
+                            <Border Style="{StaticResource TaskCardStyle}"
+                                    Visibility="Collapsed">
 
                                 <Grid>
 
@@ -278,7 +332,6 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-
                                     </StackPanel>
 
                                     <TextBlock Grid.Column="2"
@@ -292,9 +345,12 @@
 
                             </Border>
 
+                            <!-- ====================================================== -->
                             <!-- TAREA 3 -->
+                            <!-- ====================================================== -->
 
-                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
+                            <Border Style="{StaticResource TaskCardStyle}"
+                                    Visibility="Collapsed">
 
                                 <Grid>
 
@@ -321,7 +377,6 @@
 
                                         <StackPanel Orientation="Horizontal"
                                                     Margin="0,3,0,0">
-
 
                                             <Border Background="#F1B1B1"
                                                     CornerRadius="8"
@@ -350,9 +405,12 @@
 
                             </Border>
 
+                            <!-- ====================================================== -->
                             <!-- TAREA 4 -->
+                            <!-- ====================================================== -->
 
-                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
+                            <Border Style="{StaticResource TaskCardStyle}"
+                                    Visibility="Collapsed">
 
                                 <Grid>
 
@@ -377,8 +435,6 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-
-
                                     </StackPanel>
 
                                     <TextBlock Grid.Column="2"
@@ -392,9 +448,12 @@
 
                             </Border>
 
+                            <!-- ====================================================== -->
                             <!-- TAREA 5 -->
+                            <!-- ====================================================== -->
 
-                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
+                            <Border Style="{StaticResource TaskCardStyle}"
+                                    Visibility="Collapsed">
 
                                 <Grid>
 
@@ -419,7 +478,6 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
 
-
                                     </StackPanel>
 
                                     <TextBlock Grid.Column="2"
@@ -433,9 +491,12 @@
 
                             </Border>
 
+                            <!-- ====================================================== -->
                             <!-- TAREA 6 -->
+                            <!-- ====================================================== -->
 
-                            <Border Style="{StaticResource TaskCardStyle}" Visibility="Collapsed">
+                            <Border Style="{StaticResource TaskCardStyle}"
+                                    Visibility="Collapsed">
 
                                 <Grid>
 
@@ -459,8 +520,6 @@
                                                    FontSize="15"
                                                    FontWeight="SemiBold"
                                                    Foreground="#333333"/>
-
-
 
                                     </StackPanel>
 
@@ -720,6 +779,41 @@
                                            HorizontalAlignment="Center"
                                            Margin="0,4"/>
 
+                                <TextBlock Text="27"
+                                           Foreground="#333333"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
+                                <TextBlock Text="28"
+                                           Foreground="#333333"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
+                                <TextBlock Text="29"
+                                           Foreground="#333333"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
+                                <TextBlock Text="30"
+                                           Foreground="#333333"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
+                                <TextBlock Text="1"
+                                           Foreground="#BBBBBB"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
+                                <TextBlock Text="2"
+                                           Foreground="#BBBBBB"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
+                                <TextBlock Text="3"
+                                           Foreground="#BBBBBB"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4"/>
+
                             </UniformGrid>
 
                         </StackPanel>
@@ -731,7 +825,8 @@
                     <Border Background="#F8F4EA"
                             CornerRadius="16"
                             Padding="26"
-                            Effect="{StaticResource CardShadow}" Height="246">
+                            Effect="{StaticResource CardShadow}"
+                            Height="246">
 
                         <StackPanel>
 
@@ -789,8 +884,6 @@
 
                                             </Border>
 
-
-
                                         </StackPanel>
 
                                     </Border>
@@ -823,8 +916,6 @@
                                                            FontWeight="Bold"/>
 
                                             </Border>
-
-
 
                                         </StackPanel>
 
@@ -921,11 +1012,11 @@
 
                     <UniformGrid Grid.Column="0"
                                  Rows="1"
-                                 Columns="2"
+                                 Columns="3"
                                  HorizontalAlignment="Stretch"
                                  VerticalAlignment="Center">
 
-                        <!-- Inicio -->
+                        <!-- INICIO -->
 
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
@@ -941,8 +1032,25 @@
                                        Foreground="#444444"/>
 
                         </StackPanel>
-                        
-                        <!-- Ajustes -->
+
+                        <!-- CALENDARIO -->
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                            <TextBlock Text="📅"
+                                       FontSize="14"
+                                       Margin="0,0,5,0"/>
+
+                            <TextBlock Text="Calendario"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="#444444"/>
+
+                        </StackPanel>
+
+                        <!-- AJUSTES -->
 
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"

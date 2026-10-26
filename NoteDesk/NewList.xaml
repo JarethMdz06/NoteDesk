@@ -1,161 +1,1404 @@
 ﻿<Window x:Class="NoteDesk.NewList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NoteDesk"
-        mc:Ignorable="d"
-        Title="Crear Nueva Tarea" Height="730" Width="480"
-        Background="#EBE2CD"
-        WindowStartupLocation="CenterScreen">
+        Title="Crear Nueva Tarea"
+        Height="780"
+        Width="560"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#EBE2CD">
 
-    <!-- Recursos locales para estilizar el CheckBox como un Toggle Switch -->
     <Window.Resources>
-        <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="CheckBox">
-                        <Grid Width="46" Height="24">
-                            <!-- Fondo de la cápsula (Gris por defecto) -->
-                            <Border x:Name="SwitchBorder" Background="#CCCCCC" CornerRadius="12"/>
-                            <!-- Círculo deslizante -->
-                            <Ellipse x:Name="SwitchDot" Width="18" Height="18" Fill="White" HorizontalAlignment="Left" Margin="3,0,0,0"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <!-- Cuando está activado: cambia a verde menta y mueve el círculo a la derecha -->
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="SwitchBorder" Property="Background" Value="#52B788"/>
-                                <Setter TargetName="SwitchDot" Property="HorizontalAlignment" Value="Right"/>
-                                <Setter TargetName="SwitchDot" Property="Margin" Value="0,0,3,0"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+
+        
+        <!-- SOMBRA -->
+
+        <DropShadowEffect x:Key="CardShadow"
+                          BlurRadius="12"
+                          ShadowDepth="3"
+                          Opacity="0.18"/>
+
+
+        <!-- ====================================================== -->
+        <!-- TEXTBOX -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="TextBoxLimpio"
+               TargetType="TextBox">
+
+            <Setter Property="Background"
+                    Value="Transparent"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="Foreground"
+                    Value="#333333"/>
+
+            <Setter Property="Padding"
+                    Value="5,0"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
         </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- BOTÓN CREAR -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="BotonCrear"
+               TargetType="Button">
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="Background"
+                    Value="#48B989"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10"
+                                Padding="18,10">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- SWITCH -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="ToggleSwitch"
+               TargetType="CheckBox">
+
+            <Setter Property="Width"
+                    Value="46"/>
+
+            <Setter Property="Height"
+                    Value="25"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="CheckBox">
+
+                        <Grid>
+
+                            <Border x:Name="FondoSwitch"
+                                    Width="46"
+                                    Height="25"
+                                    CornerRadius="13"
+                                    Background="#CFCFCF"/>
+
+                            <Ellipse x:Name="CirculoSwitch"
+                                     Width="19"
+                                     Height="19"
+                                     Fill="White"
+                                     HorizontalAlignment="Left"
+                                     Margin="3,0,0,0"/>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+
+                                <Setter TargetName="FondoSwitch"
+                                        Property="Background"
+                                        Value="#48B989"/>
+
+                                <Setter TargetName="CirculoSwitch"
+                                        Property="HorizontalAlignment"
+                                        Value="Right"/>
+
+                                <Setter TargetName="CirculoSwitch"
+                                        Property="Margin"
+                                        Value="0,0,3,0"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+
+        <!-- ====================================================== -->
+        <!-- COLORES -->
+        <!-- ====================================================== -->
+
+        <Style x:Key="ColorRadio"
+               TargetType="RadioButton">
+
+            <Setter Property="Width"
+                    Value="32"/>
+
+            <Setter Property="Height"
+                    Value="32"/>
+
+            <Setter Property="Margin"
+                    Value="4"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="RadioButton">
+
+                        <Grid>
+
+                            <Ellipse x:Name="SelectionBorder"
+                                     Fill="Transparent"
+                                     Stroke="Transparent"
+                                     StrokeThickness="2"/>
+
+                            <Ellipse Margin="4"
+                                     Fill="{TemplateBinding Background}"/>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+
+                                <Setter TargetName="SelectionBorder"
+                                        Property="Stroke"
+                                        Value="#333333"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+
+        
+        <!-- CATEGORÍA -->
+        
+
+        <Style x:Key="CategoryRadio"
+               TargetType="RadioButton">
+
+            <Setter Property="Height"
+                    Value="58"/>
+
+            <Setter Property="Margin"
+                    Value="4"/>
+
+            <Setter Property="Background"
+                    Value="#FFFDF7"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DED4BD"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="RadioButton">
+
+                        <Border x:Name="CategoryBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10"
+                                Padding="8">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+
+                                <Setter TargetName="CategoryBorder"
+                                        Property="BorderBrush"
+                                        Value="#EBB83A"/>
+
+                                <Setter TargetName="CategoryBorder"
+                                        Property="BorderThickness"
+                                        Value="2"/>
+
+                                <Setter TargetName="CategoryBorder"
+                                        Property="Background"
+                                        Value="#FFF7D6"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
     </Window.Resources>
 
-    <!-- Contenedor Principal con un margen interior (Padding) para que respire el contenido -->
-    <Grid Margin="20">
 
-        <StackPanel VerticalAlignment="Top">
+    <!-- ====================================================== -->
+    <!-- FONDO -->
+    <!-- ====================================================== -->
 
-            <!-- Título Principal -->
-            <TextBlock Text="Crear Nueva Tarea"
-                       FontSize="35"
-                       FontWeight="Bold"
-                       FontFamily="Segoe Script, Brush Script MT, Cursive"
-                       Foreground="#1A1A1A"/>
+    <Border Margin="14"
+            Background="#ECE3D0"
+            CornerRadius="20"
+            Effect="{StaticResource CardShadow}">
 
-            <!-- Subtítulo -->
-            <TextBlock Text="Pequeños pasos, grandes logros ♡"
-                       FontSize="15"
-                       FontFamily="Segoe Print, Comic Sans MS"
-                       Foreground="#333333"
-                       Margin="0,2,0,15"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
 
-            <!-- 1. Campo de Título de la Tarea -->
-            <TextBlock Text="Título de la tarea" FontSize="13" FontWeight="SemiBold" Foreground="#333333" Margin="0,0,0,4"/>
-            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,12">
-                <TextBox x:Name="TxtTituloTarea"
-                         Text="Ej. Preparar presentación, Comprar pan..."
-                         Foreground="#888888"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         FontSize="13"
-                         Padding="6,4"
-                         VerticalContentAlignment="Center"
-                         GotFocus="TextBox_GotFocus"
-                         LostFocus="TextBox_LostFocus"/>
-            </Border>
+            <StackPanel Margin="25">
 
-            <!-- 2. Campo de Descripción -->
-            <TextBlock Text="Descripción" FontSize="13" FontWeight="SemiBold" Foreground="#333333" Margin="0,0,0,4"/>
-            <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="6" Margin="0,0,0,15">
-                <TextBox x:Name="TxtDescripcion"
-                         Text="Agrega detalles adicionales..."
-                         Foreground="#888888"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         FontSize="13"
-                         AcceptsReturn="True"
-                         TextWrapping="Wrap"
-                         Height="65"
-                         VerticalContentAlignment="Top"
-                         GotFocus="TextBox_GotFocus"
-                         LostFocus="TextBox_LostFocus"/>
-            </Border>
 
-            <!-- 3. Interruptor (Toggle Switch) para Fechas -->
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Añadir fecha de inicio/fin"
-                           FontSize="13"
+                <!-- ====================================================== -->
+                <!-- ENCABEZADO -->
+                <!-- ====================================================== -->
+
+                <Grid Margin="0,0,0,22">
+
+                    <Border Background="#EBB83A"
+                            CornerRadius="14"
+                            Padding="22,18"
+                            Effect="{StaticResource CardShadow}">
+
+                        <StackPanel>
+
+                            <TextBlock Text="Crear Nueva Tarea"
+                                       FontFamily="Segoe Script"
+                                       FontWeight="Bold"
+                                       FontSize="29"
+                                       Foreground="#111111"/>
+
+                            <TextBlock Text="Organiza tus pendientes y mantén todo bajo control ♡"
+                                       FontFamily="Segoe Print"
+                                       FontSize="11"
+                                       Foreground="#333333"
+                                       Margin="0,4,0,0"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+
+                    <!-- CLIP -->
+
+                    <Border HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="0,-13,18,0"
+                            Width="22"
+                            Height="58"
+                            CornerRadius="9"
+                            BorderBrush="#A3485E"
+                            BorderThickness="4"
+                            Background="Transparent"/>
+
+                </Grid>
+
+
+                <!-- ====================================================== -->
+                <!-- TÍTULO -->
+                <!-- ====================================================== -->
+
+                <TextBlock Text="Título de la tarea"
                            FontWeight="SemiBold"
-                           Foreground="#333333"
-                           VerticalAlignment="Center"/>
+                           FontSize="13"
+                           Foreground="#222222"
+                           Margin="0,0,0,6"/>
 
-                <!-- CheckBox aplicando nuestro estilo de interruptor -->
-                <CheckBox x:Name="ToggleFecha"
-                          Grid.Column="1"
-                          Style="{StaticResource ToggleSwitchStyle}"
-                          Checked="ToggleFecha_Checked"
-                          Unchecked="ToggleFecha_Unchecked"/>
-            </Grid>
+                <Border Height="42"
+                        Background="#FFFDF7"
+                        BorderBrush="#DED4BD"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Margin="0,0,0,17">
 
-            <!-- 4. Panel condicional de Fechas (Oculto por defecto) -->
-            <StackPanel x:Name="PanelFechas" Visibility="Collapsed" Margin="0,0,0,15">
+                    <Grid Margin="10,0">
 
-                <!-- Hora de inicio -->
-                <TextBlock Text="Hora de inicio" FontSize="12" FontWeight="SemiBold" Foreground="#444444" Margin="0,2,0,3"/>
-                <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,8">
-                    <TextBox x:Name="TxtHoraInicio" Text="Ej. 09:00 AM" Foreground="#555555" Background="Transparent" BorderThickness="0" FontSize="12" Padding="6,4" VerticalContentAlignment="Center"/>
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="30"/>
+
+                            <ColumnDefinition Width="*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="✎"
+                                   FontSize="18"
+                                   Foreground="#777777"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox x:Name="TxtTitulo"
+                                 Grid.Column="1"
+                                 Style="{StaticResource TextBoxLimpio}"
+                                 Text="Ej. Preparar presentación, Comprar pan..."
+                                 Foreground="#888888"
+                                 GotFocus="TextBox_GotFocus"
+                                 LostFocus="TextBox_LostFocus"/>
+
+                    </Grid>
+
                 </Border>
 
-                <!-- Fecha -->
-                <TextBlock Text="Fecha" FontSize="12" FontWeight="SemiBold" Foreground="#444444" Margin="0,0,0,3"/>
-                <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,8">
-                    <TextBox x:Name="TxtFecha" Text="Ej. 25 de Abril, 2026" Foreground="#555555" Background="Transparent" BorderThickness="0" FontSize="12" Padding="6,4" VerticalContentAlignment="Center"/>
+
+                <!-- ====================================================== -->
+                <!-- DESCRIPCIÓN -->
+                <!-- ====================================================== -->
+
+                <TextBlock Text="Descripción"
+                           FontWeight="SemiBold"
+                           FontSize="13"
+                           Foreground="#222222"
+                           Margin="0,0,0,6"/>
+
+                <Border Height="90"
+                        Background="#FFFDF7"
+                        BorderBrush="#DED4BD"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Margin="0,0,0,20">
+
+                    <Grid Margin="10">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="30"/>
+
+                            <ColumnDefinition Width="*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="▤"
+                                   FontSize="18"
+                                   Foreground="#777777"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,5,0,0"/>
+
+                        <TextBox x:Name="TxtDescripcion"
+                                 Grid.Column="1"
+                                 Text="Agrega detalles adicionales..."
+                                 Foreground="#888888"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontSize="13"
+                                 Padding="5"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 GotFocus="TextBox_GotFocus"
+                                 LostFocus="TextBox_LostFocus"/>
+
+                    </Grid>
+
                 </Border>
 
-                <!-- Fin de tarea -->
-                <TextBlock Text="Fin de tarea" FontSize="12" FontWeight="SemiBold" Foreground="#444444" Margin="0,0,0,3"/>
-                <Border Background="#F4EEE0" CornerRadius="8" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4">
-                    <TextBox x:Name="TxtFinTarea" Text="Ej. 11:00 AM" Foreground="#555555" Background="Transparent" BorderThickness="0" FontSize="12" Padding="6,4" VerticalContentAlignment="Center"/>
+
+                <!-- ====================================================== -->
+                <!-- FECHA -->
+                <!-- ====================================================== -->
+
+                <Border Background="#F8F4EA"
+                        CornerRadius="14"
+                        Padding="16"
+                        Margin="0,0,0,18"
+                        Effect="{StaticResource CardShadow}">
+
+                    <StackPanel>
+
+                        <Grid Margin="0,0,0,12">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="*"/>
+
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <TextBlock Text="Añadir fecha de inicio"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#222222"/>
+
+                                <TextBlock Text="Programa tu tarea para no olvidarla"
+                                           FontSize="11"
+                                           Foreground="#777777"
+                                           Margin="0,2,0,0"/>
+
+                            </StackPanel>
+
+                            <CheckBox x:Name="SwitchFecha"
+                                      Grid.Column="1"
+                                      Style="{StaticResource ToggleSwitch}"
+                                      VerticalAlignment="Center"
+                                      IsChecked="False"
+                                      Checked="ToggleFecha_Checked"
+                                      Unchecked="ToggleFecha_Unchecked"/>
+
+                        </Grid>
+
+
+                        <StackPanel x:Name="PanelFecha"
+                                    Visibility="Collapsed">
+
+                            <TextBlock Text="Fecha de inicio"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="#333333"
+                                       Margin="0,4,0,6"/>
+
+                            <Border Height="42"
+                                    Background="#FFFDF7"
+                                    BorderBrush="#DED4BD"
+                                    BorderThickness="1"
+                                    CornerRadius="9">
+
+                                <Grid Margin="10,0">
+
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition Width="30"/>
+
+                                        <ColumnDefinition Width="*"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="▣"
+                                               FontSize="17"
+                                               Foreground="#555555"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+
+                                    <TextBox x:Name="TxtFecha"
+                                             Grid.Column="1"
+                                             Style="{StaticResource TextBoxLimpio}"
+                                             Text="Ej. 25 de Abril, 2026"
+                                             Foreground="#888888"
+                                             GotFocus="TextBox_GotFocus"
+                                             LostFocus="TextBox_LostFocus"/>
+
+                                </Grid>
+
+                            </Border>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
                 </Border>
+
+
+                <!-- ====================================================== -->
+                <!-- COLOR -->
+                <!-- ====================================================== -->
+
+                <Border Background="#F8F4EA"
+                        CornerRadius="14"
+                        Padding="16"
+                        Margin="0,0,0,18"
+                        Effect="{StaticResource CardShadow}">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Color de la tarea"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#222222"/>
+
+                        <TextBlock Text="Elige un color para identificarla fácilmente"
+                                   FontSize="11"
+                                   Foreground="#777777"
+                                   Margin="0,2,0,10"/>
+
+                        <WrapPanel>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#F15B5B"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#FF8A3D"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#F7C84B"
+                                         IsChecked="True"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#FFE17A"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#91D95E"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#65CFAC"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#6FBAF5"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#3984E8"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#6879D8"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#9568E9"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#E968AD"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#ED397D"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#F3A9CA"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#F38181"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#EDA27A"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#CBB09B"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#96684F"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#AEB8BF"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#747F88"/>
+
+                            <RadioButton GroupName="Colores"
+                                         Style="{StaticResource ColorRadio}"
+                                         Background="#D0D0D0"/>
+
+                        </WrapPanel>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ====================================================== -->
+                <!-- PRIORIDAD -->
+                <!-- ====================================================== -->
+
+                <Border Background="#F8F4EA"
+                        CornerRadius="14"
+                        Padding="16"
+                        Margin="0,0,0,18"
+                        Effect="{StaticResource CardShadow}">
+
+                    <StackPanel>
+
+                        <Grid Margin="0,0,0,10">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="*"/>
+
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <TextBlock Text="Agregar prioridad"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#222222"/>
+
+                                <TextBlock Text="Asigna una prioridad a la tarea"
+                                           FontSize="11"
+                                           Foreground="#777777"
+                                           Margin="0,2,0,0"/>
+
+                            </StackPanel>
+
+                            <CheckBox x:Name="SwitchPrioridad"
+                                      Grid.Column="1"
+                                      Style="{StaticResource ToggleSwitch}"
+                                      VerticalAlignment="Center"
+                                      IsChecked="False"/>
+
+                        </Grid>
+
+
+                        <UniformGrid Columns="3">
+
+                            <UniformGrid.Style>
+
+                                <Style TargetType="UniformGrid">
+
+                                    <Setter Property="Visibility"
+                                            Value="Visible"/>
+
+                                    <Style.Triggers>
+
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=SwitchPrioridad}"
+                                                     Value="False">
+
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed"/>
+
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+
+                                </Style>
+
+                            </UniformGrid.Style>
+
+
+                            <!-- BAJA -->
+
+                            <RadioButton x:Name="PrioridadBaja"
+                                         GroupName="Prioridades"
+                                         Margin="4"
+                                         Cursor="Hand">
+
+                                <RadioButton.Template>
+
+                                    <ControlTemplate TargetType="RadioButton">
+
+                                        <Border x:Name="BordePrioridad"
+                                                Background="#E7F5E9"
+                                                BorderBrush="#A8D5AE"
+                                                BorderThickness="1"
+                                                CornerRadius="10"
+                                                Padding="10">
+
+                                            <StackPanel HorizontalAlignment="Center">
+
+                                                <Ellipse Width="16"
+                                                         Height="16"
+                                                         Fill="#64B96A"
+                                                         Margin="0,0,0,6"/>
+
+                                                <TextBlock Text="Baja"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#2E6A35"
+                                                           HorizontalAlignment="Center"/>
+
+                                            </StackPanel>
+
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+
+                                            <Trigger Property="IsChecked"
+                                                     Value="True">
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="BorderBrush"
+                                                        Value="#4E9E56"/>
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="BorderThickness"
+                                                        Value="2"/>
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="Background"
+                                                        Value="#D7EFD9"/>
+
+                                            </Trigger>
+
+                                        </ControlTemplate.Triggers>
+
+                                    </ControlTemplate>
+
+                                </RadioButton.Template>
+
+                            </RadioButton>
+
+
+                            <!-- MEDIA -->
+
+                            <RadioButton x:Name="PrioridadMedia"
+                                         GroupName="Prioridades"
+                                         Margin="4"
+                                         Cursor="Hand"
+                                         IsChecked="True">
+
+                                <RadioButton.Template>
+
+                                    <ControlTemplate TargetType="RadioButton">
+
+                                        <Border x:Name="BordePrioridad"
+                                                Background="#FFF4D2"
+                                                BorderBrush="#E9CF7A"
+                                                BorderThickness="1"
+                                                CornerRadius="10"
+                                                Padding="10">
+
+                                            <StackPanel HorizontalAlignment="Center">
+
+                                                <Ellipse Width="16"
+                                                         Height="16"
+                                                         Fill="#F1C84B"
+                                                         Margin="0,0,0,6"/>
+
+                                                <TextBlock Text="Media"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#7A6118"
+                                                           HorizontalAlignment="Center"/>
+
+                                            </StackPanel>
+
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+
+                                            <Trigger Property="IsChecked"
+                                                     Value="True">
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="BorderBrush"
+                                                        Value="#C49C20"/>
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="BorderThickness"
+                                                        Value="2"/>
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="Background"
+                                                        Value="#FBE9A9"/>
+
+                                            </Trigger>
+
+                                        </ControlTemplate.Triggers>
+
+                                    </ControlTemplate>
+
+                                </RadioButton.Template>
+
+                            </RadioButton>
+
+
+                            <!-- ALTA -->
+
+                            <RadioButton x:Name="PrioridadAlta"
+                                         GroupName="Prioridades"
+                                         Margin="4"
+                                         Cursor="Hand">
+
+                                <RadioButton.Template>
+
+                                    <ControlTemplate TargetType="RadioButton">
+
+                                        <Border x:Name="BordePrioridad"
+                                                Background="#FBE2E2"
+                                                BorderBrush="#E5A8A8"
+                                                BorderThickness="1"
+                                                CornerRadius="10"
+                                                Padding="10">
+
+                                            <StackPanel HorizontalAlignment="Center">
+
+                                                <Ellipse Width="16"
+                                                         Height="16"
+                                                         Fill="#E46B6B"
+                                                         Margin="0,0,0,6"/>
+
+                                                <TextBlock Text="Alta"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#8B2D2D"
+                                                           HorizontalAlignment="Center"/>
+
+                                            </StackPanel>
+
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+
+                                            <Trigger Property="IsChecked"
+                                                     Value="True">
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="BorderBrush"
+                                                        Value="#C84B4B"/>
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="BorderThickness"
+                                                        Value="2"/>
+
+                                                <Setter TargetName="BordePrioridad"
+                                                        Property="Background"
+                                                        Value="#F5C7C7"/>
+
+                                            </Trigger>
+
+                                        </ControlTemplate.Triggers>
+
+                                    </ControlTemplate>
+
+                                </RadioButton.Template>
+
+                            </RadioButton>
+
+                        </UniformGrid>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ====================================================== -->
+                <!-- CATEGORÍA -->
+                <!-- ====================================================== -->
+
+                <Border Background="#F8F4EA"
+                        CornerRadius="14"
+                        Padding="16"
+                        Margin="0,0,0,18"
+                        Effect="{StaticResource CardShadow}">
+
+                    <StackPanel>
+
+                        <Grid Margin="0,0,0,10">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="*"/>
+
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <TextBlock Text="Agregar categoría"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#222222"/>
+
+                                <TextBlock Text="Clasifica tu tarea para mantener todo organizado"
+                                           FontSize="11"
+                                           Foreground="#777777"
+                                           Margin="0,2,0,0"/>
+
+                            </StackPanel>
+
+                            <CheckBox x:Name="SwitchCategoria"
+                                      Grid.Column="1"
+                                      Style="{StaticResource ToggleSwitch}"
+                                      VerticalAlignment="Center"
+                                      IsChecked="False"/>
+
+                        </Grid>
+
+
+                        <UniformGrid Columns="4">
+
+                            <UniformGrid.Style>
+
+                                <Style TargetType="UniformGrid">
+
+                                    <Setter Property="Visibility"
+                                            Value="Visible"/>
+
+                                    <Style.Triggers>
+
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=SwitchCategoria}"
+                                                     Value="False">
+
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed"/>
+
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+
+                                </Style>
+
+                            </UniformGrid.Style>
+
+
+                            <RadioButton x:Name="CategoriaWork"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}"
+                                         IsChecked="True">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="💼"
+                                               FontFamily="Segoe UI Emoji"
+                                               FontSize="20"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Work"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaSchool"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="🎓"
+                                               FontFamily="Segoe UI Emoji"
+                                               FontSize="20"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="School"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaHome"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="⌂"
+                                               FontSize="23"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Home"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaShopping"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="🛒"
+                                               FontFamily="Segoe UI Emoji"
+                                               FontSize="20"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Shopping"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaPersonal"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="👤"
+                                               FontFamily="Segoe UI Emoji"
+                                               FontSize="20"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Personal"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaHobbies"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="🎮"
+                                               FontFamily="Segoe UI Emoji"
+                                               FontSize="20"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Hobbies"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaHealth"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="♡"
+                                               FontSize="23"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Health"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+
+                            <RadioButton x:Name="CategoriaOther"
+                                         GroupName="Categorias"
+                                         Style="{StaticResource CategoryRadio}">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="•••"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="Other"
+                                               FontSize="11"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </RadioButton>
+
+                        </UniformGrid>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ====================================================== -->
+                <!-- GOOGLE DRIVE -->
+                <!-- ====================================================== -->
+
+                <Border Background="#F8F4EA"
+                        CornerRadius="14"
+                        Padding="16"
+                        Margin="0,0,0,18"
+                        Effect="{StaticResource CardShadow}">
+
+                    <StackPanel>
+
+                        <!-- ENCABEZADO -->
+
+                        <Grid Margin="0,0,0,10">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <TextBlock Text="Google Drive"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#222222"/>
+
+                                <TextBlock Text="Adjunta archivos relacionados con esta tarea"
+                                           FontSize="11"
+                                           Foreground="#777777"
+                                           Margin="0,2,0,0"/>
+
+                            </StackPanel>
+
+                            <CheckBox x:Name="SwitchDrive"
+                                      Grid.Column="1"
+                                      Style="{StaticResource ToggleSwitch}"
+                                      VerticalAlignment="Center"
+                                      IsChecked="False"/>
+
+                        </Grid>
+
+                        <!-- CONTENIDO DRIVE -->
+
+                        <StackPanel x:Name="PanelDrive">
+
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=SwitchDrive}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+
+                            <!-- ÚNICO BOTÓN GOOGLE DRIVE -->
+
+                            <Button x:Name="BtnConectarDrive"
+                                    Height="66"
+                                    Background="#FFFDF7"
+                                    BorderBrush="#DED4BD"
+                                    BorderThickness="1"
+                                    Cursor="Hand"
+                                    Margin="0,3,0,0">
+
+                                <Button.Template>
+
+                                    <ControlTemplate TargetType="Button">
+
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="10"
+                                                Padding="12">
+
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Image Source="/NoteDesk;component/Assets/Img/GoogleDrive.png"
+                                                       Width="30"
+                                                       Height="30"
+                                                       Stretch="Uniform"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,0,12,0"/>
+
+                                                <StackPanel Grid.Column="1"
+                                                            VerticalAlignment="Center">
+
+                                                    <TextBlock x:Name="TxtEstadoDrive"
+                                                               Text="Google Drive no está conectado"
+                                                               FontSize="12"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#333333"/>
+
+                                                    <TextBlock x:Name="TxtSubEstadoDrive"
+                                                               Text="Haz clic para conectar tu cuenta"
+                                                               FontSize="10"
+                                                               Foreground="#888888"
+                                                               Margin="0,2,0,0"/>
+
+                                                </StackPanel>
+
+                                                <TextBlock Grid.Column="2"
+                                                           Text="›"
+                                                           FontSize="22"
+                                                           Foreground="#888888"
+                                                           VerticalAlignment="Center"
+                                                           Margin="10,0,0,0"/>
+
+                                            </Grid>
+
+                                        </Border>
+
+                                    </ControlTemplate>
+
+                                </Button.Template>
+
+                            </Button>
+
+                            <!-- ACCIONES DESPUÉS DE CONECTAR -->
+
+                            <Grid x:Name="PanelAccionesDrive"
+                                  Visibility="Collapsed"
+                                  Margin="0,10,0,0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="BtnSubirArchivoDrive"
+                                        Grid.Column="0"
+                                        Height="40"
+                                        Background="#FFFDF7"
+                                        BorderBrush="#DED4BD"
+                                        BorderThickness="1"
+                                        Cursor="Hand"
+                                        Content="+ Subir archivo"/>
+
+                                <Button x:Name="BtnBuscarDrive"
+                                        Grid.Column="2"
+                                        Height="40"
+                                        Background="#FFFDF7"
+                                        BorderBrush="#DED4BD"
+                                        BorderThickness="1"
+                                        Cursor="Hand">
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+
+                                        <Image Source="/NoteDesk;component/Assets/Img/GoogleDrive.png"
+                                               Width="17"
+                                               Height="17"
+                                               Stretch="Uniform"
+                                               Margin="0,0,6,0"/>
+
+                                        <TextBlock Text="Buscar en Drive"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center"/>
+
+                                    </StackPanel>
+
+                                </Button>
+
+                            </Grid>
+
+                            <!-- ARCHIVOS VINCULADOS -->
+
+                            <StackPanel x:Name="PanelArchivosDrive"
+                                        Visibility="Collapsed">
+
+                                <TextBlock Text="Archivos vinculados"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="#444444"
+                                           Margin="2,10,0,6"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+
+                
+                <!-- BOTONES -->
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,0,5">
+
+                    <Button Content="Cancelar"
+                            Width="90"
+                            Height="40"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="#333333"
+                            FontSize="13"
+                            Cursor="Hand"
+                            Margin="0,0,10,0"
+                            Click="BtnCancelar_Click"/>
+
+                    <Button x:Name="BtnCrearTarea"
+                            Width="125"
+                            Height="40"
+                            Style="{StaticResource BotonCrear}">
+
+                        <TextBlock Text="Crear Tarea"
+                                   VerticalAlignment="Center"/>
+
+                    </Button>
+
+                </StackPanel>
+
+
             </StackPanel>
 
-            <!-- 5. Botones de Acción (Inferior) -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-                <Button Content="Cancelar" 
-                        Width="85" Height="30" 
-                        Background="Transparent" 
-                        BorderBrush="Transparent" 
-                        Foreground="#444444"
-                        Cursor="Hand"
-                        Click="BtnCancelar_Click"
-                        Margin="0,0,10,0"/>
+        </ScrollViewer>
 
-                <Button Content="Crear Tarea" 
-                        Width="105" Height="30" 
-                        Background="#52B788" 
-                        Foreground="White"
-                        FontWeight="SemiBold"
-                        Cursor="Hand"
-                        BorderThickness="0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </StackPanel>
+    </Border>
 
-        </StackPanel>
-
-    </Grid>
 </Window>

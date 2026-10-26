@@ -1,0 +1,1489 @@
+﻿<Window x:Class="NoteDesk.Calendario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NoteDesk - Calendario"
+        Height="820"
+        Width="1280"
+        WindowStartupLocation="CenterScreen"
+        Background="#EBE2CD">
+
+    <Window.Resources>
+
+        <!-- SOMBRAS -->
+
+        <DropShadowEffect x:Key="CardShadow"
+                          BlurRadius="12"
+                          ShadowDepth="3"
+                          Opacity="0.18"/>
+
+        <!-- BOTÓN MENÚ LATERAL -->
+
+        <Style x:Key="MenuButton"
+               TargetType="Button">
+
+            <Setter Property="Height"
+                    Value="48"/>
+
+            <Setter Property="Background"
+                    Value="Transparent"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left"/>
+
+            <Setter Property="Padding"
+                    Value="14,0"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="Foreground"
+                    Value="#333333"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- BOTÓN MES -->
+
+        <Style x:Key="MonthButton"
+               TargetType="Button">
+
+            <Setter Property="Height"
+                    Value="48"/>
+
+            <Setter Property="Margin"
+                    Value="4"/>
+
+            <Setter Property="Background"
+                    Value="#FFFDF7"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DED4BD"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- TARJETA DE TAREA -->
+
+        <Style x:Key="TaskItemStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="#FFFDF7"/>
+
+            <Setter Property="CornerRadius"
+                    Value="10"/>
+
+            <Setter Property="Padding"
+                    Value="10"/>
+
+            <Setter Property="Margin"
+                    Value="0,0,0,8"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#E1D8C7"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+        </Style>
+
+        <!-- CELDA DEL CALENDARIO -->
+
+        <Style x:Key="CalendarCell"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="#FFFDF7"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#E5DDCF"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0.5"/>
+
+            <Setter Property="MinHeight"
+                    Value="88"/>
+
+            <Setter Property="Padding"
+                    Value="8"/>
+
+        </Style>
+
+    </Window.Resources>
+
+    <!-- FONDO GENERAL -->
+
+    <Border Margin="14"
+            Background="#ECE3D0"
+            CornerRadius="20"
+            Effect="{StaticResource CardShadow}">
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="*"/>
+
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+            <!-- CONTENIDO -->
+
+            <Grid Grid.Row="0"
+                  Margin="16">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="210"/>
+
+                    <ColumnDefinition Width="18"/>
+
+                    <ColumnDefinition Width="*"/>
+
+                    <ColumnDefinition Width="18"/>
+
+                    <ColumnDefinition Width="300"/>
+
+                </Grid.ColumnDefinitions>
+
+
+                <!-- ===================================================== -->
+                <!-- PANEL IZQUIERDO -->
+                <!-- ===================================================== -->
+
+                <Border Grid.Column="0"
+                        Background="#F8F4EA"
+                        CornerRadius="16"
+                        Padding="16"
+                        Effect="{StaticResource CardShadow}">
+
+                    <StackPanel>
+
+                        <!-- CATEGORÍAS -->
+
+
+
+                        <TextBlock Text="Categorías"
+                                   FontSize="17"
+                                   FontWeight="Bold"
+                                   Foreground="#222222"
+                                   Margin="0,0,0,12"/>
+
+                        <!-- WORK -->
+
+                        <Border Background="#FFF3CE"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="💼"
+                                           FontSize="17"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Work"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#F7C84B"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- SCHOOL -->
+
+                        <Border Background="#F1E6FF"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="🎓"
+                                           FontSize="17"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="School"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#A56AE8"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- HOME -->
+
+                        <Border Background="#E6F1FF"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="⌂"
+                                           FontSize="19"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Home"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#6FBAF5"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- SHOPPING -->
+
+                        <Border Background="#E1F6E8"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="🛒"
+                                           FontSize="17"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Shopping"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#65CF8C"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- PERSONAL -->
+
+                        <Border Background="#FFE4EA"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="👤"
+                                           FontFamily="Segoe UI Emoji"
+                                           FontSize="17"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Personal"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#ED5F7A"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- HOBBIES -->
+
+                        <Border Background="#F0E2FF"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="🎮"
+                                           FontSize="17"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Hobbies"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#9568E9"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- HEALTH -->
+
+                        <Border Background="#FFE3E8"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,8">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="♥"
+                                           FontSize="17"
+                                           Foreground="#C7424F"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Health"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#EE6680"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                        <!-- OTHER -->
+
+                        <Border Background="#ECECEC"
+                                CornerRadius="10"
+                                Padding="10">
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="•••"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Other"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
+
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#BBBBBB"
+                                         VerticalAlignment="Center"/>
+
+                            </Grid>
+
+                        </Border>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ===================================================== -->
+                <!-- PANEL CENTRAL -->
+                <!-- ===================================================== -->
+
+                <Grid Grid.Column="2">
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="Auto"/>
+
+                        <RowDefinition Height="15"/>
+
+                        <RowDefinition Height="*"/>
+
+                    </Grid.RowDefinitions>
+
+                    <!-- ENCABEZADO -->
+
+                    <Grid Grid.Row="0">
+
+                        <Border Background="#EBB83A"
+                                CornerRadius="15"
+                                Padding="24,18"
+                                Effect="{StaticResource CardShadow}">
+
+                            <StackPanel>
+
+                                <TextBlock Text="Calendario"
+                                           FontSize="38"
+                                           FontWeight="Bold"
+                                           FontFamily="Segoe Script"
+                                           Foreground="#111111"/>
+
+                                <TextBlock Text="Organiza tus días, cumple tus metas ♡"
+                                           FontSize="13"
+                                           FontFamily="Segoe Print"
+                                           Foreground="#333333"
+                                           Margin="0,4,0,0"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                        <!-- Clip -->
+
+                        <Border HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,-15,28,0"
+                                Width="24"
+                                Height="66"
+                                CornerRadius="9"
+                                BorderBrush="#A3485E"
+                                BorderThickness="4"
+                                Background="Transparent"/>
+
+                    </Grid>
+
+                    <!-- CALENDARIO -->
+
+                    <Border Grid.Row="2"
+                            Background="#F8F4EA"
+                            CornerRadius="16"
+                            Effect="{StaticResource CardShadow}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="65"/>
+
+                                <RowDefinition Height="42"/>
+
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+
+
+                            <!-- CABECERA MES -->
+
+                            <Grid Grid.Row="0"
+                                  Margin="14">
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                    <ColumnDefinition Width="*"/>
+
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <Button Width="40"
+                                        Height="40"
+                                        Content="‹"
+                                        FontSize="24"
+                                        Background="#FFFDF7"
+                                        BorderBrush="#DDD3C2"
+                                        Cursor="Hand"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Abril 2025"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="#222222"/>
+
+                                <StackPanel Grid.Column="2"
+                                            Orientation="Horizontal">
+
+                                    <Button Content="Hoy"
+                                            Width="70"
+                                            Height="40"
+                                            Background="#FFFDF7"
+                                            BorderBrush="#DDD3C2"
+                                            Cursor="Hand"
+                                            Margin="0,0,8,0"/>
+
+                                    <Button Width="40"
+                                            Height="40"
+                                            Content="›"
+                                            FontSize="24"
+                                            Background="#FFFDF7"
+                                            BorderBrush="#DDD3C2"
+                                            Cursor="Hand"/>
+
+                                </StackPanel>
+
+                            </Grid>
+
+
+                            <!-- DÍAS -->
+
+                            <UniformGrid Grid.Row="1"
+                                         Columns="7"
+                                         Background="#F5F0E6">
+
+                                <TextBlock Text="Dom"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Lun"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Mar"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Mié"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Jue"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Vie"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Sáb"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+
+                            </UniformGrid>
+
+
+                            <!-- CELDAS -->
+
+                            <UniformGrid Grid.Row="2"
+                                         Columns="7"
+                                         Rows="5">
+
+
+                                <!-- 30 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <TextBlock Text="30"
+                                               Foreground="#AAAAAA"/>
+
+                                </Border>
+
+                                <!-- 31 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <TextBlock Text="31"
+                                               Foreground="#AAAAAA"/>
+
+                                </Border>
+
+                                <!-- 1 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="1"
+                                                   FontWeight="SemiBold"/>
+
+                                        <Border Background="#E5CAFF"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="🎓 Entrega de tarea"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 2 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <TextBlock Text="2"
+                                               FontWeight="SemiBold"/>
+
+                                </Border>
+
+                                <!-- 3 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="3"/>
+
+                                        <Border Background="#FFDCE2"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="♥ Médico"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 4 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <TextBlock Text="4"/>
+
+                                </Border>
+
+                                <!-- 5 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="5"/>
+
+                                        <Border Background="#DFF3E5"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="🛒 Comprar despensa"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+
+                                <!-- 6 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="6"/>
+                                </Border>
+
+                                <!-- 7 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="7"/>
+
+                                        <Border Background="#FFF0C6"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="💼 Reunión equipo"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 8 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="8"/>
+                                </Border>
+
+                                <!-- 9 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="9"/>
+                                </Border>
+
+                                <!-- 10 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="10"/>
+
+                                        <Border Background="#DDEBFF"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="⌂ Limpieza casa"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 11 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="11"/>
+                                </Border>
+
+                                <!-- 12 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="12"/>
+
+                                        <Border Background="#ECDFFF"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="🎮 Gimnasio"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+
+                                <!-- 13 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="13"/>
+                                </Border>
+
+                                <!-- 14 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="14"/>
+                                </Border>
+
+                                <!-- 15 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="15"/>
+
+                                        <Border Background="#F0DFFF"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="♙ Trámite personal"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 16 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="16"/>
+                                </Border>
+
+                                <!-- 17 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="17"/>
+                                </Border>
+
+                                <!-- 18 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="18"/>
+
+                                        <Border Background="#FFDDE3"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="♥ Cita dental"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 19 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="19"/>
+                                </Border>
+
+
+                                <!-- 20 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="20"/>
+                                </Border>
+
+                                <!-- 21 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <Border Width="26"
+                                                Height="26"
+                                                Background="#2D66D7"
+                                                CornerRadius="13"
+                                                HorizontalAlignment="Left">
+
+                                            <TextBlock Text="21"
+                                                       Foreground="White"
+                                                       FontWeight="Bold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                        <Border Background="#DFF3E5"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="🛒 Comprar regalo"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 22 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="22"/>
+                                </Border>
+
+                                <!-- 23 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="23"/>
+
+                                        <Border Background="#FFF0C6"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="💼 Proyecto final"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 24 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="24"/>
+                                </Border>
+
+                                <!-- 25 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="25"/>
+                                </Border>
+
+                                <!-- 26 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="26"/>
+
+                                        <Border Background="#DDEBFF"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="⌂ Pagar servicios"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+
+                                <!-- 27 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="27"/>
+                                </Border>
+
+                                <!-- 28 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="28"/>
+
+                                        <Border Background="#EAD9FF"
+                                                CornerRadius="5"
+                                                Padding="4"
+                                                Margin="0,6,0,0">
+
+                                            <TextBlock Text="🎓 Examen"
+                                                       FontSize="9"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Border>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- 29 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="29"/>
+                                </Border>
+
+                                <!-- 30 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="30"/>
+                                </Border>
+
+                                <!-- 1 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="1"
+                                               Foreground="#AAAAAA"/>
+                                </Border>
+
+                                <!-- 2 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="2"
+                                               Foreground="#AAAAAA"/>
+                                </Border>
+
+                                <!-- 3 -->
+
+                                <Border Style="{StaticResource CalendarCell}">
+                                    <TextBlock Text="3"
+                                               Foreground="#AAAAAA"/>
+                                </Border>
+
+                            </UniformGrid>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
+
+                <!-- ===================================================== -->
+                <!-- PANEL DERECHO -->
+                <!-- ===================================================== -->
+
+                <StackPanel Grid.Column="4">
+
+                    <!-- VISTA DEL AÑO -->
+
+                    <Border Background="#F8F4EA"
+                            CornerRadius="16"
+                            Padding="16"
+                            Margin="0,0,0,16"
+                            Effect="{StaticResource CardShadow}">
+
+                        <StackPanel>
+
+                            <Grid Margin="0,0,0,12">
+
+                                <TextBlock Text="Vista del Año"
+                                           FontSize="17"
+                                           FontWeight="Bold"/>
+
+                                <ComboBox HorizontalAlignment="Right"
+                                          Width="90"
+                                          Height="32"
+                                          SelectedIndex="0">
+
+                                    <ComboBoxItem Content="2025"/>
+
+                                    <ComboBoxItem Content="2026"/>
+
+                                    <ComboBoxItem Content="2027"/>
+
+                                </ComboBox>
+
+                            </Grid>
+
+                            <UniformGrid Columns="4">
+
+                                <Button Content="Ene"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Feb"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Mar"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Abr"
+                                        Style="{StaticResource MonthButton}"
+                                        Background="#FFF2C3"
+                                        BorderBrush="#E8B32D"
+                                        BorderThickness="2"/>
+
+                                <Button Content="May"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Jun"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Jul"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Ago"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Sep"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Oct"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Nov"
+                                        Style="{StaticResource MonthButton}"/>
+
+                                <Button Content="Dic"
+                                        Style="{StaticResource MonthButton}"/>
+
+                            </UniformGrid>
+
+                        </StackPanel>
+
+                    </Border>
+
+
+                    <!-- TAREAS DE ABRIL -->
+
+                    <Border Background="#F8F4EA"
+                            CornerRadius="16"
+                            Padding="16"
+                            Effect="{StaticResource CardShadow}">
+
+                        <StackPanel>
+
+                            <TextBlock Text="Tareas de Abril"
+                                       FontSize="17"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,12"/>
+
+
+                            <!-- TAREA -->
+
+                            <Border Style="{StaticResource TaskItemStyle}">
+
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition Width="Auto"/>
+
+                                        <ColumnDefinition Width="*"/>
+
+                                        <ColumnDefinition Width="Auto"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Width="34"
+                                            Height="34"
+                                            Background="#E9D5FF"
+                                            CornerRadius="8">
+
+                                        <TextBlock Text="🎓"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1"
+                                                Margin="10,0">
+
+                                        <TextBlock Text="Entrega de tarea"
+                                                   FontWeight="SemiBold"/>
+
+                                        <TextBlock Text="1 de Abril"
+                                                   FontSize="11"
+                                                   Foreground="#777777"/>
+
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="›"
+                                               FontSize="20"
+                                               VerticalAlignment="Center"/>
+
+                                </Grid>
+
+                            </Border>
+
+
+                            <Border Style="{StaticResource TaskItemStyle}">
+
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition Width="Auto"/>
+
+                                        <ColumnDefinition Width="*"/>
+
+                                        <ColumnDefinition Width="Auto"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Width="34"
+                                            Height="34"
+                                            Background="#FFDDE3"
+                                            CornerRadius="8">
+
+                                        <TextBlock Text="♥"
+                                                   Foreground="#C64250"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1"
+                                                Margin="10,0">
+
+                                        <TextBlock Text="Médico"
+                                                   FontWeight="SemiBold"/>
+
+                                        <TextBlock Text="3 de Abril"
+                                                   FontSize="11"
+                                                   Foreground="#777777"/>
+
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="›"
+                                               FontSize="20"
+                                               VerticalAlignment="Center"/>
+
+                                </Grid>
+
+                            </Border>
+
+
+                            <Border Style="{StaticResource TaskItemStyle}">
+
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition Width="Auto"/>
+
+                                        <ColumnDefinition Width="*"/>
+
+                                        <ColumnDefinition Width="Auto"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Width="34"
+                                            Height="34"
+                                            Background="#DFF3E5"
+                                            CornerRadius="8">
+
+                                        <TextBlock Text="🛒"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1"
+                                                Margin="10,0">
+
+                                        <TextBlock Text="Comprar despensa"
+                                                   FontWeight="SemiBold"/>
+
+                                        <TextBlock Text="5 de Abril"
+                                                   FontSize="11"
+                                                   Foreground="#777777"/>
+
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="›"
+                                               FontSize="20"
+                                               VerticalAlignment="Center"/>
+
+                                </Grid>
+
+                            </Border>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+
+            </Grid>
+
+
+            <!-- ===================================================== -->
+            <!-- BARRA INFERIOR -->
+            <!-- ===================================================== -->
+
+            <Border Grid.Row="1"
+                    Background="#E7CD63"
+                    CornerRadius="0,0,20,20"
+                    Padding="15,10">
+
+                <UniformGrid Columns="3"
+                             Rows="1">
+
+                    <!-- INICIO -->
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+
+                        <TextBlock Text="⌂"
+                                   FontSize="17"
+                                   Margin="0,0,6,0"/>
+
+                        <TextBlock Text="Inicio"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                    <!-- CALENDARIO -->
+
+                    <Border Background="#FFF2C3"
+                            CornerRadius="16"
+                            Padding="20,5"
+                            HorizontalAlignment="Center">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Text="▣"
+                                       FontSize="16"
+                                       Margin="0,0,6,0"/>
+
+                            <TextBlock Text="Calendario"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!-- AJUSTES -->
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+
+                        <TextBlock Text="⚙"
+                                   FontSize="16"
+                                   Margin="0,0,6,0"/>
+
+                        <TextBlock Text="Ajustes"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </UniformGrid>
+
+            </Border>
+
+        </Grid>
+
+    </Border>
+
+</Window>
