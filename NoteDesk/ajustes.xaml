@@ -367,18 +367,9 @@
 
                         </StackPanel>
 
-
-                        <TextBlock Grid.Column="1"
-                                   Text="›"
-                                   FontSize="27"
-                                   Foreground="#333333"
-                                   VerticalAlignment="Center"
-                                   Margin="15,0,2,0"/>
-
                     </Grid>
 
                 </Border>
-
 
             </StackPanel>
 
