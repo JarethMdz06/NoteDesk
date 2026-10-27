@@ -492,40 +492,102 @@
 
                         <!-- OTHER -->
 
-                        <Border Background="#ECECEC"
-                                CornerRadius="10"
-                                Padding="10">
+                        <Grid>
+                            <!-- 1. El ToggleButton que mantiene tu diseño exacto pero funciona como interruptor -->
+                            <ToggleButton x:Name="BtnMenuCategoria" 
+                                          Background="Transparent" 
+                                          BorderBrush="Transparent" 
+                                          Cursor="Hand" 
+                                          Padding="0">
 
-                            <Grid>
+                                <!-- Esto quita el efecto gris feo por defecto del ToggleButton de Windows -->
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
 
-                                <Grid.ColumnDefinitions>
+                                <!-- Tu diseño original intacto -->
+                                <Border Background="#ECECEC"
+                                        CornerRadius="10"
+                                        Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <ColumnDefinition Width="Auto"/>
+                                        <TextBlock Text="•••" 
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center"/>
 
-                                    <ColumnDefinition Width="*"/>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="Other"
+                                                   Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"/> 
 
-                                    <ColumnDefinition Width="Auto"/>
+                                        <Ellipse Grid.Column="2"
+                                                 Width="16"
+                                                 Height="16"
+                                                 Fill="#BBBBBB"
+                                                 VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </ToggleButton>
 
-                                </Grid.ColumnDefinitions>
+                            <!-- 2. El Popup que se abre y cierra automáticamente sin código C# -->
+                            <Popup IsOpen="{Binding IsChecked, ElementName=BtnMenuCategoria}" 
+                                   StaysOpen="False" 
+                                   Placement="Bottom" 
+                                   HorizontalOffset="0" 
+                                   VerticalOffset="5"
+                                   AllowsTransparency="True">
+                                
 
-                                <TextBlock Text="•••"
-                                           FontWeight="Bold"
-                                           VerticalAlignment="Center"/>
 
-                                <TextBlock Grid.Column="1"
-                                           Text="Other"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
+                                <Border Background="#F4EEE0" 
+                                        BorderBrush="#DCD3C1" 
+                                        BorderThickness="1" 
+                                        CornerRadius="12" 
+                                        Padding="15" 
+                                        Width="180">
 
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#BBBBBB"
-                                         VerticalAlignment="Center"/>
+                                    <StackPanel>
+                                        <TextBlock Text="Nueva Categoría" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="13" 
+                                                   Foreground="#333333" 
+                                                   Margin="0,0,0,8"/>   
 
-                            </Grid>
+                                        <!-- Campo para escribir el nombre -->
+                                        <Border Background="White" CornerRadius="6" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,8">
+                                            <TextBox Text="Nombre..." 
+                                                     Background="Transparent" 
+                                                     BorderThickness="0" 
+                                                     Foreground="#777777" 
+                                                     FontSize="12"/>        
+                                        </Border>
 
-                        </Border>
+                                        <!-- Botón de agregar -->
+                                        <Button Content="Añadir categoría" 
+                                                Background="#52B788" 
+                                                Foreground="White" 
+                                                FontWeight="SemiBold" 
+                                                BorderThickness="0" 
+                                                Height="28" 
+                                                Cursor="Hand">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="6"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </StackPanel>
+
+                                </Border>
+                            </Popup>
+                        </Grid>
 
                     </StackPanel>
 
@@ -1301,11 +1363,6 @@
 
                                     </StackPanel>
 
-                                    <TextBlock Grid.Column="2"
-                                               Text="›"
-                                               FontSize="20"
-                                               VerticalAlignment="Center"/>
-
                                 </Grid>
 
                             </Border>
@@ -1349,11 +1406,6 @@
 
                                     </StackPanel>
 
-                                    <TextBlock Grid.Column="2"
-                                               Text="›"
-                                               FontSize="20"
-                                               VerticalAlignment="Center"/>
-
                                 </Grid>
 
                             </Border>
@@ -1395,11 +1447,6 @@
                                                    Foreground="#777777"/>
 
                                     </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               Text="›"
-                                               FontSize="20"
-                                               VerticalAlignment="Center"/>
 
                                 </Grid>
 
