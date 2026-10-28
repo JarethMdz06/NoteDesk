@@ -45,37 +45,36 @@ namespace NoteDesk
                 ventanaNuevaTarea.ShowDialog();
 
 
-            
+            // =====================================================
             // SI SE CREÓ LA TAREA
+            // =====================================================
 
             if (resultado == true)
             {
-                // Recuperamos título.
+                // Título
                 string titulo =
                     ventanaNuevaTarea.TituloTarea;
 
 
-                // Recuperamos prioridad.
-                //
-                // Puede ser:
-                //
-                // ""
-                // "Baja"
-                // "Media"
-                // "Alta"
-                //
+                // Prioridad
                 string prioridad =
                     ventanaNuevaTarea.PrioridadSeleccionada;
 
 
-                // Creamos la tarjeta.
+                // Categoría
+                string categoria =
+                    ventanaNuevaTarea.CategoriaSeleccionada;
+
+
+                // Creamos TaskCard.
                 TaskCard nuevaTarea =
                     new TaskCard(
                         titulo,
-                        prioridad);
+                        prioridad,
+                        categoria);
 
 
-                // La agregamos al MainWindow.
+                // Agregamos TaskCard a MainWindow.
                 ListTask.Children.Add(
                     nuevaTarea);
             }

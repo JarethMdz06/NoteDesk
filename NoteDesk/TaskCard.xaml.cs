@@ -5,7 +5,10 @@ namespace NoteDesk
 {
     public partial class TaskCard : UserControl
     {
-        public TaskCard(string titulo, string prioridad)
+        public TaskCard(
+            string titulo,
+            string prioridad,
+            string categoria)
         {
             InitializeComponent();
 
@@ -19,11 +22,6 @@ namespace NoteDesk
 
             // =====================================================
             // PRIORIDAD
-            // =====================================================
-            //
-            // Por defecto todas están ocultas desde XAML.
-            //
-            // Aquí solamente decidimos cuál mostrar.
             // =====================================================
 
             if (prioridad == "Baja")
@@ -40,6 +38,60 @@ namespace NoteDesk
             {
                 PanelPrioridadAlta.Visibility =
                     Visibility.Visible;
+            }
+
+
+            // =====================================================
+            // CATEGORÍA
+            // =====================================================
+            //
+            // Si categoria viene vacía:
+            //
+            // PanelCategoria continúa Collapsed.
+            //
+            // Si viene una categoría:
+            //
+            // mostramos el panel y colocamos su icono.
+            // =====================================================
+
+            if (!string.IsNullOrWhiteSpace(categoria))
+            {
+                PanelCategoria.Visibility =
+                    Visibility.Visible;
+
+
+                if (categoria == "Work")
+                {
+                    TxtIconoCategoria.Text = "💼";
+                }
+                else if (categoria == "School")
+                {
+                    TxtIconoCategoria.Text = "🎓";
+                }
+                else if (categoria == "Home")
+                {
+                    TxtIconoCategoria.Text = "🏠";
+                }
+                else if (categoria == "Shopping")
+                {
+                    TxtIconoCategoria.Text = "🛒";
+                }
+                else if (categoria == "Personal")
+                {
+                    TxtIconoCategoria.Text = "👤";
+                }
+                else if (categoria == "Hobbies")
+                {
+                    TxtIconoCategoria.Text = "🎮";
+                }
+                else if (categoria == "Health")
+                {
+                    TxtIconoCategoria.Text = "❤️";
+                }
+                else if (categoria == "Other")
+                {
+                    TxtIconoCategoria.Text = "•••";
+                }
             }
         }
     }

@@ -13,7 +13,7 @@
                 <!-- CHECK -->
                 <ColumnDefinition Width="Auto"/>
 
-                <!-- ICONO -->
+                <!-- CATEGORÍA -->
                 <ColumnDefinition Width="Auto"/>
 
                 <!-- INFORMACIÓN -->
@@ -59,7 +59,6 @@
 
                         </Border>
 
-
                         <ControlTemplate.Triggers>
 
                             <Trigger Property="IsChecked"
@@ -89,18 +88,27 @@
 
 
             <!-- ================================================= -->
-            <!-- ICONO DE CATEGORÍA                                -->
+            <!-- CATEGORÍA                                         -->
             <!-- ================================================= -->
+            <!--
+                Por defecto está oculta.
 
-            <Border Grid.Column="1"
+                TaskCard.xaml.cs decidirá si debe mostrarse
+                dependiendo de lo seleccionado en NewList.
+            -->
+
+            <Border x:Name="PanelCategoria"
+                    Grid.Column="1"
                     Width="28"
                     Height="28"
                     CornerRadius="8"
                     Background="#FFF7D6"
                     Margin="0,0,10,0"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed">
 
-                <TextBlock Text="👤"
+                <TextBlock x:Name="TxtIconoCategoria"
+                           Text=""
                            FontFamily="Segoe UI Emoji"
                            FontSize="15"
                            HorizontalAlignment="Center"

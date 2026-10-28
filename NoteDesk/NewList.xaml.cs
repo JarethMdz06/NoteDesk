@@ -8,12 +8,14 @@ namespace NoteDesk
     public partial class NewList : Window
     {
         // =========================================================
-        // DATOS QUE SE ENVIARÁN A MAINWINDOW
+        // DATOS DE LA TAREA
         // =========================================================
 
         public string TituloTarea { get; private set; } = "";
 
         public string PrioridadSeleccionada { get; private set; } = "";
+
+        public string CategoriaSeleccionada { get; private set; } = "";
 
 
         // =========================================================
@@ -75,8 +77,10 @@ namespace NoteDesk
                 {
                     textBox.Text = "";
 
-                    textBox.Foreground = new SolidColorBrush(
-                        (Color)ColorConverter.ConvertFromString("#1A1A1A"));
+                    textBox.Foreground =
+                        new SolidColorBrush(
+                            (Color)ColorConverter.ConvertFromString(
+                                "#1A1A1A"));
                 }
             }
         }
@@ -109,8 +113,10 @@ namespace NoteDesk
                             "Pega un enlace de Google Drive...";
                     }
 
-                    textBox.Foreground = new SolidColorBrush(
-                        (Color)ColorConverter.ConvertFromString("#888888"));
+                    textBox.Foreground =
+                        new SolidColorBrush(
+                            (Color)ColorConverter.ConvertFromString(
+                                "#888888"));
                 }
             }
         }
@@ -141,7 +147,7 @@ namespace NoteDesk
 
 
             // =====================================================
-            // GUARDAR TÍTULO
+            // TÍTULO
             // =====================================================
 
             TituloTarea =
@@ -150,13 +156,6 @@ namespace NoteDesk
 
             // =====================================================
             // PRIORIDAD
-            // =====================================================
-            //
-            // Si el switch está apagado:
-            //
-            // PrioridadSeleccionada = ""
-            //
-            // por lo tanto TaskCard no mostrará ninguna.
             // =====================================================
 
             PrioridadSeleccionada = "";
@@ -175,6 +174,55 @@ namespace NoteDesk
                 else if (PrioridadAlta.IsChecked == true)
                 {
                     PrioridadSeleccionada = "Alta";
+                }
+            }
+
+
+            // =====================================================
+            // CATEGORÍA
+            // =====================================================
+            //
+            // Por defecto no tiene categoría.
+            // =====================================================
+
+            CategoriaSeleccionada = "";
+
+
+            // Solamente guardamos una categoría
+            // si el switch está encendido.
+            if (SwitchCategoria.IsChecked == true)
+            {
+                if (CategoriaWork.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Work";
+                }
+                else if (CategoriaSchool.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "School";
+                }
+                else if (CategoriaHome.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Home";
+                }
+                else if (CategoriaShopping.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Shopping";
+                }
+                else if (CategoriaPersonal.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Personal";
+                }
+                else if (CategoriaHobbies.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Hobbies";
+                }
+                else if (CategoriaHealth.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Health";
+                }
+                else if (CategoriaOther.IsChecked == true)
+                {
+                    CategoriaSeleccionada = "Other";
                 }
             }
 
