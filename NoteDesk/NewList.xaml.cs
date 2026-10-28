@@ -8,15 +8,12 @@ namespace NoteDesk
     public partial class NewList : Window
     {
         // =========================================================
-        // TÍTULO DE LA TAREA
-        // =========================================================
-        //
-        // Aquí se guardará el texto escrito en TxtTitulo.
-        // MainWindow podrá recuperar este valor cuando
-        // se cierre esta ventana.
+        // DATOS QUE SE ENVIARÁN A MAINWINDOW
         // =========================================================
 
         public string TituloTarea { get; private set; } = "";
+
+        public string PrioridadSeleccionada { get; private set; } = "";
 
 
         // =========================================================
@@ -30,7 +27,7 @@ namespace NoteDesk
 
 
         // =========================================================
-        // BOTÓN CANCELAR
+        // CANCELAR
         // =========================================================
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
@@ -42,7 +39,7 @@ namespace NoteDesk
 
 
         // =========================================================
-        // MOSTRAR PANEL DE FECHA
+        // FECHA
         // =========================================================
 
         private void ToggleFecha_Checked(object sender, RoutedEventArgs e)
@@ -54,10 +51,6 @@ namespace NoteDesk
         }
 
 
-        // =========================================================
-        // OCULTAR PANEL DE FECHA
-        // =========================================================
-
         private void ToggleFecha_Unchecked(object sender, RoutedEventArgs e)
         {
             if (PanelFecha != null)
@@ -68,8 +61,7 @@ namespace NoteDesk
 
 
         // =========================================================
-        // PLACEHOLDER DE LOS TEXTBOX
-        // CUANDO EL USUARIO ENTRA AL CAMPO
+        // PLACEHOLDER
         // =========================================================
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -89,11 +81,6 @@ namespace NoteDesk
             }
         }
 
-
-        // =========================================================
-        // PLACEHOLDER DE LOS TEXTBOX
-        // CUANDO EL USUARIO SALE DEL CAMPO
-        // =========================================================
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -130,17 +117,18 @@ namespace NoteDesk
 
 
         // =========================================================
-        // BOTÓN CREAR TAREA
-        // =========================================================
-        //
-        // Por ahora solamente toma el título.
+        // CREAR TAREA
         // =========================================================
 
         private void CrearTarea_Click(object sender, RoutedEventArgs e)
         {
-            // Validamos que el usuario haya escrito un título.
+            // =====================================================
+            // VALIDAR TÍTULO
+            // =====================================================
+
             if (string.IsNullOrWhiteSpace(TxtTitulo.Text) ||
-                TxtTitulo.Text == "Ej. Preparar presentación, Comprar pan...")
+                TxtTitulo.Text ==
+                "Ej. Preparar presentación, Comprar pan...")
             {
                 MessageBox.Show(
                     "Escribe un título para la tarea.",
@@ -152,16 +140,51 @@ namespace NoteDesk
             }
 
 
-            // Tomamos el texto escrito en TxtTitulo.
-            TituloTarea = TxtTitulo.Text.Trim();
+            // =====================================================
+            // GUARDAR TÍTULO
+            // =====================================================
+
+            TituloTarea =
+                TxtTitulo.Text.Trim();
 
 
-            // Indicamos a MainWindow que
-            // la tarea sí fue creada.
+            // =====================================================
+            // PRIORIDAD
+            // =====================================================
+            //
+            // Si el switch está apagado:
+            //
+            // PrioridadSeleccionada = ""
+            //
+            // por lo tanto TaskCard no mostrará ninguna.
+            // =====================================================
+
+            PrioridadSeleccionada = "";
+
+
+            if (SwitchPrioridad.IsChecked == true)
+            {
+                if (PrioridadBaja.IsChecked == true)
+                {
+                    PrioridadSeleccionada = "Baja";
+                }
+                else if (PrioridadMedia.IsChecked == true)
+                {
+                    PrioridadSeleccionada = "Media";
+                }
+                else if (PrioridadAlta.IsChecked == true)
+                {
+                    PrioridadSeleccionada = "Alta";
+                }
+            }
+
+
+            // =====================================================
+            // TERMINAR
+            // =====================================================
+
             DialogResult = true;
 
-
-            // Cerramos NewList.
             Close();
         }
     }

@@ -3,10 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              HorizontalAlignment="Stretch">
 
-    <!-- ========================================================= -->
-    <!-- TARJETA DE TAREA                                         -->
-    <!-- ========================================================= -->
-
     <Border Style="{StaticResource TaskCardStyle}"
             HorizontalAlignment="Stretch">
 
@@ -32,16 +28,6 @@
             <!-- ================================================= -->
             <!-- CHECK                                             -->
             <!-- ================================================= -->
-            <!--
-                Por defecto inicia desmarcado.
-
-                Al hacer clic:
-                - se pone verde
-                - aparece ✓
-
-                Al volver a hacer clic:
-                - vuelve a quedar vacío
-            -->
 
             <CheckBox Grid.Column="0"
                       Width="26"
@@ -73,8 +59,6 @@
 
                         </Border>
 
-
-                        <!-- CAMBIOS CUANDO ESTÁ MARCADO -->
 
                         <ControlTemplate.Triggers>
 
@@ -126,7 +110,7 @@
 
 
             <!-- ================================================= -->
-            <!-- INFORMACIÓN DE LA TAREA                           -->
+            <!-- INFORMACIÓN                                       -->
             <!-- ================================================= -->
 
             <StackPanel Grid.Column="2"
@@ -142,13 +126,57 @@
                            Foreground="#333333"/>
 
 
-                <!-- PRIORIDAD -->
+                <!-- ================================================= -->
+                <!-- PRIORIDAD BAJA                                    -->
+                <!-- ================================================= -->
 
-                <Border Background="#F1B1B1"
+                <Border x:Name="PanelPrioridadBaja"
+                        Background="#CDECCF"
                         CornerRadius="8"
                         Padding="6,1"
                         HorizontalAlignment="Left"
-                        Margin="0,4,0,0">
+                        Margin="0,4,0,0"
+                        Visibility="Collapsed">
+
+                    <TextBlock Text="Prioridad Baja"
+                               FontSize="10"
+                               Foreground="#2E6B32"
+                               FontWeight="SemiBold"/>
+
+                </Border>
+
+
+                <!-- ================================================= -->
+                <!-- PRIORIDAD MEDIA                                   -->
+                <!-- ================================================= -->
+
+                <Border x:Name="PanelPrioridadMedia"
+                        Background="#F7D89C"
+                        CornerRadius="8"
+                        Padding="6,1"
+                        HorizontalAlignment="Left"
+                        Margin="0,4,0,0"
+                        Visibility="Collapsed">
+
+                    <TextBlock Text="Prioridad Media"
+                               FontSize="10"
+                               Foreground="#774400"
+                               FontWeight="SemiBold"/>
+
+                </Border>
+
+
+                <!-- ================================================= -->
+                <!-- PRIORIDAD ALTA                                    -->
+                <!-- ================================================= -->
+
+                <Border x:Name="PanelPrioridadAlta"
+                        Background="#F1B1B1"
+                        CornerRadius="8"
+                        Padding="6,1"
+                        HorizontalAlignment="Left"
+                        Margin="0,4,0,0"
+                        Visibility="Collapsed">
 
                     <TextBlock Text="Prioridad Alta"
                                FontSize="10"
@@ -161,7 +189,7 @@
 
 
             <!-- ================================================= -->
-            <!-- BOTÓN DE TRES PUNTOS                              -->
+            <!-- MENÚ                                              -->
             <!-- ================================================= -->
 
             <Button Grid.Column="3"

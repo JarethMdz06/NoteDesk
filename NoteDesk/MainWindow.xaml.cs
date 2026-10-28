@@ -21,35 +21,65 @@ namespace NoteDesk
             InitializeComponent();
         }
 
-        private void BtnAddTask_Click(object sender, RoutedEventArgs e)
+
+        // =========================================================
+        // BOTÓN AGREGAR TAREA
+        // =========================================================
+
+        private void BtnAddTask_Click(
+            object sender,
+            RoutedEventArgs e)
         {
-            // Creamos NewList
-            NewList ventanaNuevaTarea = new NewList();
+            // Creamos NewList.
+            NewList ventanaNuevaTarea =
+                new NewList();
 
 
-            // MainWindow es la ventana propietaria
-            ventanaNuevaTarea.Owner = this;
+            // MainWindow es la ventana propietaria.
+            ventanaNuevaTarea.Owner =
+                this;
 
 
-            // Abrimos NewList
-            bool? resultado = ventanaNuevaTarea.ShowDialog();
+            // Abrimos NewList.
+            bool? resultado =
+                ventanaNuevaTarea.ShowDialog();
 
 
-            // Si se presionó Crear Tarea
+            // =====================================================
+            // SI SE CREÓ LA TAREA
+            // =====================================================
+
             if (resultado == true)
             {
-                // Recuperamos el título
-                string titulo = ventanaNuevaTarea.TituloTarea;
+                // Recuperamos título.
+                string titulo =
+                    ventanaNuevaTarea.TituloTarea;
 
 
-                // Creamos la tarjeta visual
-                TaskCard nuevaTarea = new TaskCard(titulo);
+                // Recuperamos prioridad.
+                //
+                // Puede ser:
+                //
+                // ""
+                // "Baja"
+                // "Media"
+                // "Alta"
+                //
+                string prioridad =
+                    ventanaNuevaTarea.PrioridadSeleccionada;
 
 
-                // Agregamos la tarjeta a la lista
-                ListTask.Children.Add(nuevaTarea);
+                // Creamos la tarjeta.
+                TaskCard nuevaTarea =
+                    new TaskCard(
+                        titulo,
+                        prioridad);
+
+
+                // La agregamos al MainWindow.
+                ListTask.Children.Add(
+                    nuevaTarea);
             }
         }
     }
 }
-
