@@ -45,9 +45,8 @@ namespace NoteDesk
                 ventanaNuevaTarea.ShowDialog();
 
 
-            // =====================================================
+            
             // SI SE CREÓ LA TAREA
-            // =====================================================
 
             if (resultado == true)
             {
