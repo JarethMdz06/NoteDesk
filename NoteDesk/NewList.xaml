@@ -1374,7 +1374,8 @@
                     <Button x:Name="BtnCrearTarea"
                             Width="125"
                             Height="40"
-                            Style="{StaticResource BotonCrear}">
+                            Style="{StaticResource BotonCrear}"
+                            Click="CrearTarea_Click">
 
                         <TextBlock Text="Crear Tarea"
                                    VerticalAlignment="Center"/>

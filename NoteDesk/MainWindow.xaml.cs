@@ -20,6 +20,36 @@ namespace NoteDesk
         {
             InitializeComponent();
         }
+
+        private void BtnAddTask_Click(object sender, RoutedEventArgs e)
+        {
+            // Creamos NewList
+            NewList ventanaNuevaTarea = new NewList();
+
+
+            // MainWindow es la ventana propietaria
+            ventanaNuevaTarea.Owner = this;
+
+
+            // Abrimos NewList
+            bool? resultado = ventanaNuevaTarea.ShowDialog();
+
+
+            // Si se presionó Crear Tarea
+            if (resultado == true)
+            {
+                // Recuperamos el título
+                string titulo = ventanaNuevaTarea.TituloTarea;
+
+
+                // Creamos la tarjeta visual
+                TaskCard nuevaTarea = new TaskCard(titulo);
+
+
+                // Agregamos la tarjeta a la lista
+                ListTask.Children.Add(nuevaTarea);
+            }
+        }
     }
 }
 

@@ -7,18 +7,44 @@ namespace NoteDesk
 {
     public partial class NewList : Window
     {
+        // =========================================================
+        // TÍTULO DE LA TAREA
+        // =========================================================
+        //
+        // Aquí se guardará el texto escrito en TxtTitulo.
+        // MainWindow podrá recuperar este valor cuando
+        // se cierre esta ventana.
+        // =========================================================
+
+        public string TituloTarea { get; private set; } = "";
+
+
+        // =========================================================
+        // CONSTRUCTOR
+        // =========================================================
+
         public NewList()
         {
             InitializeComponent();
         }
 
-        // Cierra la ventana al hacer clic en cancelar
+
+        // =========================================================
+        // BOTÓN CANCELAR
+        // =========================================================
+
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            DialogResult = false;
+
+            Close();
         }
 
-        // Muestra el panel de fecha cuando el switch está activado
+
+        // =========================================================
+        // MOSTRAR PANEL DE FECHA
+        // =========================================================
+
         private void ToggleFecha_Checked(object sender, RoutedEventArgs e)
         {
             if (PanelFecha != null)
@@ -27,7 +53,11 @@ namespace NoteDesk
             }
         }
 
-        // Oculta el panel de fecha cuando el switch está desactivado
+
+        // =========================================================
+        // OCULTAR PANEL DE FECHA
+        // =========================================================
+
         private void ToggleFecha_Unchecked(object sender, RoutedEventArgs e)
         {
             if (PanelFecha != null)
@@ -36,7 +66,12 @@ namespace NoteDesk
             }
         }
 
-        // Placeholder de los TextBox
+
+        // =========================================================
+        // PLACEHOLDER DE LOS TEXTBOX
+        // CUANDO EL USUARIO ENTRA AL CAMPO
+        // =========================================================
+
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
@@ -53,6 +88,12 @@ namespace NoteDesk
                 }
             }
         }
+
+
+        // =========================================================
+        // PLACEHOLDER DE LOS TEXTBOX
+        // CUANDO EL USUARIO SALE DEL CAMPO
+        // =========================================================
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -85,6 +126,43 @@ namespace NoteDesk
                         (Color)ColorConverter.ConvertFromString("#888888"));
                 }
             }
+        }
+
+
+        // =========================================================
+        // BOTÓN CREAR TAREA
+        // =========================================================
+        //
+        // Por ahora solamente toma el título.
+        // =========================================================
+
+        private void CrearTarea_Click(object sender, RoutedEventArgs e)
+        {
+            // Validamos que el usuario haya escrito un título.
+            if (string.IsNullOrWhiteSpace(TxtTitulo.Text) ||
+                TxtTitulo.Text == "Ej. Preparar presentación, Comprar pan...")
+            {
+                MessageBox.Show(
+                    "Escribe un título para la tarea.",
+                    "NoteDesk",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return;
+            }
+
+
+            // Tomamos el texto escrito en TxtTitulo.
+            TituloTarea = TxtTitulo.Text.Trim();
+
+
+            // Indicamos a MainWindow que
+            // la tarea sí fue creada.
+            DialogResult = true;
+
+
+            // Cerramos NewList.
+            Close();
         }
     }
 }

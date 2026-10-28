@@ -92,7 +92,8 @@
 
                         <!-- BOTÓN + -->
 
-                        <Button Width="50"
+                        <Button x:Name="BtnAddTask"
+                                Width="50"
                                 Height="50"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -100,7 +101,8 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 Cursor="Hand"
-                                Padding="0">
+                                Padding="0"
+                                Click="BtnAddTask_Click">
 
                             <Button.Template>
 
@@ -190,368 +192,26 @@
                         </Border>
 
                     </Grid>
-
-                    <!-- LISTA DE TAREAS  -->
-
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden"
-                                  Height="360"
-                                  Background="#EBE2CD">
-
-                        <StackPanel>
-
-
-                            <!-- TAREA 1 -->
-
-
-                            <Border Style="{StaticResource TaskCardStyle}">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <!-- CHECK -->
-
-                                    <Border Width="26"
-                                            Height="26"
-                                            CornerRadius="6"
-                                            Background="#3FA772"
-                                            Margin="0,0,10,0"
-                                            VerticalAlignment="Center">
-
-                                        <TextBlock Text="✓"
-                                                   Foreground="White"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                    </Border>
-
-                                    <!-- ICONO DE CATEGORÍA -->
-
-                                    <Border x:Name="IconoCategoriaTarea1"
-                                            Grid.Column="1"
-                                            Width="28"
-                                            Height="28"
-                                            CornerRadius="8"
-                                            Background="#FFF7D6"
-                                            Margin="0,0,10,0"
-                                            VerticalAlignment="Center">
-
-                                        <TextBlock x:Name="TxtIconoCategoriaTarea1"
-                                                   Text="👤"
-                                                   FontSize="15"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                    </Border>
-
-                                    <!-- INFORMACIÓN -->
-
-                                    <StackPanel Grid.Column="2"
-                                                VerticalAlignment="Center">
-
-                                        <TextBlock x:Name="TxtTituloTarea1"
-                                                   Text="Desayunar"
-                                                   FontSize="15"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="#333333"/>
-
-                                        <!-- PRIORIDAD -->
-
-                                        <Border x:Name="PanelPrioridadTarea1"
-                                                Background="#F1B1B1"
-                                                CornerRadius="8"
-                                                Padding="6,1"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,4,0,0"
-                                                Visibility="Visible">
-
-                                            <TextBlock x:Name="TxtPrioridadTarea1"
-                                                       Text="Prioridad Alta"
-                                                       FontSize="10"
-                                                       Foreground="#882222"
-                                                       FontWeight="SemiBold"/>
-
-                                        </Border>
-
-                                    </StackPanel>
-                                    <!-- TRES PUNTOS CON MENÚ DESPLEGABLE -->
-                                    <Button Grid.Column="3"
-                                            Content="⋮"
-                                            FontSize="18"
-                                            Foreground="#777777"
-                                            Background="Transparent"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            Margin="5,0"
-                                            Padding="0">
-
-                                        <!-- Menú que se abre al hacer clic -->
-                                        <Button.ContextMenu>
-                                            <ContextMenu Background="#F4EEE0" BorderBrush="#DCD3C1">
-                                                <MenuItem Header="✏️ Editar tarea" Foreground="#333333"/>
-                                                <MenuItem Header="📌 Cambiar prioridad" Foreground="#333333"/>
-                                                <Separator Background="#DCD3C1"/>
-                                                <MenuItem Header="🗑️ Eliminar tarea" Foreground="#D9534F"/>
-                                            </ContextMenu>
-                                        </Button.ContextMenu>
-
-                                    </Button>
-
-                                </Grid>
-
-                            </Border>
-
-
-                            <!-- TAREA 2 -->
-
-
-                            <Border Style="{StaticResource TaskCardStyle}"
-                                    Visibility="Collapsed">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="26"
-                                            Height="26"
-                                            CornerRadius="6"
-                                            BorderBrush="#888888"
-                                            BorderThickness="2"
-                                            Margin="0,0,12,0">
-
-                                        <TextBlock Text=""
-                                                   Foreground="White"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                    </Border>
-
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center">
-
-                                        <TextBlock Text="Revisar-correos"
-                                                   FontSize="15"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="#333333"/>
-
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               Text="⋮"
-                                               FontSize="18"
-                                               Foreground="#777777"
-                                               VerticalAlignment="Center"
-                                               Margin="5,0"/>
-
-                                </Grid>
-
-                            </Border>
-
-
-                            <!-- TAREA 3 -->
-
-
-                            <Border Style="{StaticResource TaskCardStyle}"
-                                    Visibility="Collapsed">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="26"
-                                            Height="26"
-                                            CornerRadius="6"
-                                            BorderBrush="#888888"
-                                            BorderThickness="2"
-                                            Margin="0,0,12,0"/>
-
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center">
-
-                                        <TextBlock Text="Trabajar en el proyecto"
-                                                   FontSize="15"
-                                                   FontWeight="Bold"
-                                                   Foreground="#111111"/>
-
-                                        <StackPanel Orientation="Horizontal"
-                                                    Margin="0,3,0,0">
-
-                                            <Border Background="#F1B1B1"
-                                                    CornerRadius="8"
-                                                    Padding="6,1"
-                                                    Margin="0,2,0,0">
-
-                                                <TextBlock Text="Entrega: mañana"
-                                                           FontSize="11"
-                                                           Foreground="#882222"
-                                                           FontWeight="SemiBold"/>
-
-                                            </Border>
-
-                                        </StackPanel>
-
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               Text="⋮"
-                                               FontSize="18"
-                                               Foreground="#777777"
-                                               VerticalAlignment="Center"
-                                               Margin="5,0"/>
-
-                                </Grid>
-
-                            </Border>
-
-
-                            <!-- TAREA 4 -->
-
-
-                            <Border Style="{StaticResource TaskCardStyle}"
-                                    Visibility="Collapsed">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="26"
-                                            Height="26"
-                                            CornerRadius="6"
-                                            BorderBrush="#888888"
-                                            BorderThickness="2"
-                                            Margin="0,0,12,0"/>
-
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center">
-
-                                        <TextBlock Text="Hacer ejercicio"
-                                                   FontSize="15"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="#333333"/>
-
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               Text="⋮"
-                                               FontSize="18"
-                                               Foreground="#777777"
-                                               VerticalAlignment="Center"
-                                               Margin="5,0"/>
-
-                                </Grid>
-
-                            </Border>
-
-
-                            <!-- TAREA 5 -->
-
-
-                            <Border Style="{StaticResource TaskCardStyle}"
-                                    Visibility="Collapsed">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="26"
-                                            Height="26"
-                                            CornerRadius="6"
-                                            BorderBrush="#888888"
-                                            BorderThickness="2"
-                                            Margin="0,0,12,0"/>
-
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center">
-
-                                        <TextBlock Text="Leer un libro"
-                                                   FontSize="15"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="#333333"/>
-
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               Text="⋮"
-                                               FontSize="18"
-                                               Foreground="#777777"
-                                               VerticalAlignment="Center"
-                                               Margin="5,0"/>
-
-                                </Grid>
-
-                            </Border>
-
-                            <!-- ====================================================== -->
-                            <!-- TAREA 6 -->
-                            <!-- ====================================================== -->
-
-                            <Border Style="{StaticResource TaskCardStyle}"
-                                    Visibility="Collapsed">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="26"
-                                            Height="26"
-                                            CornerRadius="6"
-                                            BorderBrush="#888888"
-                                            BorderThickness="2"
-                                            Margin="0,2,12,0"/>
-
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center">
-
-                                        <TextBlock Text="Preparar la cena"
-                                                   FontSize="15"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="#333333"/>
-
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="2"
-                                               Text="⋮"
-                                               FontSize="18"
-                                               Foreground="#777777"
-                                               VerticalAlignment="Center"
-                                               Margin="5,0"/>
-
-                                </Grid>
-
-                            </Border>
+                    <!-- LISTA DE TAREAS -->
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+              Height="360"
+              Background="#EBE2CD">
+
+                        <!--
+        Aquí se agregarán las tareas creadas
+        desde la ventana NewList.
+        
+        Al iniciar NoteDesk esta lista estará vacía.
+    -->
+
+                        <StackPanel x:Name="ListTask">
 
                         </StackPanel>
 
                     </ScrollViewer>
+
+
 
                 </StackPanel>
 

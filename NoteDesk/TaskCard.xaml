@@ -1,0 +1,205 @@
+﻿<UserControl x:Class="NoteDesk.TaskCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             HorizontalAlignment="Stretch">
+
+    <!-- ========================================================= -->
+    <!-- TARJETA DE TAREA                                         -->
+    <!-- ========================================================= -->
+
+    <Border Style="{StaticResource TaskCardStyle}"
+            HorizontalAlignment="Stretch">
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+
+                <!-- CHECK -->
+                <ColumnDefinition Width="Auto"/>
+
+                <!-- ICONO -->
+                <ColumnDefinition Width="Auto"/>
+
+                <!-- INFORMACIÓN -->
+                <ColumnDefinition Width="*"/>
+
+                <!-- MENÚ -->
+                <ColumnDefinition Width="Auto"/>
+
+            </Grid.ColumnDefinitions>
+
+
+            <!-- ================================================= -->
+            <!-- CHECK                                             -->
+            <!-- ================================================= -->
+            <!--
+                Por defecto inicia desmarcado.
+
+                Al hacer clic:
+                - se pone verde
+                - aparece ✓
+
+                Al volver a hacer clic:
+                - vuelve a quedar vacío
+            -->
+
+            <CheckBox Grid.Column="0"
+                      Width="26"
+                      Height="26"
+                      Margin="0,0,10,0"
+                      VerticalAlignment="Center"
+                      Cursor="Hand"
+                      IsChecked="False">
+
+                <CheckBox.Template>
+
+                    <ControlTemplate TargetType="CheckBox">
+
+                        <Border x:Name="CheckBorder"
+                                Width="26"
+                                Height="26"
+                                CornerRadius="6"
+                                Background="Transparent"
+                                BorderBrush="#888888"
+                                BorderThickness="2">
+
+                            <TextBlock x:Name="CheckIcon"
+                                       Text=""
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+
+                        </Border>
+
+
+                        <!-- CAMBIOS CUANDO ESTÁ MARCADO -->
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+
+                                <Setter TargetName="CheckBorder"
+                                        Property="Background"
+                                        Value="#3FA772"/>
+
+                                <Setter TargetName="CheckBorder"
+                                        Property="BorderBrush"
+                                        Value="#3FA772"/>
+
+                                <Setter TargetName="CheckIcon"
+                                        Property="Text"
+                                        Value="✓"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </CheckBox.Template>
+
+            </CheckBox>
+
+
+            <!-- ================================================= -->
+            <!-- ICONO DE CATEGORÍA                                -->
+            <!-- ================================================= -->
+
+            <Border Grid.Column="1"
+                    Width="28"
+                    Height="28"
+                    CornerRadius="8"
+                    Background="#FFF7D6"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center">
+
+                <TextBlock Text="👤"
+                           FontFamily="Segoe UI Emoji"
+                           FontSize="15"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+            </Border>
+
+
+            <!-- ================================================= -->
+            <!-- INFORMACIÓN DE LA TAREA                           -->
+            <!-- ================================================= -->
+
+            <StackPanel Grid.Column="2"
+                        VerticalAlignment="Center">
+
+
+                <!-- TÍTULO -->
+
+                <TextBlock x:Name="TxtTitulo"
+                           Text="Título"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           Foreground="#333333"/>
+
+
+                <!-- PRIORIDAD -->
+
+                <Border Background="#F1B1B1"
+                        CornerRadius="8"
+                        Padding="6,1"
+                        HorizontalAlignment="Left"
+                        Margin="0,4,0,0">
+
+                    <TextBlock Text="Prioridad Alta"
+                               FontSize="10"
+                               Foreground="#882222"
+                               FontWeight="SemiBold"/>
+
+                </Border>
+
+            </StackPanel>
+
+
+            <!-- ================================================= -->
+            <!-- BOTÓN DE TRES PUNTOS                              -->
+            <!-- ================================================= -->
+
+            <Button Grid.Column="3"
+                    Content="⋮"
+                    FontSize="18"
+                    Foreground="#777777"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="5,0"
+                    Padding="0">
+
+                <Button.ContextMenu>
+
+                    <ContextMenu Background="#F4EEE0"
+                                 BorderBrush="#DCD3C1">
+
+                        <MenuItem Header="✏️ Editar tarea"
+                                  Foreground="#333333"/>
+
+                        <MenuItem Header="📌 Cambiar prioridad"
+                                  Foreground="#333333"/>
+
+                        <Separator Background="#DCD3C1"/>
+
+                        <MenuItem Header="🗑️ Eliminar tarea"
+                                  Foreground="#D9534F"/>
+
+                    </ContextMenu>
+
+                </Button.ContextMenu>
+
+            </Button>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>
