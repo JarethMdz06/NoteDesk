@@ -68,7 +68,7 @@ namespace NoteDesk
 
                 // Creamos TaskCard.
                 TaskCard nuevaTarea =
-                    new TaskCard(
+                    new(
                         titulo,
                         prioridad,
                         categoria);
@@ -78,6 +78,26 @@ namespace NoteDesk
                 ListTask.Children.Add(
                     nuevaTarea);
             }
+        }
+
+        // =========================================================
+        // BOTÓN AJUSTES (Barra Inferior)
+        // =========================================================
+        private void Ajustes_Click(object sender, MouseButtonEventArgs e)
+        {
+            // Creamos y abrimos la ventana de ajustes de manera independiente
+            ajustes ventanaAjustes = new();
+            ventanaAjustes.ShowDialog();
+        }
+
+        // =========================================================
+        // BOTÓN CALENDARIO (Barra Inferior)
+        // =========================================================
+        private void Calendario_Click(object sender, MouseButtonEventArgs e)
+        {
+            // Creamos y abrimos la ventana de calendario de manera independiente
+            Calendario ventanaCalendario = new();
+            ventanaCalendario.ShowDialog();
         }
     }
 }

@@ -5,6 +5,28 @@
              StartupUri="MainWindow.xaml">
 
     <Application.Resources>
+
+        <!-- ====================================================== -->
+        <!-- COLORES GLOBALES (Modo Claro por defecto)              -->
+        <!-- ====================================================== -->
+        <SolidColorBrush x:Key="ColorVentana" Color="#EBE2CD"/>
+        <SolidColorBrush x:Key="ColorTarjeta" Color="#ECE3D0"/>
+        <SolidColorBrush x:Key="ColorTarjetaInterna" Color="#F8F4EA"/>
+        <SolidColorBrush x:Key="ColorHeader" Color="#EBB83A"/>
+        <SolidColorBrush x:Key="ColorTexto" Color="#222222"/>
+        <SolidColorBrush x:Key="ColorTextoHeader" Color="#111111"/>
+        <SolidColorBrush x:Key="ColorTextoSecundario" Color="#777777"/>
+        <SolidColorBrush x:Key="ColorSuperficie" Color="#FFFDF7"/>
+        <SolidColorBrush x:Key="ColorBorde" Color="#DED4BD"/>
+        <SolidColorBrush x:Key="ColorFondoDias" Color="#F5F0E6"/>
+        <SolidColorBrush x:Key="ColorDiasOtroMes" Color="#AAAAAA"/>
+        <SolidColorBrush x:Key="ColorFondoPopup" Color="#F4EEE0"/>
+        <SolidColorBrush x:Key="ColorMesSeleccionado" Color="#FFF2C3"/>
+        <SolidColorBrush x:Key="ColorBordeMesSeleccionado" Color="#E8B32D"/>
+        <SolidColorBrush x:Key="ColorBarraNavegacion" Color="#E7CD63"/>
+        <SolidColorBrush x:Key="ColorNavegacionActiva" Color="#FFF2C3"/>
+
+
         <!-- Sombras personalizadas globales -->
         <DropShadowEffect x:Key="CardShadow" BlurRadius="12" ShadowDepth="3" Direction="270" Color="#20000000" Opacity="0.15"/>
         <DropShadowEffect x:Key="StickyShadow" BlurRadius="15" ShadowDepth="4" Direction="270" Color="#40000000" Opacity="0.2"/>
@@ -24,5 +46,6 @@
             <Setter Property="Padding" Value="10"/>
             <Setter Property="Margin" Value="0,0,0,8"/>
         </Style>
+
     </Application.Resources>
 </Application>

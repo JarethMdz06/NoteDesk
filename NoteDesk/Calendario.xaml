@@ -5,9 +5,13 @@
         Height="820"
         Width="1280"
         WindowStartupLocation="CenterScreen"
-        Background="#EBE2CD">
+        Background="{DynamicResource ColorVentana}">
 
     <Window.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource ColorTexto}"/>
+        </Style>
 
         <!-- SOMBRAS -->
 
@@ -40,7 +44,7 @@
                     Value="14"/>
 
             <Setter Property="Foreground"
-                    Value="#333333"/>
+                    Value="{DynamicResource ColorTexto}"/>
 
             <Setter Property="Cursor"
                     Value="Hand"/>
@@ -79,10 +83,13 @@
                     Value="4"/>
 
             <Setter Property="Background"
-                    Value="#FFFDF7"/>
+                    Value="{DynamicResource ColorSuperficie}"/>
 
             <Setter Property="BorderBrush"
-                    Value="#DED4BD"/>
+                    Value="{DynamicResource ColorBorde}"/>
+
+            <Setter Property="Foreground"
+                    Value="{DynamicResource ColorTexto}"/>
 
             <Setter Property="BorderThickness"
                     Value="1"/>
@@ -120,7 +127,7 @@
                TargetType="Border">
 
             <Setter Property="Background"
-                    Value="#FFFDF7"/>
+                    Value="{DynamicResource ColorSuperficie}"/>
 
             <Setter Property="CornerRadius"
                     Value="10"/>
@@ -132,7 +139,7 @@
                     Value="0,0,0,8"/>
 
             <Setter Property="BorderBrush"
-                    Value="#E1D8C7"/>
+                    Value="{DynamicResource ColorBorde}"/>
 
             <Setter Property="BorderThickness"
                     Value="1"/>
@@ -145,10 +152,10 @@
                TargetType="Border">
 
             <Setter Property="Background"
-                    Value="#FFFDF7"/>
+                    Value="{DynamicResource ColorSuperficie}"/>
 
             <Setter Property="BorderBrush"
-                    Value="#E5DDCF"/>
+                    Value="{DynamicResource ColorBorde}"/>
 
             <Setter Property="BorderThickness"
                     Value="0.5"/>
@@ -166,7 +173,7 @@
     <!-- FONDO GENERAL -->
 
     <Border Margin="14"
-            Background="#ECE3D0"
+            Background="{DynamicResource ColorTarjeta}"
             CornerRadius="20"
             Effect="{StaticResource CardShadow}">
 
@@ -205,7 +212,7 @@
                 
 
                 <Border Grid.Column="0"
-                        Background="#F8F4EA"
+                        Background="{DynamicResource ColorTarjetaInterna}"
                         CornerRadius="16"
                         Padding="16"
                         Effect="{StaticResource CardShadow}">
@@ -219,7 +226,7 @@
                         <TextBlock Text="Categorías"
                                    FontSize="17"
                                    FontWeight="Bold"
-                                   Foreground="#222222"
+                                   Foreground="{DynamicResource ColorTexto}"
                                    Margin="0,0,0,12"/>
 
                         <!-- WORK -->
@@ -495,7 +502,7 @@
                         <Grid>
                             <!-- 1. El ToggleButton que mantiene tu diseño exacto pero funciona como interruptor -->
                             <ToggleButton x:Name="BtnMenuCategoria" 
-                                          Background="Transparent" 
+                                          Background="Transparent"
                                           BorderBrush="Transparent" 
                                           Cursor="Hand" 
                                           Padding="0">
@@ -508,7 +515,7 @@
                                 </ToggleButton.Template>
 
                                 <!-- Tu diseño original intacto -->
-                                <Border Background="#ECECEC"
+                                <Border Background="{DynamicResource ColorSuperficie}"
                                         CornerRadius="10"
                                         Padding="10">
                                     <Grid>
@@ -546,8 +553,8 @@
                                 
 
 
-                                <Border Background="#F4EEE0" 
-                                        BorderBrush="#DCD3C1" 
+                                <Border Background="{DynamicResource ColorFondoPopup}" 
+                                        BorderBrush="{DynamicResource ColorBorde}"
                                         BorderThickness="1" 
                                         CornerRadius="12" 
                                         Padding="15" 
@@ -557,15 +564,15 @@
                                         <TextBlock Text="Nueva Categoría" 
                                                    FontWeight="Bold" 
                                                    FontSize="13" 
-                                                   Foreground="#333333" 
+                                                   Foreground="{DynamicResource ColorTexto}"
                                                    Margin="0,0,0,8"/>   
 
                                         <!-- Campo para escribir el nombre -->
-                                        <Border Background="White" CornerRadius="6" BorderBrush="#DCD3C1" BorderThickness="1" Padding="4" Margin="0,0,0,8">
+                                        <Border Background="{DynamicResource ColorSuperficie}" CornerRadius="6" BorderBrush="{DynamicResource ColorBorde}" BorderThickness="1" Padding="4" Margin="0,0,0,8">
                                             <TextBox Text="Nombre..." 
                                                      Background="Transparent" 
                                                      BorderThickness="0" 
-                                                     Foreground="#777777" 
+                                                     Foreground="{DynamicResource ColorTextoSecundario}"
                                                      FontSize="12"/>        
                                         </Border>
 
@@ -614,7 +621,7 @@
 
                     <Grid Grid.Row="0">
 
-                        <Border Background="#EBB83A"
+                        <Border Background="{DynamicResource ColorHeader}"
                                 CornerRadius="15"
                                 Padding="24,18"
                                 Effect="{StaticResource CardShadow}">
@@ -625,12 +632,12 @@
                                            FontSize="38"
                                            FontWeight="Bold"
                                            FontFamily="Segoe Script"
-                                           Foreground="#111111"/>
+                                           Foreground="{DynamicResource ColorTextoHeader}"/>
 
                                 <TextBlock Text="Organiza tus días, cumple tus metas ♡"
                                            FontSize="13"
                                            FontFamily="Segoe Print"
-                                           Foreground="#333333"
+                                           Foreground="{DynamicResource ColorTextoHeader}"
                                            Margin="0,4,0,0"/>
 
                             </StackPanel>
@@ -654,7 +661,7 @@
                     <!-- CALENDARIO -->
 
                     <Border Grid.Row="2"
-                            Background="#F8F4EA"
+                            Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Effect="{StaticResource CardShadow}">
 
@@ -690,8 +697,9 @@
                                         Height="40"
                                         Content="‹"
                                         FontSize="24"
-                                        Background="#FFFDF7"
-                                        BorderBrush="#DDD3C2"
+                                        Background="{DynamicResource ColorSuperficie}"
+                                        BorderBrush="{DynamicResource ColorBorde}"
+                                        Foreground="{DynamicResource ColorTexto}"
                                         Cursor="Hand"/>
 
                                 <TextBlock Grid.Column="1"
@@ -700,7 +708,7 @@
                                            FontWeight="Bold"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="#222222"/>
+                                           Foreground="{DynamicResource ColorTexto}"/>
 
                                 <StackPanel Grid.Column="2"
                                             Orientation="Horizontal">
@@ -708,8 +716,9 @@
                                     <Button Content="Hoy"
                                             Width="70"
                                             Height="40"
-                                            Background="#FFFDF7"
-                                            BorderBrush="#DDD3C2"
+                                            Background="{DynamicResource ColorSuperficie}"
+                                            BorderBrush="{DynamicResource ColorBorde}"
+                                            Foreground="{DynamicResource ColorTexto}"
                                             Cursor="Hand"
                                             Margin="0,0,8,0"/>
 
@@ -717,8 +726,9 @@
                                             Height="40"
                                             Content="›"
                                             FontSize="24"
-                                            Background="#FFFDF7"
-                                            BorderBrush="#DDD3C2"
+                                            Background="{DynamicResource ColorSuperficie}"
+                                            BorderBrush="{DynamicResource ColorBorde}"
+                                            Foreground="{DynamicResource ColorTexto}"
                                             Cursor="Hand"/>
 
                                 </StackPanel>
@@ -730,7 +740,7 @@
 
                             <UniformGrid Grid.Row="1"
                                          Columns="7"
-                                         Background="#F5F0E6">
+                                         Background="{DynamicResource ColorFondoDias}">
 
                                 <TextBlock Text="Dom"
                                            HorizontalAlignment="Center"
@@ -775,7 +785,7 @@
                                 <Border Style="{StaticResource CalendarCell}">
 
                                     <TextBlock Text="30"
-                                               Foreground="#AAAAAA"/>
+                                               Foreground="{DynamicResource ColorDiasOtroMes}"/>
 
                                 </Border>
 
@@ -784,7 +794,7 @@
                                 <Border Style="{StaticResource CalendarCell}">
 
                                     <TextBlock Text="31"
-                                               Foreground="#AAAAAA"/>
+                                               Foreground="{DynamicResource ColorDiasOtroMes}"/>
 
                                 </Border>
 
@@ -1198,21 +1208,21 @@
 
                                 <Border Style="{StaticResource CalendarCell}">
                                     <TextBlock Text="1"
-                                               Foreground="#AAAAAA"/>
+                                               Foreground="{DynamicResource ColorDiasOtroMes}"/>
                                 </Border>
 
                                 <!-- 2 -->
 
                                 <Border Style="{StaticResource CalendarCell}">
                                     <TextBlock Text="2"
-                                               Foreground="#AAAAAA"/>
+                                               Foreground="{DynamicResource ColorDiasOtroMes}"/>
                                 </Border>
 
                                 <!-- 3 -->
 
                                 <Border Style="{StaticResource CalendarCell}">
                                     <TextBlock Text="3"
-                                               Foreground="#AAAAAA"/>
+                                               Foreground="{DynamicResource ColorDiasOtroMes}"/>
                                 </Border>
 
                             </UniformGrid>
@@ -1232,7 +1242,7 @@
 
                     <!-- VISTA DEL AÑO -->
 
-                    <Border Background="#F8F4EA"
+                    <Border Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Padding="16"
                             Margin="0,0,0,16"
@@ -1249,6 +1259,9 @@
                                 <ComboBox HorizontalAlignment="Right"
                                           Width="90"
                                           Height="32"
+                                          Background="{DynamicResource ColorSuperficie}"
+                                          Foreground="{DynamicResource ColorTexto}"
+                                          BorderBrush="{DynamicResource ColorBorde}"
                                           SelectedIndex="0">
 
                                     <ComboBoxItem Content="2025"/>
@@ -1274,8 +1287,8 @@
 
                                 <Button Content="Abr"
                                         Style="{StaticResource MonthButton}"
-                                        Background="#FFF2C3"
-                                        BorderBrush="#E8B32D"
+                                        Background="{DynamicResource ColorMesSeleccionado}"
+                                        BorderBrush="{DynamicResource ColorBordeMesSeleccionado}"
                                         BorderThickness="2"/>
 
                                 <Button Content="May"
@@ -1311,7 +1324,7 @@
 
                     <!-- TAREAS DE ABRIL -->
 
-                    <Border Background="#F8F4EA"
+                    <Border Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Padding="16"
                             Effect="{StaticResource CardShadow}">
@@ -1359,7 +1372,7 @@
 
                                         <TextBlock Text="1 de Abril"
                                                    FontSize="11"
-                                                   Foreground="#777777"/>
+                                                   Foreground="{DynamicResource ColorTextoSecundario}"/>
 
                                     </StackPanel>
 
@@ -1402,7 +1415,7 @@
 
                                         <TextBlock Text="3 de Abril"
                                                    FontSize="11"
-                                                   Foreground="#777777"/>
+                                                   Foreground="{DynamicResource ColorTextoSecundario}"/>
 
                                     </StackPanel>
 
@@ -1444,7 +1457,7 @@
 
                                         <TextBlock Text="5 de Abril"
                                                    FontSize="11"
-                                                   Foreground="#777777"/>
+                                                   Foreground="{DynamicResource ColorTextoSecundario}"/>
 
                                     </StackPanel>
 
@@ -1466,7 +1479,7 @@
             
 
             <Border Grid.Row="1"
-                    Background="#E7CD63"
+                    Background="{DynamicResource ColorBarraNavegacion}"
                     CornerRadius="0,0,20,20"
                     Padding="15,10">
 
@@ -1490,7 +1503,7 @@
 
                     <!-- CALENDARIO -->
 
-                    <Border Background="#FFF2C3"
+                    <Border Background="{DynamicResource ColorNavegacionActiva}"
                             CornerRadius="16"
                             Padding="20,5"
                             HorizontalAlignment="Center">

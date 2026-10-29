@@ -5,12 +5,12 @@
         Height="780"
         Width="1050"
         WindowStartupLocation="CenterScreen"
-        Background="#EBE2CD">
+        Background="{DynamicResource ColorVentana}">
 
     <!-- Fondo de Pantalla Principal / Ventana Flotante -->
     <Border Margin="15"
             CornerRadius="20"
-            Background="#ECE3D0"
+            Background="{DynamicResource ColorTarjeta}"
             Effect="{StaticResource StickyShadow}">
 
         <Grid>
@@ -50,11 +50,11 @@
                 <StackPanel Grid.Column="0"
                             VerticalAlignment="Top">
 
-                    <!-- NOTA ADHESIVA AMARILLA -->
+                    <!-- NOTA ADHESIVA AMARILLA (Usa ColorHeader) -->
 
                     <Grid Margin="0,0,0,20">
 
-                        <Border Background="#EBB83A"
+                        <Border Background="{DynamicResource ColorHeader}"
                                 CornerRadius="12"
                                 Padding="25,20"
                                 Effect="{StaticResource StickyShadow}"
@@ -66,12 +66,13 @@
                                            FontSize="42"
                                            FontWeight="Bold"
                                            FontFamily="Segoe Script, Brush Script MT, Cursive"
-                                           Foreground="#1A1A1A"/>
+                                           Foreground="{DynamicResource ColorTextoHeader}"/>
 
                                 <TextBlock Text="Pequeños pasos, grandes logros ♡"
                                            FontSize="15"
                                            FontFamily="Segoe Print, Comic Sans MS"
-                                           Foreground="#333333"
+                                           Foreground="{DynamicResource ColorTextoHeader}"
+                                           Opacity="0.85"
                                            Margin="0,5,0,0"/>
 
                             </StackPanel>
@@ -167,11 +168,11 @@
                         <TextBlock Text="Todas las tareas"
                                    FontSize="18"
                                    FontWeight="Bold"
-                                   Foreground="#222222"
+                                   Foreground="{DynamicResource ColorTexto}"
                                    VerticalAlignment="Center"/>
 
                         <Border HorizontalAlignment="Right"
-                                Background="#E8DEC9"
+                                Background="{DynamicResource ColorTarjetaInterna}"
                                 CornerRadius="12"
                                 Padding="14,4">
 
@@ -179,12 +180,12 @@
 
                                 <TextBlock Text="Todas"
                                            FontSize="13"
-                                           Foreground="#444444"
+                                           Foreground="{DynamicResource ColorTexto}"
                                            Margin="0,0,5,0"/>
 
                                 <TextBlock Text="˅"
                                            FontSize="11"
-                                           Foreground="#444444"
+                                           Foreground="{DynamicResource ColorTexto}"
                                            VerticalAlignment="Center"/>
 
                             </StackPanel>
@@ -192,18 +193,12 @@
                         </Border>
 
                     </Grid>
+
                     <!-- LISTA DE TAREAS -->
 
                     <ScrollViewer VerticalScrollBarVisibility="Auto"
-              Height="360"
-              Background="#EBE2CD">
-
-                        <!--
-        Aquí se agregarán las tareas creadas
-        desde la ventana NewList.
-        
-        Al iniciar NoteDesk esta lista estará vacía.
-    -->
+                                  Height="360"
+                                  Background="{DynamicResource ColorVentana}">
 
                         <StackPanel x:Name="ListTask">
 
@@ -211,17 +206,15 @@
 
                     </ScrollViewer>
 
-
-
                 </StackPanel>
 
                 <!-- COLUMNA DERECHA  -->
 
                 <StackPanel Grid.Column="2">
 
-                    <!-- CALENDARIO  -->
+                    <!--  CALENDARIO  -->
 
-                    <Border Background="#F8F4EA"
+                    <Border Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Padding="16"
                             Margin="0,0,0,15"
@@ -234,7 +227,7 @@
                                 <TextBlock Text="Calendario"
                                            FontSize="16"
                                            FontWeight="Bold"
-                                           Foreground="#222222"/>
+                                           Foreground="{DynamicResource ColorTexto}"/>
 
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Right">
@@ -242,18 +235,20 @@
                                     <TextBlock Text="‹"
                                                FontSize="16"
                                                FontWeight="Bold"
-                                               Foreground="#666666"
+                                               Foreground="{DynamicResource ColorTexto}"
+                                               Opacity="0.7"
                                                Margin="0,0,10,0"/>
 
                                     <TextBlock Text="Abril 2025"
                                                FontSize="13"
                                                FontWeight="SemiBold"
-                                               Foreground="#333333"/>
+                                               Foreground="{DynamicResource ColorTexto}"/>
 
                                     <TextBlock Text="›"
                                                FontSize="16"
                                                FontWeight="Bold"
-                                               Foreground="#666666"
+                                               Foreground="{DynamicResource ColorTexto}"
+                                               Opacity="0.7"
                                                Margin="10,0,0,0"/>
 
                                 </StackPanel>
@@ -265,40 +260,13 @@
                             <UniformGrid Columns="7"
                                          Margin="0,0,0,8">
 
-                                <TextBlock Text="Dom"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
-
-                                <TextBlock Text="Lun"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
-
-                                <TextBlock Text="Mar"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
-
-                                <TextBlock Text="Mié"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
-
-                                <TextBlock Text="Jue"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
-
-                                <TextBlock Text="Vie"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
-
-                                <TextBlock Text="Sáb"
-                                           FontSize="11"
-                                           Foreground="#777777"
-                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Dom" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Lun" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Mar" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Mié" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Jue" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Vie" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Sáb" FontSize="11" Foreground="{DynamicResource ColorTexto}" Opacity="0.6" HorizontalAlignment="Center"/>
 
                             </UniformGrid>
 
@@ -306,115 +274,28 @@
 
                             <UniformGrid Columns="7">
 
-                                <TextBlock Text="30"
-                                           Foreground="#BBBBBB"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="31"
-                                           Foreground="#BBBBBB"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="1"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="2"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="3"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="4"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="5"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="6"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="7"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="8"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="9"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="10"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="11"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="12"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="13"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="14"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="15"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="16"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="17"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="18"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="19"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="20"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
+                                <TextBlock Text="30" Foreground="{DynamicResource ColorTexto}" Opacity="0.4" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="31" Foreground="{DynamicResource ColorTexto}" Opacity="0.4" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="1" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="2" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="3" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="4" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="5" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="6" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="7" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="8" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="9" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="10" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="11" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="12" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="13" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="14" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="15" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="16" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="17" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="18" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="19" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="20" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
 
                                 <Border Background="#2B53B4"
                                         CornerRadius="12"
@@ -429,65 +310,18 @@
 
                                 </Border>
 
-                                <TextBlock Text="22"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="23"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="24"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="25"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="26"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="27"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="28"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="29"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="30"
-                                           Foreground="#333333"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="1"
-                                           Foreground="#BBBBBB"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="2"
-                                           Foreground="#BBBBBB"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
-
-                                <TextBlock Text="3"
-                                           Foreground="#BBBBBB"
-                                           HorizontalAlignment="Center"
-                                           Margin="0,4"/>
+                                <TextBlock Text="22" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="23" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="24" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="25" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="26" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="27" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="28" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="29" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="30" Foreground="{DynamicResource ColorTexto}" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="1" Foreground="{DynamicResource ColorTexto}" Opacity="0.4" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="2" Foreground="{DynamicResource ColorTexto}" Opacity="0.4" HorizontalAlignment="Center" Margin="0,4"/>
+                                <TextBlock Text="3" Foreground="{DynamicResource ColorTexto}" Opacity="0.4" HorizontalAlignment="Center" Margin="0,4"/>
 
                             </UniformGrid>
 
@@ -497,7 +331,7 @@
 
                     <!--  ENFOQUE Y PROGRESO -->
 
-                    <Border Background="#F8F4EA"
+                    <Border Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Padding="26"
                             Effect="{StaticResource CardShadow}"
@@ -508,7 +342,7 @@
                             <TextBlock Text="Enfoque y Progreso"
                                        FontSize="16"
                                        FontWeight="Bold"
-                                       Foreground="#222222"
+                                       Foreground="{DynamicResource ColorTexto}"
                                        Margin="0,0,0,12"/>
 
                             <Grid>
@@ -526,7 +360,8 @@
                                     <TextBlock Text="Tareas Prioritarias"
                                                FontSize="13"
                                                FontWeight="Bold"
-                                               Foreground="#444444"
+                                               Foreground="{DynamicResource ColorTexto}"
+                                               Opacity="0.8"
                                                Margin="0,0,0,8"/>
 
                                     <Border Style="{StaticResource SubCardStyle}">
@@ -538,10 +373,12 @@
                                                 <TextBlock Text="Trabajar en el proyecto"
                                                            FontSize="11"
                                                            FontWeight="Bold"
+                                                           Foreground="{DynamicResource ColorTexto}"
                                                            TextWrapping="Wrap"/>
 
                                                 <TextBlock Text="."
                                                            FontSize="11"
+                                                           Foreground="{DynamicResource ColorTexto}"
                                                            HorizontalAlignment="Right"/>
 
                                             </Grid>
@@ -571,10 +408,12 @@
 
                                                 <TextBlock Text="Hacer ejercicio"
                                                            FontSize="11"
-                                                           FontWeight="Bold"/>
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource ColorTexto}"/>
 
                                                 <TextBlock Text="."
                                                            FontSize="11"
+                                                           Foreground="{DynamicResource ColorTexto}"
                                                            HorizontalAlignment="Right"/>
 
                                             </Grid>
@@ -606,7 +445,8 @@
                                     <TextBlock Text="Progreso Diario"
                                                FontSize="13"
                                                FontWeight="Bold"
-                                               Foreground="#444444"
+                                               Foreground="{DynamicResource ColorTexto}"
+                                               Opacity="0.8"
                                                Margin="0,0,0,8"/>
 
                                     <Grid Width="100"
@@ -627,17 +467,19 @@
                                             <TextBlock Text="0%"
                                                        FontSize="18"
                                                        FontWeight="Bold"
-                                                       Foreground="#111111"
+                                                       Foreground="{DynamicResource ColorTexto}"
                                                        HorizontalAlignment="Center"/>
 
                                             <TextBlock Text="Completado"
                                                        FontSize="9"
-                                                       Foreground="#666666"
+                                                       Foreground="{DynamicResource ColorTexto}"
+                                                       Opacity="0.7"
                                                        HorizontalAlignment="Center"/>
 
                                             <TextBlock Text="2 de 6 tareas"
                                                        FontSize="8"
-                                                       Foreground="#888888"
+                                                       Foreground="{DynamicResource ColorTexto}"
+                                                       Opacity="0.5"
                                                        HorizontalAlignment="Center"/>
 
                                         </StackPanel>
@@ -655,7 +497,8 @@
 
                                         <TextBlock Text="Progreso Total del Día"
                                                    FontSize="9"
-                                                   Foreground="#666666"/>
+                                                   Foreground="{DynamicResource ColorTexto}"
+                                                   Opacity="0.7"/>
 
                                     </StackPanel>
 
@@ -674,7 +517,7 @@
             <!-- BARRA DE NAVEGACIÓN INFERIOR -->
 
             <Border Grid.Row="2"
-                    Background="#E7CD63"
+                    Background="{DynamicResource ColorHeader}"
                     CornerRadius="0,0,20,20"
                     Padding="15,10">
 
@@ -704,7 +547,7 @@
                             <TextBlock Text="Inicio"
                                        FontSize="13"
                                        FontWeight="SemiBold"
-                                       Foreground="#444444"/>
+                                       Foreground="{DynamicResource ColorTextoHeader}"/>
 
                         </StackPanel>
 
@@ -712,7 +555,10 @@
 
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Center"
+                                    Cursor="Hand" 
+                                    MouseLeftButtonUp="Calendario_Click"
+                                    Background="Transparent">
 
                             <TextBlock Text="📅"
                                        FontSize="14"
@@ -721,7 +567,7 @@
                             <TextBlock Text="Calendario"
                                        FontSize="13"
                                        FontWeight="SemiBold"
-                                       Foreground="#444444"/>
+                                       Foreground="{DynamicResource ColorTextoHeader}"/>
 
                         </StackPanel>
 
@@ -729,7 +575,10 @@
 
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Center"
+                                    Cursor="Hand" 
+                                    MouseLeftButtonUp="Ajustes_Click"
+                                    Background="Transparent">
 
                             <TextBlock Text="⚙"
                                        FontSize="14"
@@ -737,8 +586,8 @@
 
                             <TextBlock Text="Ajustes"
                                        FontSize="13"
-                                       FontWeight="SemiBold"
-                                       Foreground="#444444"/>
+                                       FontWeight="SemiBold" 
+                                       Foreground="{DynamicResource ColorTextoHeader}"/>
 
                         </StackPanel>
 

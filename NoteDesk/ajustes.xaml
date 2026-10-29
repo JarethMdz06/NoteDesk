@@ -6,7 +6,7 @@
         Width="640"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Background="#EBE2CD">
+        Background="{DynamicResource ColorVentana}">
 
     <Window.Resources>
 
@@ -96,7 +96,7 @@
     <!-- ====================================================== -->
 
     <Border Margin="12"
-            Background="#ECE3D0"
+            Background="{DynamicResource ColorTarjeta}"
             CornerRadius="20"
             Effect="{StaticResource CardShadow}">
 
@@ -112,7 +112,7 @@
 
                 <Grid Margin="0,0,0,26">
 
-                    <Border Background="#EBB83A"
+                    <Border Background="{DynamicResource ColorHeader}"
                             CornerRadius="14"
                             Padding="22,18"
                             Effect="{StaticResource CardShadow}">
@@ -123,12 +123,13 @@
                                        FontFamily="Segoe Script"
                                        FontSize="34"
                                        FontWeight="Bold"
-                                       Foreground="#111111"/>
+                                       Foreground="{DynamicResource ColorTextoHeader}"/>
 
                             <TextBlock Text="Personaliza tu espacio de trabajo ♡"
                                        FontFamily="Segoe Print"
                                        FontSize="12"
-                                       Foreground="#333333"
+                                       Foreground="{DynamicResource ColorTextoHeader}"
+                                       Opacity="0.85"
                                        Margin="0,3,0,0"/>
 
                         </StackPanel>
@@ -159,7 +160,7 @@
                 <TextBlock Text="Apariencia"
                            FontSize="18"
                            FontWeight="Bold"
-                           Foreground="#222222"/>
+                           Foreground="{DynamicResource ColorTexto}"/>
 
                 <TextBlock Text="Ajusta el ambiente visual de la aplicación"
                            FontSize="12"
@@ -167,7 +168,7 @@
                            Margin="0,3,0,10"/>
 
 
-                <Border Background="#F8F4EA"
+                <Border Background="{DynamicResource ColorTarjetaInterna}"
                         CornerRadius="14"
                         Padding="16"
                         Margin="0,0,0,24"
@@ -202,7 +203,9 @@
                                   Grid.Column="1"
                                   Style="{StaticResource CheckNoteDesk}"
                                   VerticalAlignment="Center"
-                                  Margin="15,0,0,0"/>
+                                  Margin="15,0,0,0"
+                                  Checked="ChkModoOscuro_Checked"
+                                  Unchecked="ChkModoOscuro_Unchecked"/>
 
                     </Grid>
 
@@ -225,7 +228,7 @@
                            Margin="0,3,0,10"/>
 
 
-                <Border Background="#F8F4EA"
+                <Border Background="{DynamicResource ColorTarjetaInterna}"
                         CornerRadius="14"
                         Padding="16"
                         Margin="0,0,0,24"
@@ -267,7 +270,9 @@
                                       Style="{StaticResource CheckNoteDesk}"
                                       VerticalAlignment="Center"
                                       Margin="15,0,0,0"
-                                      IsChecked="True"/>
+                                      IsChecked="True"
+                                      Checked="ChkRecordatorios_Checked"
+                                      Unchecked="ChkRecordatorios_Unchecked"/>
 
                         </Grid>
 
@@ -311,7 +316,9 @@
                                       Grid.Column="1"
                                       Style="{StaticResource CheckNoteDesk}"
                                       VerticalAlignment="Center"
-                                      Margin="15,0,0,0"/>
+                                      Margin="15,0,0,0"
+                                      Checked="ChkSonido_Checked"
+                                      Unchecked="ChkSonido_Unchecked"/>
 
                         </Grid>
 
@@ -336,7 +343,7 @@
                            Margin="0,3,0,10"/>
 
 
-                <Border Background="#F8F4EA"
+                <Border Background="{DynamicResource ColorTarjetaInterna}"
                         CornerRadius="14"
                         Padding="16"
                         Margin="0,0,0,15"
