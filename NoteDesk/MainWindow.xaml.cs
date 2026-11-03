@@ -51,52 +51,118 @@ namespace NoteDesk
 
             if (resultado == true)
             {
-                // Título
+                // =================================================
+                // TÍTULO
+                // =================================================
+
                 string titulo =
                     ventanaNuevaTarea.TituloTarea;
 
 
-                // Prioridad
+                // =================================================
+                // DESCRIPCIÓN
+                // =================================================
+
+                string descripcion =
+                    ventanaNuevaTarea.DescripcionTarea;
+
+
+                // =================================================
+                // FECHA
+                // =================================================
+
+                string fecha =
+                    ventanaNuevaTarea.FechaTarea;
+
+
+                // =================================================
+                // COLOR
+                // =================================================
+
+                string color =
+                    ventanaNuevaTarea.ColorTarea;
+
+
+                // =================================================
+                // PRIORIDAD
+                // =================================================
+
                 string prioridad =
                     ventanaNuevaTarea.PrioridadSeleccionada;
 
 
-                // Categoría
+                // =================================================
+                // CATEGORÍA
+                // =================================================
+
                 string categoria =
                     ventanaNuevaTarea.CategoriaSeleccionada;
 
 
-                // Creamos TaskCard.
+                // =================================================
+                // CREAMOS TASKCARD
+                // =================================================
+                //
+                // Ahora enviamos:
+                //
+                // 1. Título
+                // 2. Descripción
+                // 3. Fecha
+                // 4. Color
+                // 5. Prioridad
+                // 6. Categoría
+                //
+                // =================================================
+
                 TaskCard nuevaTarea =
-                    new(
+                    new TaskCard(
                         titulo,
+                        descripcion,
+                        fecha,
+                        color,
                         prioridad,
-                        categoria);
+                        categoria
+                    );
 
 
-                // Agregamos TaskCard a MainWindow.
+                // =================================================
+                // AGREGAMOS TASKCARD A MAINWINDOW
+                // =================================================
+
                 ListTask.Children.Add(
                     nuevaTarea);
             }
         }
 
+
         // =========================================================
         // BOTÓN AJUSTES (Barra Inferior)
         // =========================================================
-        private void Ajustes_Click(object sender, MouseButtonEventArgs e)
+
+        private void Ajustes_Click(
+            object sender,
+            MouseButtonEventArgs e)
         {
-            // Creamos y abrimos la ventana de ajustes de manera independiente
-            ajustes ventanaAjustes = new();
+            // Creamos y abrimos la ventana de ajustes
+            ajustes ventanaAjustes =
+                new ajustes();
+
             ventanaAjustes.ShowDialog();
         }
+
 
         // =========================================================
         // BOTÓN CALENDARIO (Barra Inferior)
         // =========================================================
-        private void Calendario_Click(object sender, MouseButtonEventArgs e)
+
+        private void Calendario_Click(
+            object sender,
+            MouseButtonEventArgs e)
         {
-            // Creamos y abrimos la ventana de calendario de manera independiente
-            Calendario ventanaCalendario = new();
+            // Creamos y abrimos la ventana de calendario
+            Calendario ventanaCalendario =
+                new Calendario();
+
             ventanaCalendario.ShowDialog();
         }
     }

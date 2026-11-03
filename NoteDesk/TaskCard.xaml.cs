@@ -1,16 +1,48 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NoteDesk
 {
     public partial class TaskCard : UserControl
     {
+        // =====================================================
+        // DATOS DE LA TAREA
+        // =====================================================
+
+        private string _titulo;
+        private string _descripcion;
+        private string _fecha;
+        private string _color;
+        private string _prioridad;
+        private string _categoria;
+
+
+        // =====================================================
+        // CONSTRUCTOR
+        // =====================================================
+
         public TaskCard(
             string titulo,
+            string descripcion,
+            string fecha,
+            string color,
             string prioridad,
             string categoria)
         {
             InitializeComponent();
+
+
+            // =====================================================
+            // GUARDAMOS LOS DATOS DE LA TAREA
+            // =====================================================
+
+            _titulo = titulo;
+            _descripcion = descripcion;
+            _fecha = fecha;
+            _color = color;
+            _prioridad = prioridad;
+            _categoria = categoria;
 
 
             // =====================================================
@@ -43,15 +75,6 @@ namespace NoteDesk
 
             // =====================================================
             // CATEGORÍA
-            // =====================================================
-            //
-            // Si categoria viene vacía:
-            //
-            // PanelCategoria continúa Collapsed.
-            //
-            // Si viene una categoría:
-            //
-            // mostramos el panel y colocamos su icono.
             // =====================================================
 
             if (!string.IsNullOrWhiteSpace(categoria))
@@ -93,6 +116,40 @@ namespace NoteDesk
                     TxtIconoCategoria.Text = "•••";
                 }
             }
+        }
+
+
+        // =====================================================
+        // CLICK EN LA TARJETA
+        // =====================================================
+        //
+        // Al presionar la tarjeta enviamos:
+        //
+        // - Título
+        // - Descripción
+        // - Fecha
+        // - Color
+        // - Categoría
+        // - Prioridad
+        //
+        // hacia StickyTaskWindow.
+        // =====================================================
+
+        private void TaskCard_Click(
+            object sender,
+            MouseButtonEventArgs e)
+        {
+            StickyTaskWindow ventana =
+                new StickyTaskWindow(
+                    _titulo,
+                    _descripcion,
+                    _fecha,
+                    //_color,
+                    _categoria,
+                    _prioridad
+                );
+
+            ventana.ShowDialog();
         }
     }
 }

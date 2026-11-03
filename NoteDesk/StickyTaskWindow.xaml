@@ -210,15 +210,15 @@
                             Margin="11,0,7,0"
                             VerticalAlignment="Center">
 
-                    <TextBlock x:Name="TxtTitulo"
-                               Text="Entregar proyecto"
+                    <TextBlock x:Name="TxtTituloSticky"
+                               Text="Título"
                                FontSize="17"
                                FontWeight="Bold"
                                Foreground="#202020"
                                TextWrapping="Wrap"/>
 
-                    <TextBlock x:Name="TxtCategoria"
-                               Text="School"
+                    <TextBlock x:Name="TxtCategoriaSticky"
+                               Text="Categoría"
                                FontSize="10"
                                Foreground="#625C4B"
                                Margin="0,2,0,0"/>
@@ -265,8 +265,8 @@
 
                 <!-- DESCRIPCIÓN -->
 
-                <TextBlock x:Name="TxtDescripcion"
-                           Text="Terminar la presentación y revisar los últimos cambios antes de realizar la entrega."
+                <TextBlock x:Name="TxtDescripcionSticky"
+                           Text="Descripcion"
                            FontSize="12"
                            Foreground="#3D382D"
                            TextWrapping="Wrap"
@@ -275,9 +275,9 @@
 
                 
                 <!-- FECHA -->
-                
 
-                <Border x:Name="PanelFecha"
+
+                <Border
                         Background="#38FFFFFF"
                         CornerRadius="12"
                         Padding="11,9"

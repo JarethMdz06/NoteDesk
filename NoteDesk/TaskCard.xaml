@@ -4,7 +4,9 @@
              HorizontalAlignment="Stretch">
 
     <Border Style="{StaticResource TaskCardStyle}"
-            HorizontalAlignment="Stretch">
+            HorizontalAlignment="Stretch"
+            MouseLeftButtonUp="TaskCard_Click"
+            Cursor="Hand">
 
         <Grid>
 

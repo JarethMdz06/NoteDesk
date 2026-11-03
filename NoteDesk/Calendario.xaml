@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="NoteDesk - Calendario"
         Height="820"
-        Width="1280"
+        Width="1210"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource ColorVentana}">
 

@@ -7,13 +7,30 @@ namespace NoteDesk
 {
     public partial class StickyTaskWindow : Window
     {
-        // Indica si la ventana está en modo reducido
+        // ============================================================
+        // DATOS DE LA TAREA
+        // ============================================================
+
+        private string _titulo = "";
+        private string _descripcion = "";
+        private string _fecha = "";
+        private string _categoria = "";
+        private string _prioridad = "";
+
+
+        // ============================================================
+        // ESTADO DE LA VENTANA
+        // ============================================================
+
         private bool ventanaReducida = false;
 
-        // Indica si los colores están desplegados
         private bool coloresVisibles = false;
 
-        // Tamaños de la ventana
+
+        // ============================================================
+        // TAMAÑOS DE LA VENTANA
+        // ============================================================
+
         private const double AlturaNormal = 330;
         private const double AlturaConColores = 385;
         private const double AlturaReducida = 90;
@@ -21,13 +38,99 @@ namespace NoteDesk
         private const double AnchoNormal = 330;
         private const double AnchoReducido = 275;
 
+
+        // ============================================================
+        // CONSTRUCTOR NORMAL
+        // ============================================================
+
         public StickyTaskWindow()
         {
             InitializeComponent();
 
-            // Mantiene la nota por encima de otras ventanas
             Topmost = true;
         }
+
+
+        // ============================================================
+        // CONSTRUCTOR CON DATOS DE LA TAREA
+        // ============================================================
+        //
+        // Recibe:
+        //
+        // - título
+        // - descripción
+        // - fecha
+        // - categoría
+        // - prioridad
+        //
+        // El color de NewList NO se aplica aquí.
+        // Esta ventana inicia siempre con el color
+        // definido en StickyTaskWindow.xaml:
+        //
+        // #FFF3B8
+        //
+        // ============================================================
+
+        public StickyTaskWindow(
+            string titulo,
+            string descripcion,
+            string fecha,
+            string categoria,
+            string prioridad)
+        {
+            InitializeComponent();
+
+            Topmost = true;
+
+
+            // =====================================================
+            // GUARDAR DATOS
+            // =====================================================
+
+            _titulo = titulo;
+            _descripcion = descripcion;
+            _fecha = fecha;
+            _categoria = categoria;
+            _prioridad = prioridad;
+
+
+            // =====================================================
+            // MOSTRAR TÍTULO
+            // =====================================================
+
+            TxtTituloSticky.Text = _titulo;
+
+
+            // =====================================================
+            // MOSTRAR DESCRIPCIÓN
+            // =====================================================
+
+            TxtDescripcionSticky.Text = _descripcion;
+
+
+            // =====================================================
+            // MOSTRAR FECHA
+            // =====================================================
+
+            TxtFecha.Text = _fecha;
+
+
+            // =====================================================
+            // MOSTRAR CATEGORÍA
+            // =====================================================
+
+            TxtCategoriaSticky.Text = _categoria;
+
+
+            // =====================================================
+            // PRIORIDAD
+            // =====================================================
+            //
+            // Por el momento solamente se guarda.
+            //
+            // =====================================================
+        }
+
 
         // ============================================================
         // MOVER LA VENTANA POR LA PANTALLA
@@ -45,10 +148,12 @@ namespace NoteDesk
                 }
                 catch
                 {
-                    // Evita errores si el clic proviene de un control interno
+                    // Evita errores si el clic proviene
+                    // de un control interno
                 }
             }
         }
+
 
         // ============================================================
         // CERRAR
@@ -61,6 +166,7 @@ namespace NoteDesk
             Close();
         }
 
+
         // ============================================================
         // REDUCIR / EXPANDIR
         // ============================================================
@@ -69,48 +175,44 @@ namespace NoteDesk
             object sender,
             RoutedEventArgs e)
         {
-            // Conservamos la coordenada superior
             double posicionSuperior = Top;
 
             if (!ventanaReducida)
             {
-                // Ocultar contenido principal
-                PanelContenido.Visibility = Visibility.Collapsed;
+                PanelContenido.Visibility =
+                    Visibility.Collapsed;
 
-                // Ocultar selector de colores
-                PanelColores.Visibility = Visibility.Collapsed;
+                PanelColores.Visibility =
+                    Visibility.Collapsed;
 
                 coloresVisibles = false;
 
                 TxtFlechaColor.Text = "⌄";
 
-                // Ocultar toda la sección de color
-                // al reducir la ventana
                 if (BtnMostrarColores.Parent is Grid gridColor &&
                     gridColor.Parent is StackPanel seccionColor)
                 {
-                    seccionColor.Visibility = Visibility.Collapsed;
+                    seccionColor.Visibility =
+                        Visibility.Collapsed;
                 }
 
-                // Tamaño reducido
                 Height = AlturaReducida;
                 Width = AnchoReducido;
 
-                // Mostrar símbolo para restaurar
                 BtnReducir.Content = "+";
 
                 ventanaReducida = true;
             }
             else
             {
-                // Recuperar contenido
-                PanelContenido.Visibility = Visibility.Visible;
+                PanelContenido.Visibility =
+                    Visibility.Visible;
 
-                // Recuperar sección de color
                 if (BtnMostrarColores.Parent is Grid gridColor &&
                     gridColor.Parent is StackPanel seccionColor)
                 {
-                    seccionColor.Visibility = Visibility.Visible;
+                    seccionColor.Visibility =
+                        Visibility.Visible;
                 }
 
                 Height = AlturaNormal;
@@ -121,10 +223,9 @@ namespace NoteDesk
                 ventanaReducida = false;
             }
 
-            // Mantener fija la parte superior.
-            // Así la ventana crece hacia abajo.
             Top = posicionSuperior;
         }
+
 
         // ============================================================
         // MOSTRAR / OCULTAR COLORES
@@ -134,42 +235,44 @@ namespace NoteDesk
             object sender,
             RoutedEventArgs e)
         {
-            // Guardamos la posición superior antes de cambiar altura
             double posicionSuperior = Top;
 
             if (!coloresVisibles)
             {
-                // Mostrar colores
-                PanelColores.Visibility = Visibility.Visible;
+                PanelColores.Visibility =
+                    Visibility.Visible;
 
-                // Flecha hacia arriba
                 TxtFlechaColor.Text = "⌃";
 
-                // Aumentar solamente hacia abajo
                 Height = AlturaConColores;
 
                 coloresVisibles = true;
             }
             else
             {
-                // Ocultar colores
-                PanelColores.Visibility = Visibility.Collapsed;
+                PanelColores.Visibility =
+                    Visibility.Collapsed;
 
-                // Flecha hacia abajo
                 TxtFlechaColor.Text = "⌄";
 
-                // Regresar al tamaño normal
                 Height = AlturaNormal;
 
                 coloresVisibles = false;
             }
 
-            // Mantiene fija la parte superior de la ventana
             Top = posicionSuperior;
         }
 
+
         // ============================================================
         // CAMBIAR COLOR DE LA NOTA
+        // ============================================================
+        //
+        // Este color pertenece solamente al StickyTaskWindow.
+        //
+        // El usuario puede cambiarlo usando los colores
+        // definidos dentro del propio StickyTaskWindow.xaml.
+        //
         // ============================================================
 
         private void Color_Checked(
@@ -181,20 +284,28 @@ namespace NoteDesk
                 return;
             }
 
+
             if (sender is RadioButton radioButton &&
                 radioButton.Background is SolidColorBrush color)
             {
-                StickyContainer.Background =
-                    new SolidColorBrush(color.Color);
+                // Cambiar fondo de la nota
 
-                // También ajustamos ligeramente el borde
-                // para que combine con cualquier pastel.
+                StickyContainer.Background =
+                    new SolidColorBrush(
+                        color.Color);
+
+
+                // Cambiar borde utilizando el mismo color
+
                 StickyContainer.BorderBrush =
-                    new SolidColorBrush(Color.FromArgb(
-                        100,
-                        color.Color.R,
-                        color.Color.G,
-                        color.Color.B));
+                    new SolidColorBrush(
+                        Color.FromArgb(
+                            140,
+                            color.Color.R,
+                            color.Color.G,
+                            color.Color.B
+                        )
+                    );
             }
         }
     }
