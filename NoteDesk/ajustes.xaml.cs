@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NoteDesk
@@ -21,6 +22,36 @@ namespace NoteDesk
             ChkModoOscuro.IsChecked = App.CargarEstadoModoOscuro();
         }
 
+
+        // =========================================================
+        // NAVEGACIÓN - INICIO
+        // =========================================================
+        private void Inicio_Click(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow ventanaInicio = new MainWindow();
+
+            ventanaInicio.Show();
+
+            Close();
+        }
+
+
+        // =========================================================
+        // NAVEGACIÓN - CALENDARIO
+        // =========================================================
+        private void Calendario_Click(object sender, MouseButtonEventArgs e)
+        {
+            Calendario ventanaCalendario = new Calendario();
+
+            ventanaCalendario.Show();
+
+            Close();
+        }
+
+
+        // =========================================================
+        // MODO OSCURO
+        // =========================================================
         private void ChkModoOscuro_Checked(object sender, RoutedEventArgs e)
         {
             ModoOscuroActivo = true;
@@ -43,6 +74,7 @@ namespace NoteDesk
             App.AplicarTemaClaroGlobal();
         }
 
+
         // =========================================================
         // RECORDATORIOS DE TAREAS
         // =========================================================
@@ -55,6 +87,7 @@ namespace NoteDesk
         {
             RecordatoriosActivos = false;
         }
+
 
         // =========================================================
         // ACTIVAR SONIDO

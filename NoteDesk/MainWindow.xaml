@@ -609,22 +609,31 @@
                                  VerticalAlignment="Center">
 
 
-                        <!-- INICIO -->
+                        <!-- INICIO ACTIVO -->
 
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
+                        <Border Width="150"
+                                Height="38"
+                                Background="{DynamicResource ColorTarjetaInterna}"
+                                CornerRadius="20"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
 
-                            <TextBlock Text="🏠"
-                                       FontSize="14"
-                                       Margin="0,0,5,0"/>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
 
-                            <TextBlock Text="Inicio"
-                                       FontSize="13"
-                                       FontWeight="SemiBold"
-                                       Foreground="{DynamicResource ColorTextoHeader}"/>
+                                <TextBlock Text="🏠"
+                                           FontSize="14"
+                                           Margin="0,0,7,0"/>
 
-                        </StackPanel>
+                                <TextBlock Text="Inicio"
+                                           FontSize="13"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource ColorTexto}"/>
+
+                            </StackPanel>
+
+                        </Border>
 
 
                         <!-- CALENDARIO -->
