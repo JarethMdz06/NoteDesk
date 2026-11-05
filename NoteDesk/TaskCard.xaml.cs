@@ -6,9 +6,9 @@ namespace NoteDesk
 {
     public partial class TaskCard : UserControl
     {
-        // =====================================================
+        
         // DATOS DE LA TAREA
-        // =====================================================
+       
 
         private string _titulo;
         private string _descripcion;
