@@ -33,6 +33,79 @@ namespace NoteDesk
             InitializeComponent();
         }
 
+        public NewList(TareaModel tarea) : this()
+        {
+            Title = "Editar Tarea";
+            TxtTituloVentana.Text = "Editar Tarea";
+            TxtAccionTarea.Text = "Guardar Cambios";
+
+            TxtTitulo.Text = tarea.Titulo;
+            TxtDescripcion.Text = string.IsNullOrWhiteSpace(tarea.Descripcion)
+                ? "Agrega detalles adicionales..."
+                : tarea.Descripcion;
+            TxtFecha.Text = string.IsNullOrWhiteSpace(tarea.Fecha)
+                ? "Ej. 25 de Abril, 2026"
+                : tarea.Fecha;
+
+            SwitchFecha.IsChecked = !string.IsNullOrWhiteSpace(tarea.Fecha);
+            PanelFecha.Visibility = SwitchFecha.IsChecked == true
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            SwitchPrioridad.IsChecked = !string.IsNullOrWhiteSpace(tarea.Prioridad);
+            SetRadioSeleccionado(
+                tarea.Prioridad,
+                ("Baja", PrioridadBaja),
+                ("Media", PrioridadMedia),
+                ("Alta", PrioridadAlta));
+
+            SwitchCategoria.IsChecked = !string.IsNullOrWhiteSpace(tarea.Categoria);
+            SetRadioSeleccionado(
+                tarea.Categoria,
+                ("Work", CategoriaWork),
+                ("School", CategoriaSchool),
+                ("Home", CategoriaHome),
+                ("Shopping", CategoriaShopping),
+                ("Personal", CategoriaPersonal),
+                ("Hobbies", CategoriaHobbies),
+                ("Health", CategoriaHealth),
+                ("Other", CategoriaOther));
+
+            ColorTarea = tarea.Color;
+            string colorGuardado = tarea.Color.TrimStart('#');
+            RadioButton[] colores = ObtenerRadiosColor();
+            foreach (RadioButton radio in colores)
+            {
+                radio.IsChecked = false;
+            }
+
+            foreach (RadioButton radio in colores)
+            {
+                if (radio.Background is SolidColorBrush brush)
+                {
+                    string colorOpcion = brush.Color.ToString().TrimStart('#');
+                    if (string.Equals(colorGuardado, colorOpcion, StringComparison.OrdinalIgnoreCase) ||
+                        (colorGuardado.Length == 6 && colorOpcion.EndsWith(colorGuardado, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        radio.IsChecked = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static void SetRadioSeleccionado(
+            string valor,
+            params (string Valor, RadioButton Radio)[] opciones)
+        {
+            foreach ((string valorOpcion, RadioButton radio) in opciones)
+            {
+                radio.IsChecked = string.Equals(
+                    valor,
+                    valorOpcion,
+                    StringComparison.OrdinalIgnoreCase);
+            }
+        }
 
         // =========================================================
         // CANCELAR
@@ -150,6 +223,33 @@ namespace NoteDesk
             }
         }
 
+
+        private RadioButton[] ObtenerRadiosColor()
+        {
+            return new[]
+            {
+                ColorRojo,
+                ColorNaranja,
+                ColorAmarillo,
+                ColorAmarilloClaro,
+                ColorVerde,
+                ColorVerdeAgua,
+                ColorAzulClaro,
+                ColorAzul,
+                ColorAzulMorado,
+                ColorMorado,
+                ColorRosa,
+                ColorRosaFuerte,
+                ColorRosaClaro,
+                ColorSalmon,
+                ColorDurazno,
+                ColorBeige,
+                ColorCafe,
+                ColorGrisClaro,
+                ColorGris,
+                ColorGrisMuyClaro
+            };
+        }
 
         // =========================================================
         // CREAR TAREA
@@ -310,36 +410,7 @@ namespace NoteDesk
             // COLOR DE LA TAREA
             // =====================================================
 
-            // Color amarillo por defecto
-            ColorTarea = "#F7C84B";
-
-
-            RadioButton[] colores =
-            {
-                ColorRojo,
-                ColorNaranja,
-                ColorAmarillo,
-                ColorAmarilloClaro,
-                ColorVerde,
-                ColorVerdeAgua,
-                ColorAzulClaro,
-                ColorAzul,
-
-                // CORREGIDO:
-                ColorAzulMorado,
-
-                ColorMorado,
-                ColorRosa,
-                ColorRosaFuerte,
-                ColorRosaClaro,
-                ColorSalmon,
-                ColorDurazno,
-                ColorBeige,
-                ColorCafe,
-                ColorGrisClaro,
-                ColorGris,
-                ColorGrisMuyClaro
-            };
+            RadioButton[] colores = ObtenerRadiosColor();
 
 
             foreach (RadioButton radio in colores)

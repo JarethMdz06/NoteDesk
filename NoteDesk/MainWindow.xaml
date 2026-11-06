@@ -181,32 +181,31 @@
 
                     <Grid Margin="0,0,0,12">
 
-                        <TextBlock Text="Todas las tareas"
+                        <TextBlock Text="Tareas"
                                    FontSize="18"
                                    FontWeight="Bold"
                                    Foreground="{DynamicResource ColorTexto}"
                                    VerticalAlignment="Center"/>
 
-                        <Border HorizontalAlignment="Right"
-                                Background="{DynamicResource ColorTarjetaInterna}"
-                                CornerRadius="12"
-                                Padding="14,4">
-
-                            <StackPanel Orientation="Horizontal">
-
-                                <TextBlock Text="Todas"
-                                           FontSize="13"
-                                           Foreground="{DynamicResource ColorTexto}"
-                                           Margin="0,0,5,0"/>
-
-                                <TextBlock Text="˅"
-                                           FontSize="11"
-                                           Foreground="{DynamicResource ColorTexto}"
-                                           VerticalAlignment="Center"/>
-
-                            </StackPanel>
-
-                        </Border>
+                        <ComboBox x:Name="CmbFiltroCategoria"
+                                  Width="150"
+                                  Height="32"
+                                  HorizontalAlignment="Right"
+                                  Background="{DynamicResource ColorTarjetaInterna}"
+                                  Foreground="{DynamicResource ColorTexto}"
+                                  BorderBrush="{DynamicResource ColorBorde}"
+                                  SelectedValuePath="Tag">
+                            <ComboBoxItem Content="Todas" Tag="*" IsSelected="True"/>
+                            <ComboBoxItem Content="Work" Tag="Work"/>
+                            <ComboBoxItem Content="School" Tag="School"/>
+                            <ComboBoxItem Content="Home" Tag="Home"/>
+                            <ComboBoxItem Content="Shopping" Tag="Shopping"/>
+                            <ComboBoxItem Content="Personal" Tag="Personal"/>
+                            <ComboBoxItem Content="Hobbies" Tag="Hobbies"/>
+                            <ComboBoxItem Content="Health" Tag="Health"/>
+                            <ComboBoxItem Content="Other" Tag="Other"/>
+                            <ComboBoxItem Content="Sin categoría" Tag=""/>
+                        </ComboBox>
 
                     </Grid>
 

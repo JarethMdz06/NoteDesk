@@ -161,10 +161,10 @@
                     Value="0.5"/>
 
             <Setter Property="MinHeight"
-                    Value="88"/>
+                    Value="0"/>
 
             <Setter Property="Padding"
-                    Value="8"/>
+                    Value="5"/>
 
         </Style>
 
@@ -499,52 +499,34 @@
 
                         <!-- OTHER -->
 
-                        <Grid>
-                            <!-- 1. El ToggleButton que mantiene tu diseño exacto pero funciona como interruptor -->
-                            <ToggleButton x:Name="BtnMenuCategoria" 
-                                          Background="Transparent"
-                                          BorderBrush="Transparent" 
-                                          Cursor="Hand" 
-                                          Padding="0">
+                        <Border Background="{DynamicResource ColorSuperficie}"
+                                CornerRadius="10"
+                                Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                                <!-- Esto quita el efecto gris feo por defecto del ToggleButton de Windows -->
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="ToggleButton">
-                                        <ContentPresenter/>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
+                                <TextBlock Text="•••"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
 
-                                <!-- Tu diseño original intacto -->
-                                <Border Background="{DynamicResource ColorSuperficie}"
-                                        CornerRadius="10"
-                                        Padding="10">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1"
+                                           Text="Other"
+                                           Margin="10,0,0,0"
+                                           VerticalAlignment="Center"/>
 
-                                        <TextBlock Text="•••" 
-                                                   FontWeight="Bold"
-                                                   VerticalAlignment="Center"/>
+                                <Ellipse Grid.Column="2"
+                                         Width="16"
+                                         Height="16"
+                                         Fill="#BBBBBB"
+                                         VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
 
-                                        <TextBlock Grid.Column="1"
-                                                   Text="Other"
-                                                   Margin="10,0,0,0"
-                                                   VerticalAlignment="Center"/> 
-
-                                        <Ellipse Grid.Column="2"
-                                                 Width="16"
-                                                 Height="16"
-                                                 Fill="#BBBBBB"
-                                                 VerticalAlignment="Center"/>
-                                    </Grid>
-                                </Border>
-                            </ToggleButton>
-
-                            <!-- 2. El Popup que se abre y cierra automáticamente sin código C# -->
-                            <Popup IsOpen="{Binding IsChecked, ElementName=BtnMenuCategoria}" 
+                            <Popup IsOpen="False"
                                    StaysOpen="False" 
                                    Placement="Bottom" 
                                    HorizontalOffset="0" 
@@ -594,7 +576,6 @@
 
                                 </Border>
                             </Popup>
-                        </Grid>
 
                     </StackPanel>
 
@@ -700,9 +681,11 @@
                                         Background="{DynamicResource ColorSuperficie}"
                                         BorderBrush="{DynamicResource ColorBorde}"
                                         Foreground="{DynamicResource ColorTexto}"
-                                        Cursor="Hand"/>
+                                        Cursor="Hand"
+                                        Click="MesAnterior_Click"/>
 
-                                <TextBlock Grid.Column="1"
+                                <TextBlock x:Name="TxtMesCalendario"
+                                           Grid.Column="1"
                                            Text="Abril 2025"
                                            FontSize="24"
                                            FontWeight="Bold"
@@ -720,7 +703,8 @@
                                             BorderBrush="{DynamicResource ColorBorde}"
                                             Foreground="{DynamicResource ColorTexto}"
                                             Cursor="Hand"
-                                            Margin="0,0,8,0"/>
+                                            Margin="0,0,8,0"
+                                            Click="Hoy_Click"/>
 
                                     <Button Width="40"
                                             Height="40"
@@ -729,7 +713,8 @@
                                             Background="{DynamicResource ColorSuperficie}"
                                             BorderBrush="{DynamicResource ColorBorde}"
                                             Foreground="{DynamicResource ColorTexto}"
-                                            Cursor="Hand"/>
+                                            Cursor="Hand"
+                                            Click="MesSiguiente_Click"/>
 
                                 </StackPanel>
 
@@ -775,9 +760,10 @@
 
                             <!-- CELDAS -->
 
-                            <UniformGrid Grid.Row="2"
+                            <UniformGrid x:Name="CalendarioDias"
+                                         Grid.Row="2"
                                          Columns="7"
-                                         Rows="5">
+                                         Rows="6">
 
 
                                 <!-- 30 -->
@@ -1256,63 +1242,80 @@
                                            FontSize="17"
                                            FontWeight="Bold"/>
 
-                                <ComboBox HorizontalAlignment="Right"
+                                <ComboBox x:Name="CmbAnio"
+                                          HorizontalAlignment="Right"
                                           Width="90"
                                           Height="32"
                                           Background="{DynamicResource ColorSuperficie}"
                                           Foreground="{DynamicResource ColorTexto}"
                                           BorderBrush="{DynamicResource ColorBorde}"
-                                          SelectedIndex="0">
-
-                                    <ComboBoxItem Content="2025"/>
-
-                                    <ComboBoxItem Content="2026"/>
-
-                                    <ComboBoxItem Content="2027"/>
-
-                                </ComboBox>
+                                          SelectionChanged="Anio_SelectionChanged"/>
 
                             </Grid>
 
-                            <UniformGrid Columns="4">
+                            <UniformGrid x:Name="MesesDelAnio" Columns="4">
 
                                 <Button Content="Ene"
+                                        Tag="1"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Feb"
+                                        Tag="2"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Mar"
+                                        Tag="3"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Abr"
+                                        Tag="4"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"
                                         Background="{DynamicResource ColorMesSeleccionado}"
                                         BorderBrush="{DynamicResource ColorBordeMesSeleccionado}"
                                         BorderThickness="2"/>
 
                                 <Button Content="May"
+                                        Tag="5"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Jun"
+                                        Tag="6"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Jul"
+                                        Tag="7"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Ago"
+                                        Tag="8"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Sep"
+                                        Tag="9"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Oct"
+                                        Tag="10"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Nov"
+                                        Tag="11"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                                 <Button Content="Dic"
+                                        Tag="12"
+                                        Click="Mes_Click"
                                         Style="{StaticResource MonthButton}"/>
 
                             </UniformGrid>
@@ -1329,7 +1332,7 @@
                             Padding="16"
                             Effect="{StaticResource CardShadow}">
 
-                        <StackPanel>
+                        <StackPanel x:Name="PanelTareasMes">
 
                             <TextBlock Text="Tareas de Abril"
                                        FontSize="17"

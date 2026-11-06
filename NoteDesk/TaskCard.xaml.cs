@@ -10,6 +10,7 @@ namespace NoteDesk
         // DATOS DE LA TAREA
        
 
+        private readonly TareaModel _tarea;
         private string _titulo;
         private string _descripcion;
         private string _fecha;
@@ -17,32 +18,29 @@ namespace NoteDesk
         private string _prioridad;
         private string _categoria;
 
+        public event Action<TareaModel>? EditRequested;
+        public event Action<TareaModel>? DeleteRequested;
+
 
         // =====================================================
         // CONSTRUCTOR
         // =====================================================
 
-        public TaskCard(
-            string titulo,
-            string descripcion,
-            string fecha,
-            string color,
-            string prioridad,
-            string categoria)
+        public TaskCard(TareaModel tarea)
         {
             InitializeComponent();
 
+            _tarea = tarea;
+            _titulo = tarea.Titulo;
+            _descripcion = tarea.Descripcion;
+            _fecha = tarea.Fecha;
+            _color = tarea.Color;
+            _prioridad = tarea.Prioridad;
+            _categoria = tarea.Categoria;
 
-            // =====================================================
-            // GUARDAMOS LOS DATOS DE LA TAREA
-            // =====================================================
-
-            _titulo = titulo;
-            _descripcion = descripcion;
-            _fecha = fecha;
-            _color = color;
-            _prioridad = prioridad;
-            _categoria = categoria;
+            string titulo = tarea.Titulo;
+            string prioridad = tarea.Prioridad;
+            string categoria = tarea.Categoria;
 
 
             // =====================================================
@@ -119,6 +117,29 @@ namespace NoteDesk
         }
 
 
+        private void BtnMenuTarea_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.ContextMenu is ContextMenu menu)
+            {
+                menu.PlacementTarget = button;
+                menu.IsOpen = true;
+            }
+
+            e.Handled = true;
+        }
+
+        private void EditarTarea_Click(object sender, RoutedEventArgs e)
+        {
+            EditRequested?.Invoke(_tarea);
+            e.Handled = true;
+        }
+
+        private void EliminarTarea_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteRequested?.Invoke(_tarea);
+            e.Handled = true;
+        }
+
         // =====================================================
         // CLICK EN LA TARJETA
         // =====================================================
@@ -139,6 +160,12 @@ namespace NoteDesk
             object sender,
             MouseButtonEventArgs e)
         {
+            if (e.OriginalSource is DependencyObject source &&
+                IsWithinInteractiveControl(source))
+            {
+                return;
+            }
+
             StickyTaskWindow ventana =
                 new StickyTaskWindow(
                     _titulo,
@@ -150,6 +177,26 @@ namespace NoteDesk
                 );
 
             ventana.ShowDialog();
+        }
+
+        private static bool IsWithinInteractiveControl(DependencyObject source)
+        {
+            DependencyObject? current = source;
+
+            while (current != null)
+            {
+                if (current is Button || current is CheckBox)
+                {
+                    return true;
+                }
+
+                current = current is System.Windows.Media.Visual ||
+                          current is System.Windows.Media.Media3D.Visual3D
+                    ? System.Windows.Media.VisualTreeHelper.GetParent(current)
+                    : LogicalTreeHelper.GetParent(current);
+            }
+
+            return false;
         }
     }
 }

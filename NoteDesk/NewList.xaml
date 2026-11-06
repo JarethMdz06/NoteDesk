@@ -271,7 +271,8 @@
 
                         <StackPanel>
 
-                            <TextBlock Text="Crear Nueva Tarea"
+                            <TextBlock x:Name="TxtTituloVentana"
+                                       Text="Crear Nueva Tarea"
                                        FontFamily="Segoe Script"
                                        FontWeight="Bold"
                                        FontSize="29"
@@ -1360,7 +1361,8 @@
                             Style="{StaticResource BotonCrear}"
                             Click="CrearTarea_Click">
 
-                        <TextBlock Text="Crear Tarea"
+                        <TextBlock x:Name="TxtAccionTarea"
+                                   Text="Crear Tarea"
                                    VerticalAlignment="Center"/>
 
                     </Button>

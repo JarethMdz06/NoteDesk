@@ -34,6 +34,8 @@ namespace NoteDesk
         private List<TareaModel> _tareas =
             new List<TareaModel>();
 
+        private string _categoriaSeleccionada = "*";
+
 
         // =========================================================
         // CONSTRUCTOR
@@ -42,6 +44,7 @@ namespace NoteDesk
         public MainWindow()
         {
             InitializeComponent();
+            CmbFiltroCategoria.SelectionChanged += FiltroCategoria_SelectionChanged;
 
 
             // =====================================================
@@ -85,22 +88,33 @@ namespace NoteDesk
                 TareaStorage.Cargar();
 
 
-            // =====================================================
-            // LIMPIAR LISTA VISUAL
-            // =====================================================
+            ActualizarListaVisual();
+        }
 
+
+        private void ActualizarListaVisual()
+        {
             ListTask.Children.Clear();
 
+            IEnumerable<TareaModel> tareasFiltradas = _categoriaSeleccionada == "*"
+                ? _tareas
+                : _tareas.Where(tarea => string.Equals(
+                    tarea.Categoria,
+                    _categoriaSeleccionada,
+                    StringComparison.OrdinalIgnoreCase));
 
-            // =====================================================
-            // RECREAR TODAS LAS TASKCARD
-            // =====================================================
-
-            foreach (TareaModel tarea in _tareas)
+            foreach (TareaModel tarea in tareasFiltradas)
             {
-                CrearTaskCard(
-                    tarea
-                );
+                CrearTaskCard(tarea);
+            }
+        }
+
+        private void FiltroCategoria_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CmbFiltroCategoria.SelectedValue is string categoria)
+            {
+                _categoriaSeleccionada = categoria;
+                ActualizarListaVisual();
             }
         }
 
@@ -112,20 +126,55 @@ namespace NoteDesk
         private void CrearTaskCard(
             TareaModel tarea)
         {
-            TaskCard nuevaTarea =
-                new TaskCard(
-                    tarea.Titulo,
-                    tarea.Descripcion,
-                    tarea.Fecha,
-                    tarea.Color,
-                    tarea.Prioridad,
-                    tarea.Categoria
-                );
+            TaskCard nuevaTarea = new TaskCard(tarea);
+            nuevaTarea.EditRequested += EditarTarea;
+            nuevaTarea.DeleteRequested += EliminarTarea;
+
+            ListTask.Children.Add(nuevaTarea);
+        }
 
 
-            ListTask.Children.Add(
-                nuevaTarea
-            );
+        private void EditarTarea(TareaModel tarea)
+        {
+            NewList ventanaEditarTarea = new NewList(tarea)
+            {
+                Owner = this
+            };
+
+            if (ventanaEditarTarea.ShowDialog() != true)
+            {
+                return;
+            }
+
+            tarea.Titulo = ventanaEditarTarea.TituloTarea;
+            tarea.Descripcion = ventanaEditarTarea.DescripcionTarea;
+            tarea.Fecha = ventanaEditarTarea.FechaTarea;
+            tarea.Color = ventanaEditarTarea.ColorTarea;
+            tarea.Prioridad = ventanaEditarTarea.PrioridadSeleccionada;
+            tarea.Categoria = ventanaEditarTarea.CategoriaSeleccionada;
+
+            TareaStorage.Guardar(_tareas);
+            ActualizarListaVisual();
+            ActualizarCalendario();
+        }
+
+
+        private void EliminarTarea(TareaModel tarea)
+        {
+            MessageBoxResult confirmacion = MessageBox.Show(
+                $"¿Quieres eliminar la tarea \"{tarea.Titulo}\"?",
+                "Eliminar tarea",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (confirmacion != MessageBoxResult.Yes || !_tareas.Remove(tarea))
+            {
+                return;
+            }
+
+            TareaStorage.Guardar(_tareas);
+            ActualizarListaVisual();
+            ActualizarCalendario();
         }
 
 
@@ -211,12 +260,10 @@ namespace NoteDesk
 
 
                 // =================================================
-                // MOSTRAR TASKCARD
+                // ACTUALIZAR LISTA CON EL FILTRO ACTIVO
                 // =================================================
 
-                CrearTaskCard(
-                    nuevaTarea
-                );
+                ActualizarListaVisual();
 
 
                 // =================================================
@@ -259,94 +306,7 @@ namespace NoteDesk
             string fechaTexto,
             out DateTime fecha)
         {
-            fecha =
-                DateTime.MinValue;
-
-
-            if (string.IsNullOrWhiteSpace(fechaTexto))
-            {
-                return false;
-            }
-
-
-            string fechaLimpia =
-                fechaTexto.Trim();
-
-
-            // =====================================================
-            // LIMPIAR FORMATO
-            // =====================================================
-            //
-            // Ejemplo:
-            //
-            // 12 de Noviembre, 2026
-            //
-            // pasa a:
-            //
-            // 12 Noviembre 2026
-            //
-            // =====================================================
-
-            fechaLimpia =
-                fechaLimpia.Replace(
-                    " de ",
-                    " "
-                );
-
-
-            fechaLimpia =
-                fechaLimpia.Replace(
-                    ",",
-                    ""
-                );
-
-
-            // =====================================================
-            // CULTURA ESPAÑOL MÉXICO
-            // =====================================================
-
-            CultureInfo cultura =
-                new CultureInfo(
-                    "es-MX"
-                );
-
-
-            // =====================================================
-            // INTENTO NORMAL
-            // =====================================================
-
-            if (DateTime.TryParse(
-                    fechaLimpia,
-                    cultura,
-                    DateTimeStyles.AllowWhiteSpaces,
-                    out fecha))
-            {
-                return true;
-            }
-
-
-            // =====================================================
-            // FORMATOS ALTERNATIVOS
-            // =====================================================
-
-            string[] formatos =
-            {
-                "d MMMM yyyy",
-                "dd MMMM yyyy",
-                "d/M/yyyy",
-                "dd/MM/yyyy",
-                "d-MM-yyyy",
-                "dd-MM-yyyy"
-            };
-
-
-            return DateTime.TryParseExact(
-                fechaLimpia,
-                formatos,
-                cultura,
-                DateTimeStyles.AllowWhiteSpaces,
-                out fecha
-            );
+            return TareaFechaParser.TryParse(fechaTexto, out fecha);
         }
 
 
