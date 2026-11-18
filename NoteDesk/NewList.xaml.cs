@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Google.Apis.Drive.v3;
+using NoteDesk.Services;
 
 namespace NoteDesk
 {
@@ -22,6 +24,13 @@ namespace NoteDesk
         public string PrioridadSeleccionada { get; private set; } = "";
 
         public string CategoriaSeleccionada { get; private set; } = "";
+
+
+        // =========================================================
+        // GOOGLE DRIVE
+        // =========================================================
+
+        private DriveService? _driveService;
 
 
         // =========================================================
@@ -250,6 +259,107 @@ namespace NoteDesk
                 ColorGrisMuyClaro
             };
         }
+
+        // =========================================================
+        // CONECTAR GOOGLE DRIVE
+        // =========================================================
+
+        private async void BtnConectarDrive_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            // Los TextBlock están dentro del ControlTemplate del botón,
+            // por eso se obtienen mediante Template.FindName.
+
+            BtnConectarDrive.ApplyTemplate();
+
+
+            TextBlock? txtEstadoDrive =
+                BtnConectarDrive.Template.FindName(
+                    "TxtEstadoDrive",
+                    BtnConectarDrive
+                ) as TextBlock;
+
+
+            TextBlock? txtSubEstadoDrive =
+                BtnConectarDrive.Template.FindName(
+                    "TxtSubEstadoDrive",
+                    BtnConectarDrive
+                ) as TextBlock;
+
+
+            if (txtEstadoDrive == null ||
+                txtSubEstadoDrive == null)
+            {
+                MessageBox.Show(
+                    "No fue posible localizar los controles visuales de Google Drive.",
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+
+                return;
+            }
+
+
+            try
+            {
+                BtnConectarDrive.IsEnabled =
+                    false;
+
+
+                txtEstadoDrive.Text =
+                    "Conectando con Google Drive...";
+
+
+                txtSubEstadoDrive.Text =
+                    "Se abrirá tu navegador para autorizar NoteDesk.";
+
+
+                _driveService =
+                    await GoogleDriveService.ConectarAsync();
+
+
+                txtEstadoDrive.Text =
+                    "Google Drive conectado";
+
+
+                txtSubEstadoDrive.Text =
+                    "Tu cuenta está lista para usar";
+
+
+                PanelAccionesDrive.Visibility =
+                    Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                txtEstadoDrive.Text =
+                    "Google Drive no está conectado";
+
+
+                txtSubEstadoDrive.Text =
+                    "Haz clic para intentar nuevamente";
+
+
+                PanelAccionesDrive.Visibility =
+                    Visibility.Collapsed;
+
+
+                MessageBox.Show(
+                    "No fue posible conectar NoteDesk con Google Drive.\n\n" +
+                    ex.Message,
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+            finally
+            {
+                BtnConectarDrive.IsEnabled =
+                    true;
+            }
+        }
+
 
         // =========================================================
         // CREAR TAREA

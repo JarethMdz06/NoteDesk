@@ -1207,7 +1207,8 @@
                                     BorderBrush="#DED4BD"
                                     BorderThickness="1"
                                     Cursor="Hand"
-                                    Margin="0,3,0,0">
+                                    Margin="0,3,0,0"
+                                    Click="BtnConectarDrive_Click">
 
                                 <Button.Template>
 
