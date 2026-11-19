@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using NoteDesk.Services;
 
 namespace NoteDesk
 {
@@ -185,21 +186,101 @@ namespace NoteDesk
         }
 
 
-        private void EliminarTarea(TareaModel tarea)
+        private async void EliminarTarea(TareaModel tarea)
         {
-            MessageBoxResult confirmacion = MessageBox.Show(
-                $"¿Quieres eliminar la tarea \"{tarea.Titulo}\"?",
-                "Eliminar tarea",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            string mensajeConfirmacion =
+                $"¿Quieres eliminar la tarea \"{tarea.Titulo}\"?";
 
-            if (confirmacion != MessageBoxResult.Yes || !_tareas.Remove(tarea))
+
+            if (tarea.DriveActivo &&
+                !string.IsNullOrWhiteSpace(
+                    tarea.DriveFolderId))
+            {
+                mensajeConfirmacion +=
+                    "\n\nLa carpeta de esta tarea en Google Drive " +
+                    "también se moverá a la Papelera.";
+            }
+
+
+            MessageBoxResult confirmacion =
+                MessageBox.Show(
+                    mensajeConfirmacion,
+                    "Eliminar tarea",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+
+            if (confirmacion !=
+                MessageBoxResult.Yes)
             {
                 return;
             }
 
-            TareaStorage.Guardar(_tareas);
+
+            // =====================================================
+            // GOOGLE DRIVE
+            // =====================================================
+            //
+            // Si esta tarea tiene una carpeta propia,
+            // primero la mandamos a la Papelera de Drive.
+            //
+            // Solo después eliminamos la tarea localmente,
+            // para no dejar otra carpeta huérfana.
+            //
+            // =====================================================
+
+            if (tarea.DriveActivo &&
+                !string.IsNullOrWhiteSpace(
+                    tarea.DriveFolderId))
+            {
+                try
+                {
+                    Google.Apis.Drive.v3.DriveService servicioDrive =
+                        await GoogleDriveService
+                            .ConectarAsync();
+
+
+                    await GoogleDriveService
+                        .EnviarCarpetaAPapeleraAsync(
+                            servicioDrive,
+                            tarea.DriveFolderId
+                        );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "No fue posible eliminar la carpeta de esta tarea en Google Drive.\n\n" +
+                        "La tarea no se eliminó para evitar que vuelva a quedar una carpeta huérfana.\n\n" +
+                        ex.Message,
+                        "Google Drive",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+
+                    return;
+                }
+            }
+
+
+            // =====================================================
+            // ELIMINAR TAREA LOCAL
+            // =====================================================
+
+            if (!_tareas.Remove(
+                    tarea))
+            {
+                return;
+            }
+
+
+            TareaStorage.Guardar(
+                _tareas
+            );
+
+
             ActualizarListaVisual();
+
             ActualizarCalendario();
         }
 

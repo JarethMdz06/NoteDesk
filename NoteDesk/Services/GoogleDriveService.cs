@@ -388,6 +388,52 @@ namespace NoteDesk.Services
 
 
         // =========================================================
+        // ENVIAR CARPETA DE UNA TAREA A LA PAPELERA
+        // =========================================================
+
+        public static async Task EnviarCarpetaAPapeleraAsync(
+            DriveService servicio,
+            string idCarpetaTarea)
+        {
+            if (servicio == null)
+            {
+                throw new InvalidOperationException(
+                    "Google Drive no está conectado."
+                );
+            }
+
+
+            if (string.IsNullOrWhiteSpace(
+                    idCarpetaTarea))
+            {
+                return;
+            }
+
+
+            Google.Apis.Drive.v3.Data.File cambios =
+                new Google.Apis.Drive.v3.Data.File
+                {
+                    Trashed =
+                        true
+                };
+
+
+            FilesResource.UpdateRequest request =
+                servicio.Files.Update(
+                    cambios,
+                    idCarpetaTarea
+                );
+
+
+            request.Fields =
+                "id,name,trashed";
+
+
+            await request.ExecuteAsync();
+        }
+
+
+        // =========================================================
         // OBTENER ENLACE DE LA CARPETA DE UNA TAREA
         // =========================================================
 
