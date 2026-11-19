@@ -8,10 +8,6 @@ namespace NoteDesk
 {
     public partial class TaskCard : UserControl
     {
-
-        // DATOS DE LA TAREA
-
-
         private readonly TareaModel _tarea;
         private string _titulo;
         private string _descripcion;
@@ -22,11 +18,6 @@ namespace NoteDesk
 
         public event Action<TareaModel>? EditRequested;
         public event Action<TareaModel>? DeleteRequested;
-
-
-        // =====================================================
-        // CONSTRUCTOR
-        // =====================================================
 
         public TaskCard(TareaModel tarea)
         {
@@ -44,44 +35,24 @@ namespace NoteDesk
             string prioridad = tarea.Prioridad;
             string categoria = tarea.Categoria;
 
-
-            // =====================================================
-            // TÍTULO
-            // =====================================================
-
             TxtTitulo.Text = titulo;
-
-
-            // =====================================================
-            // PRIORIDAD
-            // =====================================================
 
             if (prioridad == "Baja")
             {
-                PanelPrioridadBaja.Visibility =
-                    Visibility.Visible;
+                PanelPrioridadBaja.Visibility = Visibility.Visible;
             }
             else if (prioridad == "Media")
             {
-                PanelPrioridadMedia.Visibility =
-                    Visibility.Visible;
+                PanelPrioridadMedia.Visibility = Visibility.Visible;
             }
             else if (prioridad == "Alta")
             {
-                PanelPrioridadAlta.Visibility =
-                    Visibility.Visible;
+                PanelPrioridadAlta.Visibility = Visibility.Visible;
             }
-
-
-            // =====================================================
-            // CATEGORÍA
-            // =====================================================
 
             if (!string.IsNullOrWhiteSpace(categoria))
             {
-                PanelCategoria.Visibility =
-                    Visibility.Visible;
-
+                PanelCategoria.Visibility = Visibility.Visible;
 
                 if (categoria == "Work")
                 {
@@ -118,7 +89,6 @@ namespace NoteDesk
             }
         }
 
-
         private void BtnMenuTarea_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.ContextMenu is ContextMenu menu)
@@ -142,19 +112,6 @@ namespace NoteDesk
             e.Handled = true;
         }
 
-        // =====================================================
-        // CLICK EN LA TARJETA
-        // =====================================================
-        //
-        // Cada tarea abre su propia StickyTaskWindow.
-        //
-        // Show() permite tener varias notas abiertas
-        // simultáneamente.
-        //
-        // Si esta misma tarea ya tiene una nota abierta,
-        // solamente la traemos al frente.
-        // =====================================================
-
         private void TaskCard_Click(
             object sender,
             MouseButtonEventArgs e)
@@ -164,11 +121,6 @@ namespace NoteDesk
             {
                 return;
             }
-
-
-            // =================================================
-            // VERIFICAR SI ESTA MISMA TAREA YA ESTÁ ABIERTA
-            // =================================================
 
             StickyTaskWindow? ventanaExistente =
                 Application.Current.Windows
@@ -181,55 +133,37 @@ namespace NoteDesk
                             )
                     );
 
-
             if (ventanaExistente != null)
             {
+                if (ventanaExistente.WindowState == WindowState.Minimized)
+                {
+                    ventanaExistente.WindowState = WindowState.Normal;
+                }
+
                 ventanaExistente.Activate();
                 return;
             }
-
-
-            // =================================================
-            // CREAR UNA NUEVA VENTANA PARA ESTA TAREA
-            // =================================================
 
             StickyTaskWindow ventana =
                 new StickyTaskWindow(
                     _tarea
                 );
 
-
             Window? ventanaPrincipal =
                 Window.GetWindow(this);
 
-
             if (ventanaPrincipal != null)
             {
-                ventana.Owner =
-                    ventanaPrincipal;
-
-
-                // =============================================
-                // POSICIÓN EN CASCADA
-                // =============================================
-                //
-                // Así Prueba1 y Prueba2 no aparecen exactamente
-                // una encima de otra.
-                // =============================================
-
                 int cantidadVentanas =
                     Application.Current.Windows
                         .OfType<StickyTaskWindow>()
                         .Count();
 
-
                 int desplazamiento =
                     cantidadVentanas % 6;
 
-
                 ventana.WindowStartupLocation =
                     WindowStartupLocation.Manual;
-
 
                 ventana.Left =
                     ventanaPrincipal.Left
@@ -250,7 +184,6 @@ namespace NoteDesk
                         *
                         28
                     );
-
 
                 ventana.Top =
                     ventanaPrincipal.Top
@@ -273,16 +206,8 @@ namespace NoteDesk
                     );
             }
 
-
-            // IMPORTANTE:
-            // Show() NO bloquea MainWindow.
-            //
-            // ShowDialog() sí la bloqueaba y por eso
-            // solamente podías abrir una nota a la vez.
-
             ventana.Show();
         }
-
 
         private static bool IsWithinInteractiveControl(DependencyObject source)
         {
