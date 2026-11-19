@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -6,9 +8,9 @@ namespace NoteDesk
 {
     public partial class TaskCard : UserControl
     {
-        
+
         // DATOS DE LA TAREA
-       
+
 
         private readonly TareaModel _tarea;
         private string _titulo;
@@ -144,16 +146,13 @@ namespace NoteDesk
         // CLICK EN LA TARJETA
         // =====================================================
         //
-        // Al presionar la tarjeta enviamos:
+        // Cada tarea abre su propia StickyTaskWindow.
         //
-        // - Título
-        // - Descripción
-        // - Fecha
-        // - Color
-        // - Categoría
-        // - Prioridad
+        // Show() permite tener varias notas abiertas
+        // simultáneamente.
         //
-        // hacia StickyTaskWindow.
+        // Si esta misma tarea ya tiene una nota abierta,
+        // solamente la traemos al frente.
         // =====================================================
 
         private void TaskCard_Click(
@@ -166,18 +165,124 @@ namespace NoteDesk
                 return;
             }
 
+
+            // =================================================
+            // VERIFICAR SI ESTA MISMA TAREA YA ESTÁ ABIERTA
+            // =================================================
+
+            StickyTaskWindow? ventanaExistente =
+                Application.Current.Windows
+                    .OfType<StickyTaskWindow>()
+                    .FirstOrDefault(
+                        ventana =>
+                            ReferenceEquals(
+                                ventana.TareaAsociada,
+                                _tarea
+                            )
+                    );
+
+
+            if (ventanaExistente != null)
+            {
+                ventanaExistente.Activate();
+                return;
+            }
+
+
+            // =================================================
+            // CREAR UNA NUEVA VENTANA PARA ESTA TAREA
+            // =================================================
+
             StickyTaskWindow ventana =
                 new StickyTaskWindow(
-                    _titulo,
-                    _descripcion,
-                    _fecha,
-                    //_color,
-                    _categoria,
-                    _prioridad
+                    _tarea
                 );
 
-            ventana.ShowDialog();
+
+            Window? ventanaPrincipal =
+                Window.GetWindow(this);
+
+
+            if (ventanaPrincipal != null)
+            {
+                ventana.Owner =
+                    ventanaPrincipal;
+
+
+                // =============================================
+                // POSICIÓN EN CASCADA
+                // =============================================
+                //
+                // Así Prueba1 y Prueba2 no aparecen exactamente
+                // una encima de otra.
+                // =============================================
+
+                int cantidadVentanas =
+                    Application.Current.Windows
+                        .OfType<StickyTaskWindow>()
+                        .Count();
+
+
+                int desplazamiento =
+                    cantidadVentanas % 6;
+
+
+                ventana.WindowStartupLocation =
+                    WindowStartupLocation.Manual;
+
+
+                ventana.Left =
+                    ventanaPrincipal.Left
+                    +
+                    Math.Max(
+                        20,
+                        (
+                            ventanaPrincipal.ActualWidth
+                            -
+                            ventana.Width
+                        )
+                        /
+                        2
+                    )
+                    +
+                    (
+                        desplazamiento
+                        *
+                        28
+                    );
+
+
+                ventana.Top =
+                    ventanaPrincipal.Top
+                    +
+                    Math.Max(
+                        20,
+                        (
+                            ventanaPrincipal.ActualHeight
+                            -
+                            ventana.Height
+                        )
+                        /
+                        2
+                    )
+                    +
+                    (
+                        desplazamiento
+                        *
+                        28
+                    );
+            }
+
+
+            // IMPORTANTE:
+            // Show() NO bloquea MainWindow.
+            //
+            // ShowDialog() sí la bloqueaba y por eso
+            // solamente podías abrir una nota a la vez.
+
+            ventana.Show();
         }
+
 
         private static bool IsWithinInteractiveControl(DependencyObject source)
         {

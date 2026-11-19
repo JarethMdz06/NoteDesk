@@ -1,12 +1,29 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using NoteDesk.Services;
 
 namespace NoteDesk
 {
     public partial class StickyTaskWindow : Window
     {
+        // ============================================================
+        // TAREA ASOCIADA
+        // ============================================================
+
+        private readonly TareaModel? _tarea;
+
+
+        // Esta propiedad permite que TaskCard sepa si la ventana
+        // de una tarea específica ya está abierta.
+
+        public TareaModel? TareaAsociada =>
+            _tarea;
+
+
         // ============================================================
         // DATOS DE LA TAREA
         // ============================================================
@@ -48,23 +65,25 @@ namespace NoteDesk
             InitializeComponent();
 
             Topmost = true;
+
+            PanelDrive.Visibility =
+                Visibility.Collapsed;
         }
 
 
         // ============================================================
-        // CONSTRUCTOR CON DATOS DE LA TAREA
+        // CONSTRUCTOR CON LA TAREA COMPLETA
         // ============================================================
         //
-        // Recibe:
+        // Ahora recibimos TareaModel completo.
         //
-        // - título
-        // - descripción
-        // - fecha
-        // - categoría
-        // - prioridad
+        // Esto permite conocer también:
+        //
+        // - DriveActivo
+        // - DriveFolderId
         //
         // El color de NewList NO se aplica aquí.
-        // Esta ventana inicia siempre con el color
+        // Esta ventana continúa iniciando siempre con el color
         // definido en StickyTaskWindow.xaml:
         //
         // #FFF3B8
@@ -72,11 +91,7 @@ namespace NoteDesk
         // ============================================================
 
         public StickyTaskWindow(
-            string titulo,
-            string descripcion,
-            string fecha,
-            string categoria,
-            string prioridad)
+            TareaModel tarea)
         {
             InitializeComponent();
 
@@ -84,42 +99,69 @@ namespace NoteDesk
 
 
             // =====================================================
+            // GUARDAR LA TAREA COMPLETA
+            // =====================================================
+
+            _tarea = tarea;
+
+
+            // =====================================================
             // GUARDAR DATOS
             // =====================================================
 
-            _titulo = titulo;
-            _descripcion = descripcion;
-            _fecha = fecha;
-            _categoria = categoria;
-            _prioridad = prioridad;
+            _titulo =
+                tarea.Titulo;
+
+            _descripcion =
+                tarea.Descripcion;
+
+            _fecha =
+                tarea.Fecha;
+
+            _categoria =
+                tarea.Categoria;
+
+            _prioridad =
+                tarea.Prioridad;
 
 
             // =====================================================
             // MOSTRAR TÍTULO
             // =====================================================
 
-            TxtTituloSticky.Text = _titulo;
+            TxtTituloSticky.Text =
+                _titulo;
 
 
             // =====================================================
             // MOSTRAR DESCRIPCIÓN
             // =====================================================
 
-            TxtDescripcionSticky.Text = _descripcion;
+            TxtDescripcionSticky.Text =
+                _descripcion;
 
 
             // =====================================================
             // MOSTRAR FECHA
             // =====================================================
 
-            TxtFecha.Text = _fecha;
+            TxtFecha.Text =
+                _fecha;
 
 
             // =====================================================
             // MOSTRAR CATEGORÍA
             // =====================================================
 
-            TxtCategoriaSticky.Text = _categoria;
+            TxtCategoriaSticky.Text =
+                _categoria;
+
+
+            // =====================================================
+            // GOOGLE DRIVE
+            // =====================================================
+
+            ConfigurarGoogleDrive();
 
 
             // =====================================================
@@ -133,6 +175,117 @@ namespace NoteDesk
 
 
         // ============================================================
+        // CONFIGURAR GOOGLE DRIVE
+        // ============================================================
+
+        private void ConfigurarGoogleDrive()
+        {
+            if (_tarea == null)
+            {
+                PanelDrive.Visibility =
+                    Visibility.Collapsed;
+
+                return;
+            }
+
+
+            if (_tarea.DriveActivo &&
+                !string.IsNullOrWhiteSpace(
+                    _tarea.DriveFolderId))
+            {
+                PanelDrive.Visibility =
+                    Visibility.Visible;
+
+
+                TxtDrive.Text =
+                    "Abrir carpeta en Google Drive";
+            }
+            else
+            {
+                // Si esta tarea no tiene Drive activado,
+                // no mostramos un enlace que no funcionaría.
+
+                PanelDrive.Visibility =
+                    Visibility.Collapsed;
+            }
+        }
+
+
+        // ============================================================
+        // ABRIR CARPETA DE GOOGLE DRIVE DE ESTA TAREA
+        // ============================================================
+
+        private void PanelDrive_MouseLeftButtonUp(
+            object sender,
+            MouseButtonEventArgs e)
+        {
+            if (_tarea == null ||
+                string.IsNullOrWhiteSpace(
+                    _tarea.DriveFolderId))
+            {
+                MessageBox.Show(
+                    "Esta tarea no tiene una carpeta de Google Drive asociada.",
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+
+                return;
+            }
+
+
+            string enlaceCarpeta =
+                GoogleDriveService
+                    .ObtenerEnlaceCarpetaTarea(
+                        _tarea.DriveFolderId
+                    );
+
+
+            if (string.IsNullOrWhiteSpace(
+                    enlaceCarpeta))
+            {
+                MessageBox.Show(
+                    "No fue posible obtener el enlace de la carpeta de Google Drive.",
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+
+                return;
+            }
+
+
+            try
+            {
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName =
+                            enlaceCarpeta,
+
+                        UseShellExecute =
+                            true
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No fue posible abrir la carpeta de Google Drive.\n\n" +
+                    ex.Message,
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+
+
+            e.Handled =
+                true;
+        }
+
+
+        // ============================================================
         // MOVER LA VENTANA POR LA PANTALLA
         // ============================================================
 
@@ -140,6 +293,16 @@ namespace NoteDesk
             object sender,
             MouseButtonEventArgs e)
         {
+            // No iniciamos DragMove si el usuario está haciendo
+            // clic sobre un control interactivo.
+
+            if (e.OriginalSource is DependencyObject source &&
+                IsWithinInteractiveControl(source))
+            {
+                return;
+            }
+
+
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 try
@@ -152,6 +315,58 @@ namespace NoteDesk
                     // de un control interno
                 }
             }
+        }
+
+
+        // ============================================================
+        // DETECTAR CONTROLES INTERACTIVOS
+        // ============================================================
+
+        private bool IsWithinInteractiveControl(
+            DependencyObject source)
+        {
+            DependencyObject? current =
+                source;
+
+
+            while (current != null)
+            {
+                if (current is Button ||
+                    current is RadioButton)
+                {
+                    return true;
+                }
+
+
+                if (ReferenceEquals(
+                        current,
+                        PanelDrive))
+                {
+                    return true;
+                }
+
+
+                current =
+                    current
+                        is System.Windows.Media.Visual
+                        ||
+                    current
+                        is System.Windows.Media.Media3D.Visual3D
+                    ?
+                    System.Windows.Media
+                        .VisualTreeHelper
+                        .GetParent(
+                            current
+                        )
+                    :
+                    LogicalTreeHelper
+                        .GetParent(
+                            current
+                        );
+            }
+
+
+            return false;
         }
 
 
