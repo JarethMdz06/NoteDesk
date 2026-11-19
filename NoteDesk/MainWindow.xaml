@@ -42,7 +42,8 @@
             <!-- CONTENIDO PRINCIPAL -->
             <!-- ================================================== -->
 
-            <Grid Grid.Row="1"
+            <Grid x:Name="VistaInicio"
+                  Grid.Row="1"
                   Margin="20,10,20,10">
 
                 <Grid.ColumnDefinitions>
@@ -585,6 +586,21 @@
 
 
             <!-- ================================================== -->
+            <!-- CONTENEDOR DE SECCIONES -->
+            <!--
+                 Aquí se muestran Calendario y Ajustes.
+                 Inicio continúa siendo VistaInicio.
+            -->
+            <!-- ================================================== -->
+
+            <ContentControl x:Name="ContenedorSeccion"
+                            Grid.Row="1"
+                            Visibility="Collapsed"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"/>
+
+
+            <!-- ================================================== -->
             <!-- BARRA DE NAVEGACIÓN INFERIOR -->
             <!-- ================================================== -->
 
@@ -593,92 +609,105 @@
                     CornerRadius="0,0,20,20"
                     Padding="15,10">
 
-                <Grid>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <UniformGrid Rows="1"
+                             Columns="3"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center">
 
 
-                    <UniformGrid Grid.Column="0"
-                                 Rows="1"
-                                 Columns="3"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Center">
+                    <!-- INICIO -->
 
-
-                        <!-- INICIO ACTIVO -->
-
-                        <Border Width="150"
-                                Height="38"
-                                Background="{DynamicResource ColorTarjetaInterna}"
-                                CornerRadius="20"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center">
-
-                                <TextBlock Text="🏠"
-                                           FontSize="14"
-                                           Margin="0,0,7,0"/>
-
-                                <TextBlock Text="Inicio"
-                                           FontSize="13"
-                                           FontWeight="Bold"
-                                           Foreground="{DynamicResource ColorTexto}"/>
-
-                            </StackPanel>
-
-                        </Border>
-
-
-                        <!-- CALENDARIO -->
+                    <Border x:Name="NavInicio"
+                            Width="150"
+                            Height="38"
+                            Background="{DynamicResource ColorTarjetaInterna}"
+                            CornerRadius="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="Inicio_Click">
 
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Cursor="Hand"
-                                    MouseLeftButtonUp="Calendario_Click"
-                                    Background="Transparent">
+                                    VerticalAlignment="Center">
+
+                            <TextBlock Text="🏠"
+                                       FontSize="14"
+                                       Margin="0,0,7,0"/>
+
+                            <TextBlock x:Name="TxtNavInicio"
+                                       Text="Inicio"
+                                       FontSize="13"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource ColorTexto}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+
+                    <!-- CALENDARIO -->
+
+                    <Border x:Name="NavCalendario"
+                            Width="150"
+                            Height="38"
+                            Background="Transparent"
+                            CornerRadius="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="Calendario_Click">
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
 
                             <TextBlock Text="📅"
                                        FontSize="14"
-                                       Margin="0,0,5,0"/>
+                                       Margin="0,0,7,0"/>
 
-                            <TextBlock Text="Calendario"
+                            <TextBlock x:Name="TxtNavCalendario"
+                                       Text="Calendario"
                                        FontSize="13"
                                        FontWeight="SemiBold"
                                        Foreground="{DynamicResource ColorTextoHeader}"/>
 
                         </StackPanel>
 
+                    </Border>
 
-                        <!-- AJUSTES -->
+
+                    <!-- AJUSTES -->
+
+                    <Border x:Name="NavAjustes"
+                            Width="150"
+                            Height="38"
+                            Background="Transparent"
+                            CornerRadius="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="Ajustes_Click">
 
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Cursor="Hand"
-                                    MouseLeftButtonUp="Ajustes_Click"
-                                    Background="Transparent">
+                                    VerticalAlignment="Center">
 
                             <TextBlock Text="⚙"
                                        FontSize="14"
-                                       Margin="0,0,5,0"/>
+                                       Margin="0,0,7,0"/>
 
-                            <TextBlock Text="Ajustes"
+                            <TextBlock x:Name="TxtNavAjustes"
+                                       Text="Ajustes"
                                        FontSize="13"
                                        FontWeight="SemiBold"
                                        Foreground="{DynamicResource ColorTextoHeader}"/>
 
                         </StackPanel>
 
-                    </UniformGrid>
+                    </Border>
 
-                </Grid>
+                </UniformGrid>
 
             </Border>
 

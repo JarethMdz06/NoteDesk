@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace NoteDesk
 {
-    public partial class Calendario : Window
+    public partial class Calendario : UserControl
     {
         private readonly List<TareaModel> _tareas;
         private DateTime _mesActual;
@@ -23,6 +23,30 @@ namespace NoteDesk
             _mesActual = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
 
             CargarAnosDisponibles();
+            ActualizarVista();
+        }
+
+
+        // =========================================================
+        // RECARGAR TAREAS
+        // =========================================================
+        //
+        // MainWindow llama este método cada vez que el usuario
+        // entra a Calendario para reflejar tareas nuevas,
+        // editadas o eliminadas sin abrir otra ventana.
+        //
+        // =========================================================
+
+        public void RecargarTareas()
+        {
+            _tareas.Clear();
+
+            _tareas.AddRange(
+                TareaStorage.Cargar()
+            );
+
+            CargarAnosDisponibles();
+
             ActualizarVista();
         }
 

@@ -39,6 +39,20 @@ namespace NoteDesk
 
 
         // =========================================================
+        // SECCIONES DE LA VENTANA PRINCIPAL
+        // =========================================================
+        //
+        // Calendario y Ajustes ya no son ventanas separadas.
+        // Se cargan dentro de ContenedorSeccion.
+        //
+        // =========================================================
+
+        private Calendario? _vistaCalendario;
+
+        private ajustes? _vistaAjustes;
+
+
+        // =========================================================
         // CONSTRUCTOR
         // =========================================================
 
@@ -72,6 +86,13 @@ namespace NoteDesk
             // =====================================================
 
             ActualizarCalendario();
+
+
+            // =====================================================
+            // NAVEGACIÓN INICIAL
+            // =====================================================
+
+            MostrarInicio();
         }
 
 
@@ -833,34 +854,174 @@ namespace NoteDesk
 
 
         // =========================================================
-        // BOTÓN AJUSTES
+        // NAVEGACIÓN - INICIO
         // =========================================================
 
-        private void Ajustes_Click(
+        private void Inicio_Click(
             object sender,
             MouseButtonEventArgs e)
         {
-            ajustes ventanaAjustes =
-                new ajustes();
+            MostrarInicio();
+        }
 
 
-            ventanaAjustes.ShowDialog();
+        private void MostrarInicio()
+        {
+            VistaInicio.Visibility =
+                Visibility.Visible;
+
+
+            ContenedorSeccion.Visibility =
+                Visibility.Collapsed;
+
+
+            ActualizarNavegacion(
+                "Inicio"
+            );
         }
 
 
         // =========================================================
-        // BOTÓN CALENDARIO
+        // NAVEGACIÓN - CALENDARIO
         // =========================================================
 
         private void Calendario_Click(
             object sender,
             MouseButtonEventArgs e)
         {
-            Calendario ventanaCalendario =
-                new Calendario();
+            if (_vistaCalendario == null)
+            {
+                _vistaCalendario =
+                    new Calendario();
+            }
+            else
+            {
+                // Refleja tareas creadas, editadas o eliminadas
+                // desde Inicio.
+
+                _vistaCalendario
+                    .RecargarTareas();
+            }
 
 
-            ventanaCalendario.ShowDialog();
+            ContenedorSeccion.Content =
+                _vistaCalendario;
+
+
+            VistaInicio.Visibility =
+                Visibility.Collapsed;
+
+
+            ContenedorSeccion.Visibility =
+                Visibility.Visible;
+
+
+            ActualizarNavegacion(
+                "Calendario"
+            );
         }
+
+
+        // =========================================================
+        // NAVEGACIÓN - AJUSTES
+        // =========================================================
+
+        private void Ajustes_Click(
+            object sender,
+            MouseButtonEventArgs e)
+        {
+            if (_vistaAjustes == null)
+            {
+                _vistaAjustes =
+                    new ajustes();
+            }
+
+
+            ContenedorSeccion.Content =
+                _vistaAjustes;
+
+
+            VistaInicio.Visibility =
+                Visibility.Collapsed;
+
+
+            ContenedorSeccion.Visibility =
+                Visibility.Visible;
+
+
+            ActualizarNavegacion(
+                "Ajustes"
+            );
+        }
+
+
+        // =========================================================
+        // ESTADO VISUAL DE LA BARRA DE NAVEGACIÓN
+        // =========================================================
+
+        private void ActualizarNavegacion(
+            string seccionActiva)
+        {
+            AplicarEstadoNavegacion(
+                NavInicio,
+                TxtNavInicio,
+                seccionActiva == "Inicio"
+            );
+
+
+            AplicarEstadoNavegacion(
+                NavCalendario,
+                TxtNavCalendario,
+                seccionActiva == "Calendario"
+            );
+
+
+            AplicarEstadoNavegacion(
+                NavAjustes,
+                TxtNavAjustes,
+                seccionActiva == "Ajustes"
+            );
+        }
+
+
+        private void AplicarEstadoNavegacion(
+            Border contenedor,
+            TextBlock texto,
+            bool activo)
+        {
+            if (activo)
+            {
+                contenedor.SetResourceReference(
+                    Border.BackgroundProperty,
+                    "ColorTarjetaInterna"
+                );
+
+
+                texto.SetResourceReference(
+                    TextBlock.ForegroundProperty,
+                    "ColorTexto"
+                );
+
+
+                texto.FontWeight =
+                    FontWeights.Bold;
+            }
+            else
+            {
+                contenedor.Background =
+                    Brushes.Transparent;
+
+
+                texto.SetResourceReference(
+                    TextBlock.ForegroundProperty,
+                    "ColorTextoHeader"
+                );
+
+
+                texto.FontWeight =
+                    FontWeights.SemiBold;
+            }
+        }
+
     }
 }
