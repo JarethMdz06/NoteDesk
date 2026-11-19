@@ -153,6 +153,32 @@ namespace NoteDesk
             tarea.Prioridad = ventanaEditarTarea.PrioridadSeleccionada;
             tarea.Categoria = ventanaEditarTarea.CategoriaSeleccionada;
 
+            // =====================================================
+            // GOOGLE DRIVE
+            // =====================================================
+
+            tarea.DriveActivo =
+                ventanaEditarTarea.DriveActivo;
+
+            tarea.DriveFolderId =
+                ventanaEditarTarea.DriveFolderId;
+
+            tarea.ArchivosDrive =
+                ventanaEditarTarea
+                    .ArchivosDrive
+                    .Select(
+                        archivo =>
+                            new ArchivoDriveModel
+                            {
+                                Id = archivo.Id,
+                                Nombre = archivo.Nombre,
+                                Enlace = archivo.Enlace,
+                                MimeType = archivo.MimeType
+                            }
+                    )
+                    .ToList();
+
+
             TareaStorage.Guardar(_tareas);
             ActualizarListaVisual();
             ActualizarCalendario();
@@ -237,7 +263,34 @@ namespace NoteDesk
 
                         Categoria =
                             ventanaNuevaTarea
-                                .CategoriaSeleccionada
+                                .CategoriaSeleccionada,
+
+                        // =========================================
+                        // GOOGLE DRIVE
+                        // =========================================
+
+                        DriveActivo =
+                            ventanaNuevaTarea
+                                .DriveActivo,
+
+                        DriveFolderId =
+                            ventanaNuevaTarea
+                                .DriveFolderId,
+
+                        ArchivosDrive =
+                            ventanaNuevaTarea
+                                .ArchivosDrive
+                                .Select(
+                                    archivo =>
+                                        new ArchivoDriveModel
+                                        {
+                                            Id = archivo.Id,
+                                            Nombre = archivo.Nombre,
+                                            Enlace = archivo.Enlace,
+                                            MimeType = archivo.MimeType
+                                        }
+                                )
+                                .ToList()
                     };
 
 

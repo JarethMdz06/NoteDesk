@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace NoteDesk
 {
     public class TareaModel
     {
+        // =====================================================
+        // DATOS GENERALES
+        // =====================================================
+
         public string Titulo { get; set; } = "";
 
         public string Descripcion { get; set; } = "";
@@ -17,5 +19,42 @@ namespace NoteDesk
         public string Prioridad { get; set; } = "";
 
         public string Categoria { get; set; } = "";
+
+
+        // =====================================================
+        // GOOGLE DRIVE
+        // =====================================================
+
+        public bool DriveActivo { get; set; } = false;
+
+
+        // ID de la carpeta específica de esta tarea.
+        //
+        // Ejemplo:
+        //
+        // NoteDesk
+        // └── Prueba1   <- este ID
+        //
+        public string DriveFolderId { get; set; } = "";
+
+
+        public List<ArchivoDriveModel> ArchivosDrive { get; set; }
+            = new List<ArchivoDriveModel>();
+    }
+
+
+    // =========================================================
+    // ARCHIVO VINCULADO DE GOOGLE DRIVE
+    // =========================================================
+
+    public class ArchivoDriveModel
+    {
+        public string Id { get; set; } = "";
+
+        public string Nombre { get; set; } = "";
+
+        public string Enlace { get; set; } = "";
+
+        public string MimeType { get; set; } = "";
     }
 }

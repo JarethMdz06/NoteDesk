@@ -4,6 +4,11 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Google.Apis.Drive.v3;
 using NoteDesk.Services;
+using Microsoft.Win32;
+using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NoteDesk
 {
@@ -27,10 +32,27 @@ namespace NoteDesk
 
 
         // =========================================================
+        // DATOS DE GOOGLE DRIVE QUE REGRESAN A MAINWINDOW
+        // =========================================================
+
+        public bool DriveActivo { get; private set; } = false;
+
+        public string DriveFolderId { get; private set; } = "";
+
+        public List<ArchivoDriveModel> ArchivosDrive { get; private set; }
+            = new List<ArchivoDriveModel>();
+
+
+        // =========================================================
         // GOOGLE DRIVE
         // =========================================================
 
         private DriveService? _driveService;
+
+        private readonly ObservableCollection<
+            Google.Apis.Drive.v3.Data.File> _archivosDrive =
+                new ObservableCollection<
+                    Google.Apis.Drive.v3.Data.File>();
 
 
         // =========================================================
@@ -40,6 +62,9 @@ namespace NoteDesk
         public NewList()
         {
             InitializeComponent();
+
+            ListaArchivosDrive.ItemsSource =
+                _archivosDrive;
         }
 
         public NewList(TareaModel tarea) : this()
@@ -101,7 +126,157 @@ namespace NoteDesk
                     }
                 }
             }
+
+
+            // =====================================================
+            // RESTAURAR GOOGLE DRIVE DE ESTA TAREA
+            // =====================================================
+
+            DriveActivo =
+                tarea.DriveActivo;
+
+            DriveFolderId =
+                tarea.DriveFolderId
+                ?? "";
+
+            SwitchDrive.IsChecked =
+                tarea.DriveActivo;
+
+
+            if (tarea.ArchivosDrive != null)
+            {
+                foreach (ArchivoDriveModel archivo
+                    in tarea.ArchivosDrive)
+                {
+                    _archivosDrive.Add(
+                        new Google.Apis.Drive.v3.Data.File
+                        {
+                            Id =
+                                archivo.Id,
+
+                            Name =
+                                archivo.Nombre,
+
+                            WebViewLink =
+                                archivo.Enlace,
+
+                            MimeType =
+                                archivo.MimeType
+                        }
+                    );
+                }
+            }
+
+
+            PanelArchivosDrive.Visibility =
+                _archivosDrive.Count > 0
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+
+            // Si esta tarea ya usaba Drive, intentamos reconectar
+            // automáticamente usando el token guardado.
+            if (tarea.DriveActivo)
+            {
+                Loaded +=
+                    NewList_DriveLoaded;
+            }
         }
+
+        // =========================================================
+        // RECONECTAR DRIVE AUTOMÁTICAMENTE AL EDITAR
+        // =========================================================
+
+        private async void NewList_DriveLoaded(
+            object sender,
+            RoutedEventArgs e)
+        {
+            Loaded -=
+                NewList_DriveLoaded;
+
+
+            try
+            {
+                _driveService =
+                    await GoogleDriveService
+                        .ConectarAsync();
+
+
+                BtnConectarDrive.ApplyTemplate();
+
+
+                TextBlock? txtEstadoDrive =
+                    BtnConectarDrive.Template.FindName(
+                        "TxtEstadoDrive",
+                        BtnConectarDrive
+                    ) as TextBlock;
+
+
+                TextBlock? txtSubEstadoDrive =
+                    BtnConectarDrive.Template.FindName(
+                        "TxtSubEstadoDrive",
+                        BtnConectarDrive
+                    ) as TextBlock;
+
+
+                if (txtEstadoDrive != null)
+                {
+                    txtEstadoDrive.Text =
+                        "Google Drive conectado";
+                }
+
+
+                if (txtSubEstadoDrive != null)
+                {
+                    txtSubEstadoDrive.Text =
+                        "Tu cuenta está lista para usar";
+                }
+
+
+                PanelAccionesDrive.Visibility =
+                    Visibility.Visible;
+            }
+            catch
+            {
+                // El switch permanece activado porque la tarea sí usa Drive,
+                // pero dejamos disponible el botón para reconectar manualmente.
+
+                BtnConectarDrive.ApplyTemplate();
+
+
+                TextBlock? txtEstadoDrive =
+                    BtnConectarDrive.Template.FindName(
+                        "TxtEstadoDrive",
+                        BtnConectarDrive
+                    ) as TextBlock;
+
+
+                TextBlock? txtSubEstadoDrive =
+                    BtnConectarDrive.Template.FindName(
+                        "TxtSubEstadoDrive",
+                        BtnConectarDrive
+                    ) as TextBlock;
+
+
+                if (txtEstadoDrive != null)
+                {
+                    txtEstadoDrive.Text =
+                        "Google Drive no está conectado";
+                }
+
+
+                if (txtSubEstadoDrive != null)
+                {
+                    txtSubEstadoDrive.Text =
+                        "Haz clic para reconectar tu cuenta";
+                }
+
+
+                PanelAccionesDrive.Visibility =
+                    Visibility.Collapsed;
+            }
+        }
+
 
         private static void SetRadioSeleccionado(
             string valor,
@@ -362,10 +537,317 @@ namespace NoteDesk
 
 
         // =========================================================
+        // SUBIR ARCHIVO A GOOGLE DRIVE
+        // =========================================================
+
+        private async void BtnSubirArchivoDrive_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            if (_driveService == null)
+            {
+                MessageBox.Show(
+                    "Primero conecta tu cuenta de Google Drive.",
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+
+                return;
+            }
+
+
+            OpenFileDialog selectorArchivo =
+                new OpenFileDialog
+                {
+                    Title =
+                        "Seleccionar archivo para Google Drive",
+
+                    Filter =
+                        "Todos los archivos|*.*|" +
+                        "PDF|*.pdf|" +
+                        "Documentos de Word|*.doc;*.docx|" +
+                        "Hojas de cálculo|*.xls;*.xlsx|" +
+                        "Presentaciones|*.ppt;*.pptx|" +
+                        "Imágenes|*.jpg;*.jpeg;*.png;*.gif;*.webp|" +
+                        "Archivos comprimidos|*.zip"
+                };
+
+
+            bool? resultado =
+                selectorArchivo.ShowDialog();
+
+
+            if (resultado != true)
+            {
+                return;
+            }
+
+
+            try
+            {
+                BtnSubirArchivoDrive.IsEnabled =
+                    false;
+
+                BtnSubirArchivoDrive.Content =
+                    "Subiendo...";
+
+
+                // =================================================
+                // CREAR LA CARPETA DE ESTA TAREA SI TODAVÍA NO EXISTE
+                // =================================================
+
+                if (string.IsNullOrWhiteSpace(
+                        DriveFolderId))
+                {
+                    string nombreCarpeta =
+                        string.IsNullOrWhiteSpace(
+                            TxtTitulo.Text) ||
+                        TxtTitulo.Text ==
+                            "Ej. Preparar presentación, Comprar pan..."
+                        ? "Tarea sin título"
+                        : TxtTitulo.Text.Trim();
+
+
+                    Google.Apis.Drive.v3.Data.File carpetaTarea =
+                        await GoogleDriveService
+                            .CrearCarpetaTareaAsync(
+                                _driveService,
+                                nombreCarpeta
+                            );
+
+
+                    DriveFolderId =
+                        carpetaTarea.Id
+                        ?? "";
+                }
+
+
+                if (string.IsNullOrWhiteSpace(
+                        DriveFolderId))
+                {
+                    throw new Exception(
+                        "No fue posible obtener la carpeta de Google Drive de esta tarea."
+                    );
+                }
+
+
+                Google.Apis.Drive.v3.Data.File archivoSubido =
+                    await GoogleDriveService
+                        .SubirArchivoAsync(
+                            _driveService,
+                            selectorArchivo.FileName,
+                            DriveFolderId
+                        );
+
+
+                if (string.IsNullOrWhiteSpace(
+                        archivoSubido.Name))
+                {
+                    archivoSubido.Name =
+                        System.IO.Path.GetFileName(
+                            selectorArchivo.FileName
+                        );
+                }
+
+
+                _archivosDrive.Add(
+                    archivoSubido
+                );
+
+
+                PanelArchivosDrive.Visibility =
+                    Visibility.Visible;
+
+
+                MessageBox.Show(
+                    "El archivo se subió correctamente a Google Drive.",
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No fue posible subir el archivo a Google Drive.\n\n" +
+                    ex.Message,
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+            finally
+            {
+                BtnSubirArchivoDrive.IsEnabled =
+                    true;
+
+                BtnSubirArchivoDrive.Content =
+                    "+ Subir archivo";
+            }
+        }
+
+
+        // =========================================================
+        // ABRIR CARPETA DE ESTA TAREA EN GOOGLE DRIVE
+        // =========================================================
+
+        private async void BtnAbrirCarpetaDrive_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            try
+            {
+                BtnAbrirCarpetaDrive.IsEnabled =
+                    false;
+
+
+                // Si la tarea todavía no tiene carpeta,
+                // la creamos en este momento.
+                if (string.IsNullOrWhiteSpace(
+                        DriveFolderId))
+                {
+                    if (_driveService == null)
+                    {
+                        MessageBox.Show(
+                            "Primero conecta tu cuenta de Google Drive.",
+                            "Google Drive",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information
+                        );
+
+                        return;
+                    }
+
+
+                    string nombreCarpeta =
+                        string.IsNullOrWhiteSpace(
+                            TxtTitulo.Text) ||
+                        TxtTitulo.Text ==
+                            "Ej. Preparar presentación, Comprar pan..."
+                        ? "Tarea sin título"
+                        : TxtTitulo.Text.Trim();
+
+
+                    Google.Apis.Drive.v3.Data.File carpetaTarea =
+                        await GoogleDriveService
+                            .CrearCarpetaTareaAsync(
+                                _driveService,
+                                nombreCarpeta
+                            );
+
+
+                    DriveFolderId =
+                        carpetaTarea.Id
+                        ?? "";
+                }
+
+
+                string enlaceCarpeta =
+                    GoogleDriveService
+                        .ObtenerEnlaceCarpetaTarea(
+                            DriveFolderId
+                        );
+
+
+                if (string.IsNullOrWhiteSpace(
+                        enlaceCarpeta))
+                {
+                    MessageBox.Show(
+                        "No fue posible obtener el enlace de la carpeta de esta tarea.",
+                        "Google Drive",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information
+                    );
+
+                    return;
+                }
+
+
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName =
+                            enlaceCarpeta,
+
+                        UseShellExecute =
+                            true
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No fue posible abrir la carpeta de esta tarea en Google Drive.\n\n" +
+                    ex.Message,
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+            finally
+            {
+                BtnAbrirCarpetaDrive.IsEnabled =
+                    true;
+            }
+        }
+
+
+        // =========================================================
+        // ABRIR ARCHIVO EN GOOGLE DRIVE
+        // =========================================================
+
+        private void BtnAbrirArchivoDrive_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            if (sender is not Button boton ||
+                boton.Tag is not string enlace ||
+                string.IsNullOrWhiteSpace(
+                    enlace))
+            {
+                MessageBox.Show(
+                    "Todavía no hay un enlace disponible para este archivo.",
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+
+                return;
+            }
+
+
+            try
+            {
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName =
+                            enlace,
+
+                        UseShellExecute =
+                            true
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No fue posible abrir el archivo en Google Drive.\n\n" +
+                    ex.Message,
+                    "Google Drive",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
+
+
+        // =========================================================
         // CREAR TAREA
         // =========================================================
 
-        private void CrearTarea_Click(
+        private async void CrearTarea_Click(
             object sender,
             RoutedEventArgs e)
         {
@@ -534,6 +1016,89 @@ namespace NoteDesk
                     break;
                 }
             }
+
+
+            // =====================================================
+            // GOOGLE DRIVE
+            // =====================================================
+
+            DriveActivo =
+                SwitchDrive.IsChecked == true;
+
+
+            // =====================================================
+            // CREAR / RENOMBRAR LA CARPETA DE LA TAREA
+            // =====================================================
+
+            if (DriveActivo &&
+                _driveService != null)
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(
+                            DriveFolderId))
+                    {
+                        Google.Apis.Drive.v3.Data.File carpetaTarea =
+                            await GoogleDriveService
+                                .CrearCarpetaTareaAsync(
+                                    _driveService,
+                                    TituloTarea
+                                );
+
+
+                        DriveFolderId =
+                            carpetaTarea.Id
+                            ?? "";
+                    }
+                    else
+                    {
+                        await GoogleDriveService
+                            .RenombrarCarpetaTareaAsync(
+                                _driveService,
+                                DriveFolderId,
+                                TituloTarea
+                            );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "La tarea no se pudo guardar porque hubo un problema con su carpeta de Google Drive.\n\n" +
+                        ex.Message,
+                        "Google Drive",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+
+                    return;
+                }
+            }
+
+
+            ArchivosDrive =
+                _archivosDrive
+                    .Select(
+                        archivo =>
+                            new ArchivoDriveModel
+                            {
+                                Id =
+                                    archivo.Id
+                                    ?? "",
+
+                                Nombre =
+                                    archivo.Name
+                                    ?? "",
+
+                                Enlace =
+                                    archivo.WebViewLink
+                                    ?? "",
+
+                                MimeType =
+                                    archivo.MimeType
+                                    ?? ""
+                            }
+                    )
+                    .ToList();
 
 
             // =====================================================

@@ -1290,16 +1290,18 @@
                                         BorderThickness="1"
                                         Foreground="{DynamicResource ColorTexto}"
                                         Cursor="Hand"
-                                        Content="+ Subir archivo"/>
+                                        Content="+ Subir archivo"
+                                        Click="BtnSubirArchivoDrive_Click"/>
 
-                                <Button x:Name="BtnBuscarDrive"
+                                <Button x:Name="BtnAbrirCarpetaDrive"
                                         Grid.Column="2"
                                         Height="40"
                                         Background="{DynamicResource ColorVentana}"
                                         BorderBrush="#DED4BD"
                                         BorderThickness="1"
                                         Foreground="{DynamicResource ColorTexto}"
-                                        Cursor="Hand">
+                                        Cursor="Hand"
+                                        Click="BtnAbrirCarpetaDrive_Click">
 
                                     <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Center">
@@ -1310,7 +1312,7 @@
                                                Stretch="Uniform"
                                                Margin="0,0,6,0"/>
 
-                                        <TextBlock Text="Buscar en Drive"
+                                        <TextBlock Text="Abrir carpeta"
                                                    FontSize="12"
                                                    VerticalAlignment="Center"/>
 
@@ -1329,6 +1331,74 @@
                                            FontWeight="SemiBold"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Margin="2,10,0,6"/>
+
+                                <ItemsControl x:Name="ListaArchivosDrive">
+
+                                    <ItemsControl.ItemTemplate>
+
+                                        <DataTemplate>
+
+                                            <Border Background="{DynamicResource ColorVentana}"
+                                                    BorderBrush="#DED4BD"
+                                                    BorderThickness="1"
+                                                    CornerRadius="10"
+                                                    Padding="10"
+                                                    Margin="0,0,0,6">
+
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Image Source="/NoteDesk;component/Assets/Img/GoogleDrive.png"
+                                                           Width="24"
+                                                           Height="24"
+                                                           Stretch="Uniform"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,10,0"/>
+
+                                                    <StackPanel Grid.Column="1"
+                                                                VerticalAlignment="Center">
+
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   FontSize="11"
+                                                                   FontWeight="SemiBold"
+                                                                   Foreground="{DynamicResource ColorTexto}"
+                                                                   TextTrimming="CharacterEllipsis"/>
+
+                                                        <TextBlock Text="Guardado correctamente en Google Drive"
+                                                                   FontSize="9"
+                                                                   Foreground="{DynamicResource ColorTexto}"
+                                                                   Opacity="0.6"
+                                                                   Margin="0,2,0,0"/>
+
+                                                    </StackPanel>
+
+                                                    <Button Grid.Column="2"
+                                                            Content="Abrir"
+                                                            Width="58"
+                                                            Height="28"
+                                                            Margin="10,0,0,0"
+                                                            Background="Transparent"
+                                                            BorderBrush="#DED4BD"
+                                                            BorderThickness="1"
+                                                            Foreground="{DynamicResource ColorTexto}"
+                                                            Cursor="Hand"
+                                                            Tag="{Binding WebViewLink}"
+                                                            Click="BtnAbrirArchivoDrive_Click"/>
+
+                                                </Grid>
+
+                                            </Border>
+
+                                        </DataTemplate>
+
+                                    </ItemsControl.ItemTemplate>
+
+                                </ItemsControl>
 
                             </StackPanel>
 
