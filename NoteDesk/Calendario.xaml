@@ -99,7 +99,8 @@
 
                     <ControlTemplate TargetType="Button">
 
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="MonthButtonBorder"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="10">
@@ -109,12 +110,65 @@
 
                         </Border>
 
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MonthButtonBorder" Property="Background" Value="{DynamicResource ColorMesSeleccionado}"/>
+                                <Setter TargetName="MonthButtonBorder" Property="BorderBrush" Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="MonthButtonBorder" Property="Background" Value="{DynamicResource ColorHeader}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
                     </ControlTemplate>
 
                 </Setter.Value>
 
             </Setter>
 
+        </Style>
+
+        <Style x:Key="CalendarNavigationButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource ColorSuperficie}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorBorde}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ColorTexto}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ColorMesSeleccionado}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ColorHeader}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CalendarTodayButton" TargetType="Button" BasedOn="{StaticResource CalendarNavigationButton}">
+            <Setter Property="Background" Value="{DynamicResource ColorHeader}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ColorTextoHeader}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,0"/>
         </Style>
 
         <!-- TARJETA DE TAREA -->
@@ -644,7 +698,7 @@
 
                             <Grid.RowDefinitions>
 
-                                <RowDefinition Height="65"/>
+                                <RowDefinition Height="72"/>
 
                                 <RowDefinition Height="42"/>
 
@@ -672,10 +726,7 @@
                                         Height="40"
                                         Content="‹"
                                         FontSize="24"
-                                        Background="{DynamicResource ColorSuperficie}"
-                                        BorderBrush="{DynamicResource ColorBorde}"
-                                        Foreground="{DynamicResource ColorTexto}"
-                                        Cursor="Hand"
+                                        Style="{StaticResource CalendarNavigationButton}"
                                         Click="MesAnterior_Click"/>
 
                                 <TextBlock x:Name="TxtMesCalendario"
@@ -693,10 +744,7 @@
                                     <Button Content="Hoy"
                                             Width="70"
                                             Height="40"
-                                            Background="{DynamicResource ColorSuperficie}"
-                                            BorderBrush="{DynamicResource ColorBorde}"
-                                            Foreground="{DynamicResource ColorTexto}"
-                                            Cursor="Hand"
+                                            Style="{StaticResource CalendarTodayButton}"
                                             Margin="0,0,8,0"
                                             Click="Hoy_Click"/>
 
@@ -704,10 +752,7 @@
                                             Height="40"
                                             Content="›"
                                             FontSize="24"
-                                            Background="{DynamicResource ColorSuperficie}"
-                                            BorderBrush="{DynamicResource ColorBorde}"
-                                            Foreground="{DynamicResource ColorTexto}"
-                                            Cursor="Hand"
+                                            Style="{StaticResource CalendarNavigationButton}"
                                             Click="MesSiguiente_Click"/>
 
                                 </StackPanel>
@@ -1238,11 +1283,9 @@
 
                                 <ComboBox x:Name="CmbAnio"
                                           HorizontalAlignment="Right"
-                                          Width="90"
-                                          Height="32"
-                                          Background="{DynamicResource ColorSuperficie}"
-                                          Foreground="{DynamicResource ColorTexto}"
-                                          BorderBrush="{DynamicResource ColorBorde}"
+                                          Width="100"
+                                          Height="36"
+                                          Style="{StaticResource NoteDeskComboBox}"
                                           SelectionChanged="Anio_SelectionChanged"/>
 
                             </Grid>

@@ -190,11 +190,9 @@
 
                         <ComboBox x:Name="CmbFiltroCategoria"
                                   Width="150"
-                                  Height="32"
+                                  Height="36"
                                   HorizontalAlignment="Right"
-                                  Background="{DynamicResource ColorTarjetaInterna}"
-                                  Foreground="{DynamicResource ColorTexto}"
-                                  BorderBrush="{DynamicResource ColorBorde}"
+                                  Style="{StaticResource NoteDeskComboBox}"
                                   SelectedValuePath="Tag">
                             <ComboBoxItem Content="Todas" Tag="*" IsSelected="True"/>
                             <ComboBoxItem Content="Work" Tag="Work"/>
