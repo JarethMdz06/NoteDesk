@@ -10,6 +10,10 @@
 
   <ItemGroup>
     <None Remove="Assets\Img\GoogleDrive.png" />
+    <None Remove="Assets\Img\fondo.jpg" />
+    <None Remove="Assets\Img\calendario.png" />
+    <None Remove="Assets\Img\calendario2.jpeg" />
+    <None Remove="Assets\Aud\NoteDesk_Notificacion_Campana.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +24,10 @@
     <Resource Include="Assets\Img\GoogleDrive.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Img\fondo.jpg" />
+    <Resource Include="Assets\Img\calendario.png" />
+    <Resource Include="Assets\Img\calendario2.jpeg" />
+    <Resource Include="Assets\Aud\NoteDesk_Notificacion_Campana.wav" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +24,8 @@ namespace NoteDesk
 
         public TareaModel? TareaAsociada =>
             _tarea;
+
+        public event Func<TareaModel, bool>? SubtareasChanged;
 
 
         // ============================================================
@@ -48,11 +52,11 @@ namespace NoteDesk
         // TAMAÑOS DE LA VENTANA
         // ============================================================
 
-        private const double AlturaNormal = 330;
-        private const double AlturaConColores = 385;
+        private const double AlturaNormal = 430;
+        private const double AlturaConColores = 485;
         private const double AlturaReducida = 90;
 
-        private const double AnchoNormal = 330;
+        private const double AnchoNormal = 350;
         private const double AnchoReducido = 275;
 
 
@@ -155,7 +159,9 @@ namespace NoteDesk
 
             TxtCategoriaSticky.Text =
                 _categoria;
+            TxtCategoriaIcono.Text = ObtenerIconoCategoria(_categoria);
 
+            ActualizarSubtareas();
 
             // =====================================================
             // GOOGLE DRIVE
@@ -177,6 +183,100 @@ namespace NoteDesk
         // ============================================================
         // CONFIGURAR GOOGLE DRIVE
         // ============================================================
+
+        public void ActualizarTarea(TareaModel tarea)
+        {
+            _titulo = tarea.Titulo;
+            _descripcion = tarea.Descripcion;
+            _fecha = tarea.Fecha;
+            _categoria = tarea.Categoria;
+            _prioridad = tarea.Prioridad;
+
+            TxtTituloSticky.Text = _titulo;
+            TxtDescripcionSticky.Text = _descripcion;
+            TxtFecha.Text = _fecha;
+            TxtCategoriaSticky.Text = _categoria;
+            TxtCategoriaIcono.Text = ObtenerIconoCategoria(_categoria);
+            ConfigurarGoogleDrive();
+            ActualizarSubtareas();
+        }
+
+        private static string ObtenerIconoCategoria(string categoria) => categoria switch
+        {
+            "Work" => "💼",
+            "School" => "🎓",
+            "Home" => "🏠",
+            "Shopping" => "🛒",
+            "Personal" => "👤",
+            "Hobbies" => "🎮",
+            "Health" => "❤️",
+            _ => "✓"
+        };
+
+        public void ActualizarSubtareas()
+        {
+            if (PanelSubtareasSticky == null)
+            {
+                return;
+            }
+
+            List<SubtareaModel> subtareas = _tarea?.Subtareas ?? new List<SubtareaModel>();
+            PanelSubtareasSticky.Children.Clear();
+            int completadas = subtareas.Count(subtarea => subtarea.Completada);
+            TxtSubtareasStickyCount.Text = $"{completadas} de {subtareas.Count}";
+            TxtSinSubtareasSticky.Visibility = subtareas.Count == 0
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            foreach (SubtareaModel subtarea in subtareas)
+            {
+                StackPanel fila = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    Margin = new Thickness(0, 3, 0, 3)
+                };
+                CheckBox check = new CheckBox
+                {
+                    Style = (Style)FindResource("StickySubtaskCheckBox"),
+                    IsChecked = subtarea.Completada,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 8, 0)
+                };
+                check.Checked += (_, _) => CambiarEstadoSubtarea(subtarea, true);
+                check.Unchecked += (_, _) => CambiarEstadoSubtarea(subtarea, false);
+                fila.Children.Add(check);
+                TextBlock titulo = new TextBlock
+                {
+                    Text = subtarea.Titulo,
+                    FontSize = 10,
+                    Foreground = (Brush)FindResource("ColorTexto"),
+                    TextWrapping = TextWrapping.Wrap,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    TextDecorations = subtarea.Completada ? TextDecorations.Strikethrough : null
+                };
+                check.Checked += (_, _) => titulo.TextDecorations = TextDecorations.Strikethrough;
+                check.Unchecked += (_, _) => titulo.TextDecorations = null;
+                fila.Children.Add(titulo);
+                PanelSubtareasSticky.Children.Add(fila);
+            }
+        }
+
+        private void CambiarEstadoSubtarea(SubtareaModel subtarea, bool completada)
+        {
+            if (_tarea == null)
+            {
+                return;
+            }
+
+            bool estadoAnterior = subtarea.Completada;
+            subtarea.Completada = completada;
+            if (SubtareasChanged?.Invoke(_tarea) != true)
+            {
+                subtarea.Completada = estadoAnterior;
+            }
+
+            ActualizarSubtareas();
+        }
 
         private void ConfigurarGoogleDrive()
         {
@@ -332,7 +432,8 @@ namespace NoteDesk
             while (current != null)
             {
                 if (current is Button ||
-                    current is RadioButton)
+                    current is RadioButton ||
+                    current is CheckBox)
                 {
                     return true;
                 }

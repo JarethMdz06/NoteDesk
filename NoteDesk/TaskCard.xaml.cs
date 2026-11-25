@@ -18,6 +18,11 @@ namespace NoteDesk
 
         public event Action<TareaModel>? EditRequested;
         public event Action<TareaModel>? DeleteRequested;
+        public event Action<TareaModel, bool>? CompletionChanged;
+        public event Action<TareaModel>? SelectionRequested;
+        public event Func<TareaModel, bool>? SubtareasChanged;
+
+        public TareaModel TareaAsociada => _tarea;
 
         public TaskCard(TareaModel tarea)
         {
@@ -30,6 +35,17 @@ namespace NoteDesk
             _color = tarea.Color;
             _prioridad = tarea.Prioridad;
             _categoria = tarea.Categoria;
+            ChkCompletada.IsChecked = tarea.Completada;
+            bool tieneSubtareas = tarea.Subtareas?.Count > 0;
+            ChkCompletada.IsEnabled = !tieneSubtareas;
+            ChkCompletada.Cursor = tieneSubtareas ? Cursors.Arrow : Cursors.Hand;
+            ChkCompletada.ToolTip = tieneSubtareas
+                ? "Esta tarea se completará al marcar todas sus subtareas."
+                : "Marcar tarea como completada";
+            TxtTitulo.TextDecorations = tarea.Completada
+                ? TextDecorations.Strikethrough
+                : null;
+            TxtTitulo.Opacity = tarea.Completada ? 0.65 : 1;
 
             string titulo = tarea.Titulo;
             string prioridad = tarea.Prioridad;
@@ -89,6 +105,40 @@ namespace NoteDesk
             }
         }
 
+        public void EstablecerSeleccionada(bool seleccionada)
+        {
+            BordeTaskCard.BorderBrush = seleccionada
+                ? (System.Windows.Media.Brush)FindResource("ColorBordeMesSeleccionado")
+                : System.Windows.Media.Brushes.Transparent;
+            BordeTaskCard.BorderThickness = seleccionada
+                ? new Thickness(2)
+                : new Thickness(1);
+        }
+
+        private void ChkCompletada_Changed(object sender, RoutedEventArgs e)
+        {
+            if (_tarea.Subtareas?.Count > 0)
+            {
+                ChkCompletada.IsChecked = _tarea.Completada;
+                return;
+            }
+
+            SelectionRequested?.Invoke(_tarea);
+            bool completada = ChkCompletada.IsChecked == true;
+            if (completada == _tarea.Completada)
+            {
+                return;
+            }
+
+            _tarea.Completada = completada;
+            TxtTitulo.TextDecorations = completada
+                ? TextDecorations.Strikethrough
+                : null;
+            TxtTitulo.Opacity = completada ? 0.65 : 1;
+            CompletionChanged?.Invoke(_tarea, completada);
+            e.Handled = true;
+        }
+
         private void BtnMenuTarea_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.ContextMenu is ContextMenu menu)
@@ -122,6 +172,8 @@ namespace NoteDesk
                 return;
             }
 
+            SelectionRequested?.Invoke(_tarea);
+
             StickyTaskWindow? ventanaExistente =
                 Application.Current.Windows
                     .OfType<StickyTaskWindow>()
@@ -148,6 +200,7 @@ namespace NoteDesk
                 new StickyTaskWindow(
                     _tarea
                 );
+            ventana.SubtareasChanged += tarea => SubtareasChanged?.Invoke(tarea) == true;
 
             Window? ventanaPrincipal =
                 Window.GetWindow(this);

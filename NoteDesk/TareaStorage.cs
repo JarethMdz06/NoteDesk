@@ -36,7 +36,7 @@ namespace NoteDesk
         // GUARDAR
         // =====================================================
 
-        public static void Guardar(
+        public static bool Guardar(
             List<TareaModel> tareas)
         {
             try
@@ -75,6 +75,8 @@ namespace NoteDesk
                     ArchivoTareas,
                     json
                 );
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -85,6 +87,8 @@ namespace NoteDesk
                     MessageBoxButton.OK,
                     MessageBoxImage.Error
                 );
+
+                return false;
             }
         }
 

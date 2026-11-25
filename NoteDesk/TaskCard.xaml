@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              HorizontalAlignment="Stretch">
 
-    <Border Style="{StaticResource TaskCardStyle}"
+    <Border x:Name="BordeTaskCard"
+            Style="{StaticResource TaskCardStyle}"
+            BorderThickness="1"
+            BorderBrush="Transparent"
             HorizontalAlignment="Stretch"
             MouseLeftButtonUp="TaskCard_Click"
             Cursor="Hand">
@@ -31,13 +34,16 @@
             <!-- CHECK                                             -->
             <!-- ================================================= -->
 
-            <CheckBox Grid.Column="0"
+            <CheckBox x:Name="ChkCompletada"
+                      Grid.Column="0"
                       Width="26"
                       Height="26"
                       Margin="0,0,10,0"
                       VerticalAlignment="Center"
                       Cursor="Hand"
-                      IsChecked="False">
+                      IsChecked="False"
+                      Checked="ChkCompletada_Changed"
+                      Unchecked="ChkCompletada_Changed">
 
                 <CheckBox.Template>
 

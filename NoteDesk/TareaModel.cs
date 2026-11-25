@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NoteDesk
 {
@@ -20,6 +21,14 @@ namespace NoteDesk
 
         public string Categoria { get; set; } = "";
 
+        public bool Completada { get; set; }
+
+        public List<SubtareaModel> Subtareas { get; set; } = new List<SubtareaModel>();
+
+        public DateTime UltimoAvanceSubtareasUtc { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UltimoRecordatorioSubtareasUtc { get; set; }
+
 
         // =====================================================
         // GOOGLE DRIVE
@@ -40,6 +49,14 @@ namespace NoteDesk
 
         public List<ArchivoDriveModel> ArchivosDrive { get; set; }
             = new List<ArchivoDriveModel>();
+    }
+
+
+    public class SubtareaModel
+    {
+        public string Titulo { get; set; } = "";
+
+        public bool Completada { get; set; }
     }
 
 

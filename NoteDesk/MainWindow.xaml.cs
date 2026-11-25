@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using NoteDesk.Services;
 
 namespace NoteDesk
@@ -37,6 +38,14 @@ namespace NoteDesk
 
         private string _categoriaSeleccionada = "*";
 
+        private TareaModel? _tareaSeleccionada;
+
+        private readonly PreferenciasUsuario _preferencias;
+
+        private readonly DispatcherTimer _timerRecordatorios;
+
+        private static readonly TimeSpan IntervaloSinAvance = TimeSpan.FromDays(1);
+
 
         // =========================================================
         // SECCIONES DE LA VENTANA PRINCIPAL
@@ -60,6 +69,16 @@ namespace NoteDesk
         {
             InitializeComponent();
             CmbFiltroCategoria.SelectionChanged += FiltroCategoria_SelectionChanged;
+            _preferencias = PreferenciasUsuarioStorage.Cargar();
+            _timerRecordatorios = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMinutes(1)
+            };
+            _timerRecordatorios.Tick += RecordatorioSinAvance_Tick;
+            if (_preferencias.RecordatoriosActivos)
+            {
+                _timerRecordatorios.Start();
+            }
 
 
             // =====================================================
@@ -109,8 +128,20 @@ namespace NoteDesk
             _tareas =
                 TareaStorage.Cargar();
 
+            foreach (TareaModel tarea in _tareas)
+            {
+                tarea.Subtareas ??= new List<SubtareaModel>();
+                if (tarea.Subtareas.Count > 0 && tarea.UltimoAvanceSubtareasUtc == default)
+                {
+                    tarea.UltimoAvanceSubtareasUtc = DateTime.UtcNow;
+                }
+            }
+
+            _tareaSeleccionada = _tareas.FirstOrDefault(tarea => !tarea.Completada)
+                ?? _tareas.FirstOrDefault();
 
             ActualizarListaVisual();
+            ActualizarProgreso();
         }
 
 
@@ -151,10 +182,365 @@ namespace NoteDesk
             TaskCard nuevaTarea = new TaskCard(tarea);
             nuevaTarea.EditRequested += EditarTarea;
             nuevaTarea.DeleteRequested += EliminarTarea;
+            nuevaTarea.CompletionChanged += TareaCompletada_Cambiada;
+            nuevaTarea.SelectionRequested += TareaSeleccionada;
+            nuevaTarea.SubtareasChanged += GuardarSubtareasDesdeSticky;
+            nuevaTarea.EstablecerSeleccionada(ReferenceEquals(tarea, _tareaSeleccionada));
 
             ListTask.Children.Add(nuevaTarea);
         }
 
+        private void TareaSeleccionada(TareaModel tarea)
+        {
+            _tareaSeleccionada = tarea;
+            foreach (TaskCard tarjeta in ListTask.Children.OfType<TaskCard>())
+            {
+                tarjeta.EstablecerSeleccionada(ReferenceEquals(tarjeta.TareaAsociada, tarea));
+            }
+
+            ActualizarProgreso();
+        }
+
+        private bool GuardarSubtareasDesdeSticky(TareaModel tarea)
+        {
+            bool estabaCompletada = tarea.Completada;
+            DateTime ultimoAvanceAnterior = tarea.UltimoAvanceSubtareasUtc;
+            DateTime? ultimoRecordatorioAnterior = tarea.UltimoRecordatorioSubtareasUtc;
+            if (tarea.Subtareas.Count > 0)
+            {
+                tarea.Completada = tarea.Subtareas.All(subtarea => subtarea.Completada);
+            }
+            tarea.UltimoAvanceSubtareasUtc = DateTime.UtcNow;
+            tarea.UltimoRecordatorioSubtareasUtc = null;
+
+            if (!TareaStorage.Guardar(_tareas))
+            {
+                tarea.Completada = estabaCompletada;
+                tarea.UltimoAvanceSubtareasUtc = ultimoAvanceAnterior;
+                tarea.UltimoRecordatorioSubtareasUtc = ultimoRecordatorioAnterior;
+                return false;
+            }
+
+            ActualizarProgreso();
+            if (tarea.Completada != estabaCompletada)
+            {
+                ActualizarListaVisual();
+                ActualizarCalendario();
+                if (tarea.Completada)
+                {
+                    NotificarTareaCompletada(tarea);
+                }
+            }
+            return true;
+        }
+
+        private void ActualizarVentanasSticky(TareaModel tarea)
+        {
+            foreach (StickyTaskWindow ventana in Application.Current.Windows.OfType<StickyTaskWindow>()
+                         .Where(ventana => ReferenceEquals(ventana.TareaAsociada, tarea)))
+            {
+                ventana.ActualizarTarea(tarea);
+            }
+        }
+
+        private void TareaCompletada_Cambiada(TareaModel tarea, bool completada)
+        {
+            tarea.Completada = completada;
+            if (!TareaStorage.Guardar(_tareas))
+            {
+                tarea.Completada = !completada;
+                ActualizarListaVisual();
+                ActualizarProgreso();
+                return;
+            }
+
+            ActualizarListaVisual();
+            ActualizarCalendario();
+            ActualizarProgreso();
+
+            if (completada)
+            {
+                NotificarTareaCompletada(tarea);
+            }
+        }
+
+        private void NotificarTareaCompletada(TareaModel tarea)
+        {
+            if (_preferencias.SonidoActivo)
+            {
+                SonidoNotificaciones.Reproducir(_preferencias.SonidoSeleccionado);
+            }
+
+            if (_preferencias.RecordatoriosActivos)
+            {
+                MessageBox.Show(
+                    $"¡Tarea completada!\n\n{tarea.Titulo}",
+                    "NoteDesk",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+
+        private void ActualizarProgreso()
+        {
+            if (PanelProgresoSeleccionado == null || TxtPorcentajeProgreso == null || PathProgreso == null)
+            {
+                return;
+            }
+
+            bool hayTarea = _tareaSeleccionada != null;
+            PanelProgresoSeleccionado.Visibility = hayTarea ? Visibility.Visible : Visibility.Collapsed;
+            TxtProgresoVacio.Visibility = hayTarea ? Visibility.Collapsed : Visibility.Visible;
+            if (!hayTarea)
+            {
+                return;
+            }
+
+            TareaModel tarea = _tareaSeleccionada!;
+            tarea.Subtareas ??= new List<SubtareaModel>();
+            TxtProgresoTitulo.Text = tarea.Titulo;
+            TxtProgresoIcono.Text = ObtenerIconoCategoria(tarea.Categoria);
+
+            bool tieneCategoria = !string.IsNullOrWhiteSpace(tarea.Categoria);
+            PanelProgresoCategoria.Visibility = tieneCategoria ? Visibility.Visible : Visibility.Collapsed;
+            TxtProgresoCategoria.Text = tarea.Categoria;
+            TxtProgresoFecha.Text = string.IsNullOrWhiteSpace(tarea.Fecha) ? "" : $"▣  Fecha: {tarea.Fecha}";
+
+            bool tienePrioridad = !string.IsNullOrWhiteSpace(tarea.Prioridad);
+            PanelProgresoPrioridad.Visibility = tienePrioridad ? Visibility.Visible : Visibility.Collapsed;
+            TxtProgresoPrioridad.Text = $"⚑  Prioridad {tarea.Prioridad}";
+            (string prioridadFondo, string prioridadTexto) = tarea.Prioridad switch
+            {
+                "Alta" => ("#F1B1B1", "#882222"),
+                "Media" => ("#F7D89C", "#774400"),
+                _ => ("#CDECCF", "#2E6B32")
+            };
+            PanelProgresoPrioridad.Background = (Brush)new BrushConverter().ConvertFromString(prioridadFondo)!;
+            TxtProgresoPrioridad.Foreground = (Brush)new BrushConverter().ConvertFromString(prioridadTexto)!;
+
+            PanelSubtareasProgreso.Children.Clear();
+            bool tieneSubtareas = tarea.Subtareas.Count > 0;
+            TxtSubtareasVacias.Text = "Esta tarea no tiene subtareas. Su progreso depende de la casilla principal.";
+            TxtSubtareasVacias.Visibility = tieneSubtareas
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+            foreach (SubtareaModel subtarea in tarea.Subtareas)
+            {
+                PanelSubtareasProgreso.Children.Add(CrearFilaSubtarea(tarea, subtarea));
+            }
+
+            int total = tieneSubtareas ? tarea.Subtareas.Count : 1;
+            int completadas = tieneSubtareas
+                ? tarea.Subtareas.Count(subtarea => subtarea.Completada)
+                : tarea.Completada ? 1 : 0;
+            double progreso = completadas / (double)total;
+            int porcentaje = (int)Math.Round(progreso * 100);
+            TxtPorcentajeProgreso.Text = $"{porcentaje}%";
+            TxtTareasCompletadas.Text = tieneSubtareas
+                ? $"{completadas} de {total} subtareas"
+                : $"{completadas} de 1 tarea";
+
+            PathProgreso.Data = null;
+            PathProgreso.Visibility = Visibility.Collapsed;
+            EllipseProgresoFondo.Stroke = (Brush)FindResource("ColorBorde");
+            if (porcentaje == 100)
+            {
+                EllipseProgresoFondo.Stroke = (Brush)new BrushConverter().ConvertFromString("#3FA772")!;
+                return;
+            }
+
+            if (porcentaje == 0)
+            {
+                return;
+            }
+
+            const double centro = 71;
+            const double radio = 59;
+            double angulo = progreso * 360;
+            double radianes = angulo * Math.PI / 180;
+            Point fin = new Point(
+                centro + radio * Math.Sin(radianes),
+                centro - radio * Math.Cos(radianes));
+            PathProgreso.Data = new PathGeometry
+            {
+                Figures = new PathFigureCollection
+                {
+                    new PathFigure
+                    {
+                        StartPoint = new Point(centro, centro - radio),
+                        IsClosed = false,
+                        Segments = new PathSegmentCollection
+                        {
+                            new ArcSegment
+                            {
+                                Point = fin,
+                                Size = new Size(radio, radio),
+                                IsLargeArc = progreso > 0.5,
+                                SweepDirection = SweepDirection.Clockwise,
+                                IsStroked = true
+                            }
+                        }
+                    }
+                }
+            };
+            PathProgreso.Visibility = Visibility.Visible;
+        }
+
+        private static string ObtenerIconoCategoria(string categoria) => categoria switch
+        {
+            "Work" => "💼",
+            "School" => "🎓",
+            "Home" => "🏠",
+            "Shopping" => "🛒",
+            "Personal" => "👤",
+            "Hobbies" => "🎮",
+            "Health" => "❤️",
+            _ => "✓"
+        };
+
+        private UIElement CrearFilaSubtarea(TareaModel tarea, SubtareaModel subtarea)
+        {
+            Border fila = new Border
+            {
+                Background = (Brush)FindResource("ColorTarjetaInterna"),
+                BorderBrush = (Brush)FindResource("ColorBorde"),
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(10),
+                Padding = new Thickness(9, 6, 9, 6),
+                Margin = new Thickness(0, 0, 0, 5)
+            };
+            Grid contenido = new Grid();
+            contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            CheckBox check = new CheckBox
+            {
+                Style = (Style)FindResource("SubtareaCheckBox"),
+                IsChecked = subtarea.Completada,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 10, 0)
+            };
+            check.Checked += (_, _) => CambiarEstadoSubtarea(tarea, subtarea, true);
+            check.Unchecked += (_, _) => CambiarEstadoSubtarea(tarea, subtarea, false);
+            contenido.Children.Add(check);
+
+            TextBlock titulo = new TextBlock
+            {
+                Text = subtarea.Titulo,
+                FontSize = 12,
+                TextWrapping = TextWrapping.Wrap,
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = (Brush)FindResource("ColorTexto"),
+                TextDecorations = subtarea.Completada ? TextDecorations.Strikethrough : null
+            };
+            check.Checked += (_, _) => titulo.TextDecorations = TextDecorations.Strikethrough;
+            check.Unchecked += (_, _) => titulo.TextDecorations = null;
+            Grid.SetColumn(titulo, 1);
+            contenido.Children.Add(titulo);
+            fila.Child = contenido;
+            return fila;
+        }
+
+        private void CambiarEstadoSubtarea(TareaModel tarea, SubtareaModel subtarea, bool completada)
+        {
+            bool estadoAnterior = subtarea.Completada;
+            bool tareaCompletadaAnterior = tarea.Completada;
+            DateTime ultimoAvanceAnterior = tarea.UltimoAvanceSubtareasUtc;
+            DateTime? ultimoRecordatorioAnterior = tarea.UltimoRecordatorioSubtareasUtc;
+
+            subtarea.Completada = completada;
+            if (tarea.Subtareas.Count > 0)
+            {
+                tarea.Completada = tarea.Subtareas.All(paso => paso.Completada);
+            }
+            tarea.UltimoAvanceSubtareasUtc = DateTime.UtcNow;
+            tarea.UltimoRecordatorioSubtareasUtc = null;
+
+            if (!TareaStorage.Guardar(_tareas))
+            {
+                subtarea.Completada = estadoAnterior;
+                tarea.Completada = tareaCompletadaAnterior;
+                tarea.UltimoAvanceSubtareasUtc = ultimoAvanceAnterior;
+                tarea.UltimoRecordatorioSubtareasUtc = ultimoRecordatorioAnterior;
+                ActualizarProgreso();
+                return;
+            }
+
+            ActualizarProgreso();
+            ActualizarVentanasSticky(tarea);
+            if (tarea.Completada != tareaCompletadaAnterior)
+            {
+                ActualizarListaVisual();
+                ActualizarCalendario();
+                if (tarea.Completada)
+                {
+                    NotificarTareaCompletada(tarea);
+                }
+            }
+        }
+
+        private void RecordatorioSinAvance_Tick(object? sender, EventArgs e)
+        {
+            if (!_preferencias.RecordatoriosActivos)
+            {
+                return;
+            }
+
+            DateTime ahoraUtc = DateTime.UtcNow;
+            List<TareaModel> sinAvance = _tareas
+                .Where(tarea => !tarea.Completada &&
+                                tarea.Subtareas.Count > 0 &&
+                                tarea.Subtareas.Any(subtarea => !subtarea.Completada) &&
+                                ahoraUtc - tarea.UltimoAvanceSubtareasUtc >= IntervaloSinAvance &&
+                                (tarea.UltimoRecordatorioSubtareasUtc == null ||
+                                 ahoraUtc - tarea.UltimoRecordatorioSubtareasUtc.Value >= IntervaloSinAvance))
+                .ToList();
+
+            if (sinAvance.Count == 0)
+            {
+                return;
+            }
+
+            Dictionary<TareaModel, DateTime?> recordatoriosAnteriores = sinAvance
+                .ToDictionary(tarea => tarea, tarea => tarea.UltimoRecordatorioSubtareasUtc);
+            foreach (TareaModel tarea in sinAvance)
+            {
+                tarea.UltimoRecordatorioSubtareasUtc = ahoraUtc;
+            }
+
+            if (!TareaStorage.Guardar(_tareas))
+            {
+                foreach ((TareaModel tarea, DateTime? recordatorioAnterior) in recordatoriosAnteriores)
+                {
+                    tarea.UltimoRecordatorioSubtareasUtc = recordatorioAnterior;
+                }
+                return;
+            }
+
+            if (_preferencias.SonidoActivo)
+            {
+                SonidoNotificaciones.Reproducir(_preferencias.SonidoSeleccionado);
+            }
+
+            string listaTareas = string.Join("\n", sinAvance.Select(tarea => $"• {tarea.Titulo}"));
+            MessageBox.Show(
+                $"Ha pasado 1 día sin avanzar estas subtareas:\n\n{listaTareas}",
+                "Recordatorio de NoteDesk",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void NotificacionesActualizadas()
+        {
+            if (_preferencias.RecordatoriosActivos)
+            {
+                _timerRecordatorios.Start();
+            }
+            else
+            {
+                _timerRecordatorios.Stop();
+            }
+        }
 
         private void EditarTarea(TareaModel tarea)
         {
@@ -168,12 +554,20 @@ namespace NoteDesk
                 return;
             }
 
+            bool estabaCompletadaAntesDeEditar = tarea.Completada;
             tarea.Titulo = ventanaEditarTarea.TituloTarea;
             tarea.Descripcion = ventanaEditarTarea.DescripcionTarea;
             tarea.Fecha = ventanaEditarTarea.FechaTarea;
             tarea.Color = ventanaEditarTarea.ColorTarea;
             tarea.Prioridad = ventanaEditarTarea.PrioridadSeleccionada;
             tarea.Categoria = ventanaEditarTarea.CategoriaSeleccionada;
+            tarea.Subtareas = ventanaEditarTarea.SubtareasTarea;
+            tarea.UltimoAvanceSubtareasUtc = DateTime.UtcNow;
+            tarea.UltimoRecordatorioSubtareasUtc = null;
+            if (tarea.Subtareas.Count > 0)
+            {
+                tarea.Completada = tarea.Subtareas.All(subtarea => subtarea.Completada);
+            }
 
             // =====================================================
             // GOOGLE DRIVE
@@ -204,6 +598,12 @@ namespace NoteDesk
             TareaStorage.Guardar(_tareas);
             ActualizarListaVisual();
             ActualizarCalendario();
+            ActualizarProgreso();
+            ActualizarVentanasSticky(tarea);
+            if (!estabaCompletadaAntesDeEditar && tarea.Completada)
+            {
+                NotificarTareaCompletada(tarea);
+            }
         }
 
 
@@ -294,6 +694,11 @@ namespace NoteDesk
                 return;
             }
 
+            if (ReferenceEquals(_tareaSeleccionada, tarea))
+            {
+                _tareaSeleccionada = _tareas.FirstOrDefault(pendiente => !pendiente.Completada)
+                    ?? _tareas.FirstOrDefault();
+            }
 
             TareaStorage.Guardar(
                 _tareas
@@ -303,6 +708,7 @@ namespace NoteDesk
             ActualizarListaVisual();
 
             ActualizarCalendario();
+            ActualizarProgreso();
         }
 
 
@@ -367,6 +773,8 @@ namespace NoteDesk
                             ventanaNuevaTarea
                                 .CategoriaSeleccionada,
 
+                        Subtareas = ventanaNuevaTarea.SubtareasTarea,
+
                         // =========================================
                         // GOOGLE DRIVE
                         // =========================================
@@ -403,6 +811,7 @@ namespace NoteDesk
                 _tareas.Add(
                     nuevaTarea
                 );
+                _tareaSeleccionada = nuevaTarea;
 
 
                 // =================================================
@@ -419,6 +828,7 @@ namespace NoteDesk
                 // =================================================
 
                 ActualizarListaVisual();
+                ActualizarProgreso();
 
 
                 // =================================================
@@ -823,7 +1233,7 @@ namespace NoteDesk
 
         private void MesAnterior_Click(
             object sender,
-            MouseButtonEventArgs e)
+            RoutedEventArgs e)
         {
             _mesCalendarioActual =
                 _mesCalendarioActual.AddMonths(
@@ -841,7 +1251,7 @@ namespace NoteDesk
 
         private void MesSiguiente_Click(
             object sender,
-            MouseButtonEventArgs e)
+            RoutedEventArgs e)
         {
             _mesCalendarioActual =
                 _mesCalendarioActual.AddMonths(
@@ -933,7 +1343,8 @@ namespace NoteDesk
             if (_vistaAjustes == null)
             {
                 _vistaAjustes =
-                    new ajustes();
+                    new ajustes(_preferencias);
+                _vistaAjustes.NotificacionesActualizadas += NotificacionesActualizadas;
             }
 
 

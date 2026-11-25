@@ -42,6 +42,16 @@ namespace NoteDesk
         public List<ArchivoDriveModel> ArchivosDrive { get; private set; }
             = new List<ArchivoDriveModel>();
 
+        private readonly ObservableCollection<SubtareaModel> _subtareasEdicion = new();
+
+        public List<SubtareaModel> SubtareasTarea => _subtareasEdicion
+            .Select(subtarea => new SubtareaModel
+            {
+                Titulo = subtarea.Titulo,
+                Completada = subtarea.Completada
+            })
+            .ToList();
+
 
         // =========================================================
         // GOOGLE DRIVE
@@ -74,6 +84,16 @@ namespace NoteDesk
             TxtAccionTarea.Text = "Guardar Cambios";
 
             TxtTitulo.Text = tarea.Titulo;
+            foreach (SubtareaModel subtarea in tarea.Subtareas ?? new List<SubtareaModel>())
+            {
+                _subtareasEdicion.Add(new SubtareaModel
+                {
+                    Titulo = subtarea.Titulo,
+                    Completada = subtarea.Completada
+                });
+            }
+            ActualizarListaSubtareas();
+
             TxtDescripcion.Text = string.IsNullOrWhiteSpace(tarea.Descripcion)
                 ? "Agrega detalles adicionales..."
                 : tarea.Descripcion;
@@ -302,6 +322,87 @@ namespace NoteDesk
             DialogResult = false;
 
             Close();
+        }
+
+        private void NuevaSubtarea_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                AgregarSubtarea_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void AgregarSubtarea_Click(object sender, RoutedEventArgs e)
+        {
+            string titulo = TxtNuevaSubtarea.Text.Trim();
+            if (string.IsNullOrWhiteSpace(titulo))
+            {
+                return;
+            }
+
+            _subtareasEdicion.Add(new SubtareaModel { Titulo = titulo });
+            TxtNuevaSubtarea.Clear();
+            ActualizarListaSubtareas();
+            TxtNuevaSubtarea.Focus();
+        }
+
+        private void ActualizarListaSubtareas()
+        {
+            PanelListaSubtareas.Children.Clear();
+            TxtSinSubtareas.Visibility = _subtareasEdicion.Count == 0
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
+            foreach (SubtareaModel subtarea in _subtareasEdicion)
+            {
+                Grid fila = new Grid { Margin = new Thickness(0, 3, 0, 3) };
+                fila.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                fila.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                fila.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+                CheckBox check = new CheckBox
+                {
+                    IsChecked = subtarea.Completada,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 8, 0)
+                };
+                check.Checked += (_, _) => subtarea.Completada = true;
+                check.Unchecked += (_, _) => subtarea.Completada = false;
+                fila.Children.Add(check);
+
+                TextBlock texto = new TextBlock
+                {
+                    Text = subtarea.Titulo,
+                    TextWrapping = TextWrapping.Wrap,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Foreground = (Brush)FindResource("ColorTexto"),
+                    TextDecorations = subtarea.Completada ? TextDecorations.Strikethrough : null
+                };
+                check.Checked += (_, _) => texto.TextDecorations = TextDecorations.Strikethrough;
+                check.Unchecked += (_, _) => texto.TextDecorations = null;
+                Grid.SetColumn(texto, 1);
+                fila.Children.Add(texto);
+
+                Button eliminar = new Button
+                {
+                    Content = "×",
+                    Width = 24,
+                    Height = 24,
+                    Background = Brushes.Transparent,
+                    Foreground = (Brush)FindResource("ColorTextoSecundario"),
+                    BorderThickness = new Thickness(0),
+                    ToolTip = "Eliminar subtarea"
+                };
+                eliminar.Click += (_, _) =>
+                {
+                    _subtareasEdicion.Remove(subtarea);
+                    ActualizarListaSubtareas();
+                };
+                Grid.SetColumn(eliminar, 2);
+                fila.Children.Add(eliminar);
+                PanelListaSubtareas.Children.Add(fila);
+            }
         }
 
 
@@ -1099,7 +1200,6 @@ namespace NoteDesk
                             }
                     )
                     .ToList();
-
 
             // =====================================================
             // TERMINAR

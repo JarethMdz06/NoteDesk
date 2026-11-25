@@ -574,56 +574,15 @@
                             </Grid>
                         </Border>
 
-                        <Popup IsOpen="False"
-                                   StaysOpen="False" 
-                                   Placement="Bottom" 
-                                   HorizontalOffset="0" 
-                                   VerticalOffset="5"
-                                   AllowsTransparency="True">
-
-
-
-                            <Border Background="{DynamicResource ColorFondoPopup}" 
-                                        BorderBrush="{DynamicResource ColorBorde}"
-                                        BorderThickness="1" 
-                                        CornerRadius="12" 
-                                        Padding="15" 
-                                        Width="180">
-
-                                <StackPanel>
-                                    <TextBlock Text="Nueva Categoría" 
-                                                   FontWeight="Bold" 
-                                                   FontSize="13" 
-                                                   Foreground="{DynamicResource ColorTexto}"
-                                                   Margin="0,0,0,8"/>
-
-                                    <!-- Campo para escribir el nombre -->
-                                    <Border Background="{DynamicResource ColorSuperficie}" CornerRadius="6" BorderBrush="{DynamicResource ColorBorde}" BorderThickness="1" Padding="4" Margin="0,0,0,8">
-                                        <TextBox Text="Nombre..." 
-                                                     Background="Transparent" 
-                                                     BorderThickness="0" 
-                                                     Foreground="{DynamicResource ColorTextoSecundario}"
-                                                     FontSize="12"/>
-                                    </Border>
-
-                                    <!-- Botón de agregar -->
-                                    <Button Content="Añadir categoría" 
-                                                Background="#52B788" 
-                                                Foreground="White" 
-                                                FontWeight="SemiBold" 
-                                                BorderThickness="0" 
-                                                Height="28" 
-                                                Cursor="Hand">
-                                        <Button.Resources>
-                                            <Style TargetType="Border">
-                                                <Setter Property="CornerRadius" Value="6"/>
-                                            </Style>
-                                        </Button.Resources>
-                                    </Button>
-                                </StackPanel>
-
-                            </Border>
-                        </Popup>
+                        <Border Height="115"
+                                Margin="0,25,0,0"
+                                HorizontalAlignment="Stretch"
+                                CornerRadius="16">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/NoteDesk;component/Assets/Img/calendario2.jpeg"
+                                            Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
 
                     </StackPanel>
 
@@ -655,35 +614,32 @@
                                 Padding="24,18"
                                 Effect="{StaticResource CardShadow}">
 
-                            <StackPanel>
+                            <Grid>
+                                <StackPanel Margin="0,0,100,0"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="Calendario"
+                                               FontSize="38"
+                                               FontWeight="Bold"
+                                               FontFamily="Segoe Script"
+                                               Foreground="{DynamicResource ColorTextoHeader}"/>
 
-                                <TextBlock Text="Calendario"
-                                           FontSize="38"
-                                           FontWeight="Bold"
-                                           FontFamily="Segoe Script"
-                                           Foreground="{DynamicResource ColorTextoHeader}"/>
+                                    <TextBlock Text="Organiza tus días, cumple tus metas ♡"
+                                               FontSize="13"
+                                               FontFamily="Segoe Print"
+                                               Foreground="{DynamicResource ColorTextoHeader}"
+                                               Margin="0,4,0,0"/>
+                                </StackPanel>
 
-                                <TextBlock Text="Organiza tus días, cumple tus metas ♡"
-                                           FontSize="13"
-                                           FontFamily="Segoe Print"
-                                           Foreground="{DynamicResource ColorTextoHeader}"
-                                           Margin="0,4,0,0"/>
-
-                            </StackPanel>
+                                <Image Source="/NoteDesk;component/Assets/Img/calendario.png"
+                                       Width="208"
+                                       Height="98"
+                                       Margin="0,0,4,0"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Stretch="Uniform"/>
+                            </Grid>
 
                         </Border>
-
-                        <!-- Clip -->
-
-                        <Border HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Margin="0,-15,28,0"
-                                Width="24"
-                                Height="66"
-                                CornerRadius="9"
-                                BorderBrush="#A3485E"
-                                BorderThickness="4"
-                                Background="Transparent"/>
 
                     </Grid>
 
@@ -1263,11 +1219,16 @@
                 <!-- PANEL DERECHO -->
 
 
-                <StackPanel Grid.Column="4">
+                <Grid Grid.Column="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
                     <!-- VISTA DEL AÑO -->
 
-                    <Border Background="{DynamicResource ColorTarjetaInterna}"
+                    <Border Grid.Row="0"
+                            Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Padding="16"
                             Margin="0,0,0,16"
@@ -1362,154 +1323,36 @@
                     </Border>
 
 
-                    <!-- TAREAS DE ABRIL -->
+                    <!-- TAREAS DEL MES -->
 
-                    <Border Background="{DynamicResource ColorTarjetaInterna}"
+                    <Border Grid.Row="1"
+                            Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
                             Padding="16"
                             Effect="{StaticResource CardShadow}">
 
-                        <StackPanel x:Name="PanelTareasMes">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                            <TextBlock Text="Tareas de Abril"
+                            <TextBlock x:Name="TxtEncabezadoTareasMes"
+                                       Text="Tareas del mes"
                                        FontSize="17"
                                        FontWeight="Bold"
                                        Margin="0,0,0,12"/>
 
-
-                            <!-- TAREA -->
-
-                            <Border Style="{StaticResource TaskItemStyle}">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-
-                                        <ColumnDefinition Width="Auto"/>
-
-                                        <ColumnDefinition Width="*"/>
-
-                                        <ColumnDefinition Width="Auto"/>
-
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="34"
-                                            Height="34"
-                                            Background="#E9D5FF"
-                                            CornerRadius="8">
-
-                                        <TextBlock Text="🎓"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                    </Border>
-
-                                    <StackPanel Grid.Column="1"
-                                                Margin="10,0">
-
-                                        <TextBlock Text="Entrega de tarea"
-                                                   FontWeight="SemiBold"/>
-
-                                        <TextBlock Text="1 de Abril"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource ColorTextoSecundario}"/>
-
-                                    </StackPanel>
-
-                                </Grid>
-
-                            </Border>
-
-
-                            <Border Style="{StaticResource TaskItemStyle}">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-
-                                        <ColumnDefinition Width="Auto"/>
-
-                                        <ColumnDefinition Width="*"/>
-
-                                        <ColumnDefinition Width="Auto"/>
-
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="34"
-                                            Height="34"
-                                            Background="#FFDDE3"
-                                            CornerRadius="8">
-
-                                        <TextBlock Text="♥"
-                                                   Foreground="#C64250"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                    </Border>
-
-                                    <StackPanel Grid.Column="1"
-                                                Margin="10,0">
-
-                                        <TextBlock Text="Médico"
-                                                   FontWeight="SemiBold"/>
-
-                                        <TextBlock Text="3 de Abril"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource ColorTextoSecundario}"/>
-
-                                    </StackPanel>
-
-                                </Grid>
-
-                            </Border>
-
-
-                            <Border Style="{StaticResource TaskItemStyle}">
-
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-
-                                        <ColumnDefinition Width="Auto"/>
-
-                                        <ColumnDefinition Width="*"/>
-
-                                        <ColumnDefinition Width="Auto"/>
-
-                                    </Grid.ColumnDefinitions>
-
-                                    <Border Width="34"
-                                            Height="34"
-                                            Background="#DFF3E5"
-                                            CornerRadius="8">
-
-                                        <TextBlock Text="🛒"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                    </Border>
-
-                                    <StackPanel Grid.Column="1"
-                                                Margin="10,0">
-
-                                        <TextBlock Text="Comprar despensa"
-                                                   FontWeight="SemiBold"/>
-
-                                        <TextBlock Text="5 de Abril"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource ColorTextoSecundario}"/>
-
-                                    </StackPanel>
-
-                                </Grid>
-
-                            </Border>
-
-                        </StackPanel>
+                            <ScrollViewer Grid.Row="1"
+                                          VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel x:Name="PanelTareasMes"/>
+                            </ScrollViewer>
+                        </Grid>
 
                     </Border>
 
-                </StackPanel>
+                </Grid>
 
             </Grid>
 

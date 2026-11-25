@@ -397,6 +397,55 @@
 
                 </Border>
 
+                <!-- SUBTAREAS -->
+                <Border Background="{DynamicResource ColorTarjetaInterna}"
+                        CornerRadius="14"
+                        Padding="16"
+                        Margin="0,0,0,18"
+                        Effect="{StaticResource CardShadow}">
+                    <StackPanel>
+                        <TextBlock Text="Subtareas"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource ColorTexto}"/>
+                        <TextBlock Text="Divide la tarea en pasos y marca su avance"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource ColorTextoSecundario}"
+                                   Margin="0,2,0,10"/>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtNuevaSubtarea"
+                                     Height="36"
+                                     Padding="9,5"
+                                     VerticalContentAlignment="Center"
+                                     Background="{DynamicResource ColorVentana}"
+                                     Foreground="{DynamicResource ColorTexto}"
+                                     BorderBrush="{DynamicResource ColorBorde}"
+                                     BorderThickness="1"
+                                     ToolTip="Escribe una subtarea"
+                                     KeyDown="NuevaSubtarea_KeyDown"/>
+                            <Button Grid.Column="1"
+                                    Content="Agregar"
+                                    Style="{StaticResource NoteDeskActionButton}"
+                                    Margin="8,0,0,0"
+                                    Padding="12,5"
+                                    Background="{DynamicResource ColorBordeMesSeleccionado}"
+                                    Foreground="{DynamicResource ColorTexto}"
+                                    BorderThickness="0"
+                                    FontWeight="SemiBold"
+                                    Click="AgregarSubtarea_Click"/>
+                        </Grid>
+                        <TextBlock x:Name="TxtSinSubtareas"
+                                   Text="Todavía no agregas pasos."
+                                   FontSize="11"
+                                   Foreground="{DynamicResource ColorTextoSecundario}"
+                                   Visibility="Collapsed"/>
+                        <StackPanel x:Name="PanelListaSubtareas"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- FECHA -->
 
@@ -1285,6 +1334,7 @@
                                 <Button x:Name="BtnSubirArchivoDrive"
                                         Grid.Column="0"
                                         Height="40"
+                                        Style="{StaticResource NoteDeskActionButton}"
                                         Background="{DynamicResource ColorVentana}"
                                         BorderBrush="#DED4BD"
                                         BorderThickness="1"
@@ -1296,6 +1346,7 @@
                                 <Button x:Name="BtnAbrirCarpetaDrive"
                                         Grid.Column="2"
                                         Height="40"
+                                        Style="{StaticResource NoteDeskActionButton}"
                                         Background="{DynamicResource ColorVentana}"
                                         BorderBrush="#DED4BD"
                                         BorderThickness="1"
@@ -1382,6 +1433,7 @@
                                                             Width="58"
                                                             Height="28"
                                                             Margin="10,0,0,0"
+                                                            Style="{StaticResource NoteDeskActionButton}"
                                                             Background="Transparent"
                                                             BorderBrush="#DED4BD"
                                                             BorderThickness="1"

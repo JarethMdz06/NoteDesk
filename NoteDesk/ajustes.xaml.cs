@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NoteDesk
@@ -17,33 +18,33 @@ namespace NoteDesk
 
         public bool SonidoActivo { get; private set; }
 
+        public event Action? NotificacionesActualizadas;
+
+        private readonly PreferenciasUsuario _preferencias;
+
+        private bool _inicializandoPreferencias;
+
 
         // =========================================================
         // CONSTRUCTOR
         // =========================================================
 
-        public ajustes()
+        public ajustes(PreferenciasUsuario preferencias)
         {
             InitializeComponent();
+            _preferencias = preferencias;
+            _inicializandoPreferencias = true;
 
+            ChkModoOscuro.IsChecked = App.CargarEstadoModoOscuro();
+            ChkRecordatorios.IsChecked = _preferencias.RecordatoriosActivos;
+            ChkSonido.IsChecked = _preferencias.SonidoActivo;
+            _preferencias.SonidoSeleccionado = SonidoNotificaciones.SonidoPredeterminado;
+            PanelOpcionesSonido.IsEnabled = _preferencias.SonidoActivo;
 
-            // Sincronizamos el CheckBox con lo que esté
-            // guardado en el archivo del sistema.
-
-            ChkModoOscuro.IsChecked =
-                App.CargarEstadoModoOscuro();
-
-
-            ModoOscuroActivo =
-                ChkModoOscuro.IsChecked == true;
-
-
-            RecordatoriosActivos =
-                ChkRecordatorios.IsChecked == true;
-
-
-            SonidoActivo =
-                ChkSonido.IsChecked == true;
+            ModoOscuroActivo = ChkModoOscuro.IsChecked == true;
+            RecordatoriosActivos = ChkRecordatorios.IsChecked == true;
+            SonidoActivo = ChkSonido.IsChecked == true;
+            _inicializandoPreferencias = false;
         }
 
 
@@ -101,8 +102,7 @@ namespace NoteDesk
             object sender,
             RoutedEventArgs e)
         {
-            RecordatoriosActivos =
-                true;
+            GuardarPreferenciasNotificaciones();
         }
 
 
@@ -110,8 +110,7 @@ namespace NoteDesk
             object sender,
             RoutedEventArgs e)
         {
-            RecordatoriosActivos =
-                false;
+            GuardarPreferenciasNotificaciones();
         }
 
 
@@ -123,8 +122,8 @@ namespace NoteDesk
             object sender,
             RoutedEventArgs e)
         {
-            SonidoActivo =
-                true;
+            PanelOpcionesSonido.IsEnabled = true;
+            GuardarPreferenciasNotificaciones();
         }
 
 
@@ -132,8 +131,40 @@ namespace NoteDesk
             object sender,
             RoutedEventArgs e)
         {
-            SonidoActivo =
-                false;
+            PanelOpcionesSonido.IsEnabled = false;
+            GuardarPreferenciasNotificaciones();
+        }
+
+        private void BtnProbarSonido_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            SonidoNotificaciones.Reproducir(SonidoNotificaciones.SonidoPredeterminado);
+        }
+
+        private void GuardarPreferenciasNotificaciones()
+        {
+            if (_inicializandoPreferencias)
+            {
+                return;
+            }
+
+            RecordatoriosActivos = ChkRecordatorios.IsChecked == true;
+            SonidoActivo = ChkSonido.IsChecked == true;
+            _preferencias.RecordatoriosActivos = RecordatoriosActivos;
+            _preferencias.SonidoActivo = SonidoActivo;
+            _preferencias.SonidoSeleccionado = SonidoNotificaciones.SonidoPredeterminado;
+
+            if (!PreferenciasUsuarioStorage.Guardar(_preferencias, out string error))
+            {
+                MessageBox.Show(
+                    "No se pudieron guardar las preferencias de notificaciones.\n\n" + error,
+                    "NoteDesk",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+
+            NotificacionesActualizadas?.Invoke();
         }
     }
 }

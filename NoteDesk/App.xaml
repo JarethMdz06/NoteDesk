@@ -25,6 +25,7 @@
         <SolidColorBrush x:Key="ColorBordeMesSeleccionado" Color="#E8B32D"/>
         <SolidColorBrush x:Key="ColorBarraNavegacion" Color="#E7CD63"/>
         <SolidColorBrush x:Key="ColorNavegacionActiva" Color="#FFF2C3"/>
+        <SolidColorBrush x:Key="MainWindowBackgroundOverlay" Color="#00000000"/>
 
         <Style x:Key="NoteDeskComboBoxItem" TargetType="ComboBoxItem">
             <Setter Property="Foreground" Value="{DynamicResource ColorTexto}"/>
@@ -51,6 +52,43 @@
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="{DynamicResource ColorTextoSecundario}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="NoteDeskActionButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource ColorSuperficie}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorBorde}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ColorTexto}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ColorMesSeleccionado}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ColorHeader}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.55"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

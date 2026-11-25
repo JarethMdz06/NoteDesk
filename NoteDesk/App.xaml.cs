@@ -65,6 +65,7 @@ namespace NoteDesk
             Current.Resources["ColorBordeMesSeleccionado"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9B7420"));
             Current.Resources["ColorBarraNavegacion"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B89A3D"));
             Current.Resources["ColorNavegacionActiva"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A88F59"));
+            Current.Resources["MainWindowBackgroundOverlay"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#990F1218"));
         }
 
         public static void AplicarTemaClaroGlobal()
@@ -85,6 +86,7 @@ namespace NoteDesk
             Current.Resources["ColorBordeMesSeleccionado"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E8B32D"));
             Current.Resources["ColorBarraNavegacion"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E7CD63"));
             Current.Resources["ColorNavegacionActiva"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF2C3"));
+            Current.Resources["MainWindowBackgroundOverlay"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00000000"));
         }
     }
 }

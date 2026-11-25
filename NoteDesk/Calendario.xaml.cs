@@ -244,16 +244,8 @@ namespace NoteDesk
             CultureInfo cultura = new CultureInfo("es-MX");
             string nombreMes = _mesActual.ToString("MMMM", cultura);
             nombreMes = char.ToUpper(nombreMes[0], cultura) + nombreMes.Substring(1);
+            TxtEncabezadoTareasMes.Text = $"Tareas de {nombreMes}";
 
-            PanelTareasMes.Children.Add(new TextBlock
-            {
-                Text = $"Tareas de {nombreMes}",
-                FontSize = 17,
-                FontWeight = FontWeights.Bold,
-                Margin = new Thickness(0, 0, 0, 12)
-            });
-
-            StackPanel lista = new StackPanel();
             List<(TareaModel Tarea, DateTime Fecha)> tareasDelMes = _tareas
                 .Select(tarea => TareaFechaParser.TryParse(tarea.Fecha, out DateTime fecha)
                     ? (Tarea: tarea, Fecha: fecha.Date)
@@ -267,13 +259,13 @@ namespace NoteDesk
 
             if (tareasDelMes.Count == 0)
             {
-                lista.Children.Add(CrearTextoVacio("No hay tareas para este mes."));
+                PanelTareasMes.Children.Add(CrearTextoVacio("No hay tareas para este mes."));
             }
             else
             {
                 foreach ((TareaModel tarea, DateTime fecha) in tareasDelMes)
                 {
-                    lista.Children.Add(CrearTarjetaTarea(tarea, fecha.ToString("d 'de' MMMM", cultura)));
+                    PanelTareasMes.Children.Add(CrearTarjetaTarea(tarea, fecha.ToString("d 'de' MMMM", cultura)));
                 }
             }
 
@@ -284,7 +276,7 @@ namespace NoteDesk
 
             if (tareasSinFecha.Count > 0)
             {
-                lista.Children.Add(new TextBlock
+                PanelTareasMes.Children.Add(new TextBlock
                 {
                     Text = "Sin fecha",
                     FontSize = 15,
@@ -294,17 +286,9 @@ namespace NoteDesk
 
                 foreach (TareaModel tarea in tareasSinFecha)
                 {
-                    lista.Children.Add(CrearTarjetaTarea(tarea, "Sin fecha"));
+                    PanelTareasMes.Children.Add(CrearTarjetaTarea(tarea, "Sin fecha"));
                 }
             }
-
-            PanelTareasMes.Children.Add(new ScrollViewer
-            {
-                MaxHeight = 390,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-                Content = lista
-            });
         }
 
         private Border CrearTarjetaTarea(TareaModel tarea, string textoFecha)

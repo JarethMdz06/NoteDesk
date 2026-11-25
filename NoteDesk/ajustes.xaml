@@ -259,8 +259,8 @@
                                            FontWeight="SemiBold"
                                            Foreground="#222222"/>
 
-                                    <TextBlock Text="Recibe avisos cuando se acerque la hora límite"
-                                           FontSize="11"
+                                    <TextBlock Text="Aviso si no avanzas en las subtareas durante 1 día"
+                                            FontSize="11"
                                            Foreground="#777777"
                                            Margin="0,3,0,0"/>
 
@@ -272,7 +272,6 @@
                                       Style="{StaticResource CheckNoteDesk}"
                                       VerticalAlignment="Center"
                                       Margin="15,0,0,0"
-                                      IsChecked="True"
                                       Checked="ChkRecordatorios_Checked"
                                       Unchecked="ChkRecordatorios_Unchecked"/>
 
@@ -306,7 +305,7 @@
                                            FontWeight="SemiBold"
                                            Foreground="#222222"/>
 
-                                    <TextBlock Text="Reproducir un tono al completar tareas"
+                                    <TextBlock Text="Reproducir un tono en recordatorios y al completar tareas"
                                            FontSize="11"
                                            Foreground="#777777"
                                            Margin="0,3,0,0"/>
@@ -322,6 +321,23 @@
                                       Checked="ChkSonido_Checked"
                                       Unchecked="ChkSonido_Unchecked"/>
 
+                            </Grid>
+
+                            <Grid x:Name="PanelOpcionesSonido" Margin="0,14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Campana de NoteDesk"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource ColorTextoSecundario}"
+                                           VerticalAlignment="Center"/>
+                                <Button Grid.Column="1"
+                                        Content="Probar"
+                                        Style="{StaticResource NoteDeskActionButton}"
+                                        Padding="14,0"
+                                        Height="36"
+                                        Click="BtnProbarSonido_Click"/>
                             </Grid>
 
                         </StackPanel>
