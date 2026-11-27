@@ -3,6 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              HorizontalAlignment="Stretch">
 
+    <UserControl.Resources>
+
+        <!-- Estilo de las opciones del menú de tarea -->
+        <Style x:Key="TaskMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="OptionBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header"
+                                              RecognizesAccessKey="True"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="OptionBorder" Property="BorderBrush"
+                                        Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                                <Setter TargetName="OptionBorder" Property="Opacity" Value="0.83"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="OptionBorder" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Menú redondeado, sin la columna de iconos predeterminada de Windows -->
+        <Style x:Key="TaskContextMenuStyle" TargetType="ContextMenu">
+            <Setter Property="Background" Value="{DynamicResource ColorTarjetaInterna}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorBorde}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContextMenu">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="14"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="6">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#45331C" BlurRadius="12"
+                                                  ShadowDepth="3" Opacity="0.22"/>
+                            </Border.Effect>
+                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
     <Border x:Name="BordeTaskCard"
             Style="{StaticResource TaskCardStyle}"
             BorderThickness="1"
@@ -12,28 +80,20 @@
             Cursor="Hand">
 
         <Grid>
-
             <Grid.ColumnDefinitions>
-
                 <!-- CHECK -->
                 <ColumnDefinition Width="Auto"/>
-
                 <!-- CATEGORÍA -->
                 <ColumnDefinition Width="Auto"/>
-
                 <!-- INFORMACIÓN -->
                 <ColumnDefinition Width="*"/>
-
+                <!-- NOTA FLOTANTE -->
+                <ColumnDefinition Width="Auto"/>
                 <!-- MENÚ -->
                 <ColumnDefinition Width="Auto"/>
-
             </Grid.ColumnDefinitions>
 
-
-            <!-- ================================================= -->
-            <!-- CHECK                                             -->
-            <!-- ================================================= -->
-
+            <!-- CHECK -->
             <CheckBox x:Name="ChkCompletada"
                       Grid.Column="0"
                       Width="26"
@@ -44,11 +104,8 @@
                       IsChecked="False"
                       Checked="ChkCompletada_Changed"
                       Unchecked="ChkCompletada_Changed">
-
                 <CheckBox.Template>
-
                     <ControlTemplate TargetType="CheckBox">
-
                         <Border x:Name="CheckBorder"
                                 Width="26"
                                 Height="26"
@@ -56,7 +113,6 @@
                                 Background="Transparent"
                                 BorderBrush="#888888"
                                 BorderThickness="2">
-
                             <TextBlock x:Name="CheckIcon"
                                        Text=""
                                        Foreground="White"
@@ -64,47 +120,19 @@
                                        FontWeight="Bold"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
-
                         </Border>
-
                         <ControlTemplate.Triggers>
-
-                            <Trigger Property="IsChecked"
-                                     Value="True">
-
-                                <Setter TargetName="CheckBorder"
-                                        Property="Background"
-                                        Value="#3FA772"/>
-
-                                <Setter TargetName="CheckBorder"
-                                        Property="BorderBrush"
-                                        Value="#3FA772"/>
-
-                                <Setter TargetName="CheckIcon"
-                                        Property="Text"
-                                        Value="✓"/>
-
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="CheckBorder" Property="Background" Value="#3FA772"/>
+                                <Setter TargetName="CheckBorder" Property="BorderBrush" Value="#3FA772"/>
+                                <Setter TargetName="CheckIcon" Property="Text" Value="✓"/>
                             </Trigger>
-
                         </ControlTemplate.Triggers>
-
                     </ControlTemplate>
-
                 </CheckBox.Template>
-
             </CheckBox>
 
-
-            <!-- ================================================= -->
-            <!-- CATEGORÍA                                         -->
-            <!-- ================================================= -->
-            <!--
-                Por defecto está oculta.
-
-                TaskCard.xaml.cs decidirá si debe mostrarse
-                dependiendo de lo seleccionado en NewList.
-            -->
-
+            <!-- CATEGORÍA: se muestra cuando la tarea tiene categoría -->
             <Border x:Name="PanelCategoria"
                     Grid.Column="1"
                     Width="28"
@@ -114,38 +142,23 @@
                     Margin="0,0,10,0"
                     VerticalAlignment="Center"
                     Visibility="Collapsed">
-
                 <TextBlock x:Name="TxtIconoCategoria"
                            Text=""
                            FontFamily="Segoe UI Emoji"
                            FontSize="15"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
-
             </Border>
 
-
-            <!-- ================================================= -->
-            <!-- INFORMACIÓN                                       -->
-            <!-- ================================================= -->
-
-            <StackPanel Grid.Column="2"
-                        VerticalAlignment="Center">
-
-
-                <!-- TÍTULO -->
-
+            <!-- INFORMACIÓN -->
+            <StackPanel Grid.Column="2" VerticalAlignment="Center">
                 <TextBlock x:Name="TxtTitulo"
                            Text="Título"
                            FontSize="15"
                            FontWeight="SemiBold"
                            Foreground="#333333"/>
 
-
-                <!-- ================================================= -->
-                <!-- PRIORIDAD BAJA                                    -->
-                <!-- ================================================= -->
-
+                <!-- PRIORIDAD BAJA -->
                 <Border x:Name="PanelPrioridadBaja"
                         Background="#CDECCF"
                         CornerRadius="8"
@@ -153,19 +166,13 @@
                         HorizontalAlignment="Left"
                         Margin="0,4,0,0"
                         Visibility="Collapsed">
-
                     <TextBlock Text="Prioridad Baja"
                                FontSize="10"
                                Foreground="#2E6B32"
                                FontWeight="SemiBold"/>
-
                 </Border>
 
-
-                <!-- ================================================= -->
-                <!-- PRIORIDAD MEDIA                                   -->
-                <!-- ================================================= -->
-
+                <!-- PRIORIDAD MEDIA -->
                 <Border x:Name="PanelPrioridadMedia"
                         Background="#F7D89C"
                         CornerRadius="8"
@@ -173,19 +180,13 @@
                         HorizontalAlignment="Left"
                         Margin="0,4,0,0"
                         Visibility="Collapsed">
-
                     <TextBlock Text="Prioridad Media"
                                FontSize="10"
                                Foreground="#774400"
                                FontWeight="SemiBold"/>
-
                 </Border>
 
-
-                <!-- ================================================= -->
-                <!-- PRIORIDAD ALTA                                    -->
-                <!-- ================================================= -->
-
+                <!-- PRIORIDAD ALTA -->
                 <Border x:Name="PanelPrioridadAlta"
                         Background="#F1B1B1"
                         CornerRadius="8"
@@ -193,58 +194,177 @@
                         HorizontalAlignment="Left"
                         Margin="0,4,0,0"
                         Visibility="Collapsed">
-
                     <TextBlock Text="Prioridad Alta"
                                FontSize="10"
                                Foreground="#882222"
                                FontWeight="SemiBold"/>
-
                 </Border>
-
             </StackPanel>
 
-
-            <!-- ================================================= -->
-            <!-- MENÚ                                              -->
-            <!-- ================================================= -->
-
-            <Button x:Name="BtnMenuTarea"
+            <!-- NOTA FLOTANTE: abre la StickyTaskWindow de esta tarea -->
+            <Button x:Name="BtnAbrirNota"
                     Grid.Column="3"
-                    Content="⋮"
-                    FontSize="18"
-                    Foreground="#777777"
-                    Background="Transparent"
+                    Width="40"
+                    Height="40"
+                    Background="{DynamicResource ColorMesSeleccionado}"
+                    Foreground="{DynamicResource ColorTexto}"
                     BorderThickness="0"
                     Cursor="Hand"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Margin="5,0"
+                    Margin="8,0,0,0"
                     Padding="0"
+                    ToolTip="Abrir nota flotante"
+                    AutomationProperties.Name="Abrir nota flotante"
+                    Click="BtnAbrirNota_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="NotaButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="11"
+                                BorderThickness="1"
+                                BorderBrush="Transparent">
+                            <Grid Width="20" Height="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  IsHitTestVisible="False">
+                                <Path Data="M 11,19 H 4 Q 2,19 2,17 V 4 Q 2,2 4,2 H 17 Q 19,2 19,4 V 11 L 11,19 Z M 11,19 V 13 Q 11,11 13,11 H 19"
+                                      Stroke="{TemplateBinding Foreground}"
+                                      StrokeThickness="1.7"
+                                      StrokeLineJoin="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="NotaButtonBorder" Property="Background"
+                                        Value="{DynamicResource ColorHeader}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ColorTextoHeader}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="NotaButtonBorder" Property="Background"
+                                        Value="{DynamicResource ColorHeader}"/>
+                                <Setter TargetName="NotaButtonBorder" Property="Opacity" Value="0.85"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ColorTextoHeader}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="NotaButtonBorder" Property="BorderBrush"
+                                        Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="NotaButtonBorder" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- MENÚ: botón grande, redondeado y con estado activo -->
+            <Button x:Name="BtnMenuTarea"
+                    Grid.Column="4"
+                    Width="40"
+                    Height="40"
+                    Background="{DynamicResource ColorMesSeleccionado}"
+                    Foreground="{DynamicResource ColorTexto}"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="8,0,0,0"
+                    Padding="0"
+                    ToolTip="Opciones de tarea"
+                    AutomationProperties.Name="Opciones de tarea"
                     Click="BtnMenuTarea_Click">
 
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="MenuButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="11"
+                                BorderThickness="1"
+                                BorderBrush="Transparent">
+                            <StackPanel Orientation="Vertical"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        IsHitTestVisible="False">
+                                <Ellipse Width="4" Height="4" Margin="0,0,0,3"
+                                         Fill="{TemplateBinding Foreground}"/>
+                                <Ellipse Width="4" Height="4" Margin="0,0,0,3"
+                                         Fill="{TemplateBinding Foreground}"/>
+                                <Ellipse Width="4" Height="4"
+                                         Fill="{TemplateBinding Foreground}"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MenuButtonBorder" Property="Background"
+                                        Value="{DynamicResource ColorHeader}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ColorTextoHeader}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="MenuButtonBorder" Property="Background"
+                                        Value="{DynamicResource ColorHeader}"/>
+                                <Setter TargetName="MenuButtonBorder" Property="Opacity" Value="0.85"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ColorTextoHeader}"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="True">
+                                <Setter TargetName="MenuButtonBorder" Property="Background"
+                                        Value="{DynamicResource ColorHeader}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ColorTextoHeader}"/>
+                            </DataTrigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="MenuButtonBorder" Property="BorderBrush"
+                                        Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+
                 <Button.ContextMenu>
+                    <ContextMenu Style="{StaticResource TaskContextMenuStyle}"
+                                 Width="210"
+                                 Placement="Bottom"
+                                 HorizontalOffset="-170"
+                                 VerticalOffset="2">
 
-                    <ContextMenu Background="#F4EEE0"
-                                 BorderBrush="#DCD3C1">
+                        <MenuItem Style="{StaticResource TaskMenuItemStyle}"
+                                  Background="{DynamicResource ColorMesSeleccionado}"
+                                  Foreground="{DynamicResource ColorTexto}"
+                                  Click="EditarTarea_Click">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE70F;"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="19"
+                                               Margin="0,0,12,0"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="Editar tarea" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
 
-                        <MenuItem Header="✏️ Editar tarea"
-                                  Foreground="#333333"
-                                  Click="EditarTarea_Click"/>
-
-                        <Separator Background="#DCD3C1"/>
-
-                        <MenuItem Header="🗑️ Eliminar tarea"
-                                  Foreground="#D9534F"
-                                  Click="EliminarTarea_Click"/>
+                        <MenuItem Style="{StaticResource TaskMenuItemStyle}"
+                                  Background="#FBE2DF"
+                                  Foreground="#B72F3D"
+                                  Click="EliminarTarea_Click">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE74D;"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="19"
+                                               Margin="0,0,12,0"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="Eliminar tarea" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
 
                     </ContextMenu>
-
                 </Button.ContextMenu>
-
             </Button>
 
         </Grid>
-
     </Border>
-
 </UserControl>

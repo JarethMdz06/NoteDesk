@@ -93,6 +93,123 @@ namespace NoteDesk
             ActualizarBotonesMes();
             ActualizarDias();
             ActualizarListaTareas();
+            ActualizarCategoriasDinamicas();
+        }
+
+        // =========================================================
+        // CATEGORÍAS DINÁMICAS: UNA TARJETA POR TAREA
+        // =========================================================
+        private void ActualizarCategoriasDinamicas()
+        {
+            PanelCategoriasDinamicas.Children.Clear();
+
+            foreach (TareaModel tarea in _tareas)
+            {
+                PanelCategoriasDinamicas.Children.Add(CrearTarjetaCategoria(tarea));
+            }
+        }
+
+        private Border CrearTarjetaCategoria(TareaModel tarea)
+        {
+            string categoria = string.IsNullOrWhiteSpace(tarea.Categoria)
+                ? "Sin categoría"
+                : tarea.Categoria;
+
+            // Gris neutro translúcido: conserva el contraste en ambos temas.
+            Border tarjeta = new Border
+            {
+                Background = new SolidColorBrush(Color.FromArgb(38, 128, 128, 128)),
+                CornerRadius = new CornerRadius(10),
+                Padding = new Thickness(9, 8, 9, 8),
+                Margin = new Thickness(0, 0, 0, 8),
+                MinHeight = 48,
+                ToolTip = $"{tarea.Titulo} — {categoria}"
+            };
+
+            Grid contenido = new Grid();
+            contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, MinWidth = 23 });
+            contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            TextBlock icono = new TextBlock
+            {
+                // Mismos caracteres, fuente y tamaños que los radios de NewList.
+                Text = tarea.Categoria == "Health" ? "♡" : ObtenerIconoCategoria(tarea.Categoria),
+                FontFamily = new FontFamily("Segoe UI Emoji"),
+                FontSize = tarea.Categoria switch
+                {
+                    "Home" or "Health" => 20,
+                    "Other" => 16,
+                    _ => 18
+                },
+                FontWeight = tarea.Categoria == "Other" ? FontWeights.Bold : FontWeights.Normal,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            icono.SetResourceReference(TextBlock.ForegroundProperty, "ColorTexto");
+            contenido.Children.Add(icono);
+
+            StackPanel informacion = new StackPanel
+            {
+                Margin = new Thickness(7, 0, 7, 0),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            TextBlock titulo = new TextBlock
+            {
+                Text = tarea.Titulo,
+                FontSize = 12,
+                FontWeight = FontWeights.SemiBold,
+                TextTrimming = TextTrimming.CharacterEllipsis
+            };
+            titulo.SetResourceReference(TextBlock.ForegroundProperty, "ColorTexto");
+            informacion.Children.Add(titulo);
+
+            TextBlock subtitulo = new TextBlock
+            {
+                Text = categoria,
+                FontSize = 10,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                Margin = new Thickness(0, 2, 0, 0)
+            };
+            subtitulo.SetResourceReference(TextBlock.ForegroundProperty, "ColorTextoSecundario");
+            informacion.Children.Add(subtitulo);
+            Grid.SetColumn(informacion, 1);
+            contenido.Children.Add(informacion);
+
+            // El único acento de color proviene de NewList (TareaModel.Color).
+            System.Windows.Shapes.Ellipse punto = new System.Windows.Shapes.Ellipse
+            {
+                Width = 16,
+                Height = 16,
+                VerticalAlignment = VerticalAlignment.Center,
+                Fill = ObtenerPincelColorTarea(tarea.Color)
+            };
+            Grid.SetColumn(punto, 2);
+            contenido.Children.Add(punto);
+
+            tarjeta.Child = contenido;
+            return tarjeta;
+        }
+
+        private static Brush ObtenerPincelColorTarea(string? color)
+        {
+            if (!string.IsNullOrWhiteSpace(color))
+            {
+                try
+                {
+                    if (ColorConverter.ConvertFromString(color) is Color colorGuardado)
+                    {
+                        return new SolidColorBrush(colorGuardado);
+                    }
+                }
+                catch (FormatException) { }
+                catch (NotSupportedException) { }
+                catch (ArgumentException) { }
+            }
+
+            // Solo para datos antiguos o colores inválidos.
+            return new SolidColorBrush(Color.FromRgb(174, 184, 191));
         }
 
         private void ActualizarBotonesMes()

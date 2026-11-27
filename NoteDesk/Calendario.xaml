@@ -265,317 +265,31 @@
                         Padding="16"
                         Effect="{StaticResource CardShadow}">
 
-                    <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                        <!-- CATEGORÍAS -->
-
-
-
-                        <TextBlock Text="Categorías"
+                        <TextBlock Grid.Row="0"
+                                   Text="Categorías"
                                    FontSize="17"
                                    FontWeight="Bold"
                                    Foreground="{DynamicResource ColorTexto}"
                                    Margin="0,0,0,12"/>
 
-                        <!-- WORK -->
-
-                        <Border Background="#FFF3CE"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="💼"
-                                           FontSize="17"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Work"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#F7C84B"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- SCHOOL -->
-
-                        <Border Background="#F1E6FF"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="🎓"
-                                           FontSize="17"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="School"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#A56AE8"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- HOME -->
-
-                        <Border Background="#E6F1FF"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="⌂"
-                                           FontSize="19"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Home"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#6FBAF5"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- SHOPPING -->
-
-                        <Border Background="#E1F6E8"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="🛒"
-                                           FontSize="17"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Shopping"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#65CF8C"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- PERSONAL -->
-
-                        <Border Background="#FFE4EA"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="👤"
-                                           FontFamily="Segoe UI Emoji"
-                                           FontSize="17"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Personal"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#ED5F7A"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- HOBBIES -->
-
-                        <Border Background="#F0E2FF"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="🎮"
-                                           FontSize="17"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Hobbies"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#9568E9"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- HEALTH -->
-
-                        <Border Background="#FFE3E8"
-                                CornerRadius="10"
-                                Padding="10"
-                                Margin="0,0,0,8">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                    <ColumnDefinition Width="*"/>
-
-                                    <ColumnDefinition Width="Auto"/>
-
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="♥"
-                                           FontSize="17"
-                                           Foreground="#C7424F"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Health"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#EE6680"
-                                         VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                        </Border>
-
-                        <!-- OTHER -->
-
-                        <Border Background="{DynamicResource ColorSuperficie}"
-                                CornerRadius="10"
-                                Padding="10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Text="•••"
-                                           FontWeight="Bold"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="Other"
-                                           Margin="10,0,0,0"
-                                           VerticalAlignment="Center"/>
-
-                                <Ellipse Grid.Column="2"
-                                         Width="16"
-                                         Height="16"
-                                         Fill="#BBBBBB"
-                                         VerticalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-
-                        <Border Height="115"
-                                Margin="0,25,0,0"
+                        <!-- Una tarjeta por cada tarea guardada. -->
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel x:Name="PanelCategoriasDinamicas"/>
+                        </ScrollViewer>
+
+                        <!-- Imagen original, fija al pie del panel. -->
+                        <Border Grid.Row="2"
+                                Height="115"
+                                Margin="0,16,0,0"
                                 HorizontalAlignment="Stretch"
                                 CornerRadius="16">
                             <Border.Background>
@@ -583,8 +297,7 @@
                                             Stretch="UniformToFill"/>
                             </Border.Background>
                         </Border>
-
-                    </StackPanel>
+                    </Grid>
 
                 </Border>
 

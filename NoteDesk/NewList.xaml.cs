@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 
 namespace NoteDesk
 {
@@ -97,14 +98,22 @@ namespace NoteDesk
             TxtDescripcion.Text = string.IsNullOrWhiteSpace(tarea.Descripcion)
                 ? "Agrega detalles adicionales..."
                 : tarea.Descripcion;
-            TxtFecha.Text = string.IsNullOrWhiteSpace(tarea.Fecha)
-                ? "Ej. 25 de Abril, 2026"
-                : tarea.Fecha;
-
             SwitchFecha.IsChecked = !string.IsNullOrWhiteSpace(tarea.Fecha);
-            PanelFecha.Visibility = SwitchFecha.IsChecked == true
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            if (TareaFechaParser.TryParse(tarea.Fecha, out DateTime fechaGuardada))
+            {
+                SelectorFecha.SelectedDate = fechaGuardada.Date;
+                SelectorFecha.DisplayDate = fechaGuardada.Date;
+            }
+            else
+            {
+                // Si la fecha anterior no es válida, no la sustituimos por hoy sin avisar.
+                SelectorFecha.SelectedDate = null;
+                if (SwitchFecha.IsChecked == true)
+                {
+                    SelectorFecha.ToolTip = $"Fecha anterior: {tarea.Fecha}. Selecciona una fecha válida.";
+                }
+            }
+            ActualizarBotonesFechaRapida();
 
             SwitchPrioridad.IsChecked = !string.IsNullOrWhiteSpace(tarea.Prioridad);
             SetRadioSeleccionado(
@@ -416,9 +425,14 @@ namespace NoteDesk
         {
             if (PanelFecha != null)
             {
-                PanelFecha.Visibility =
-                    Visibility.Visible;
+                PanelFecha.Visibility = Visibility.Visible;
             }
+            if (SelectorFecha != null && !SelectorFecha.SelectedDate.HasValue)
+            {
+                SelectorFecha.SelectedDate = DateTime.Today;
+                SelectorFecha.DisplayDate = DateTime.Today;
+            }
+            ActualizarBotonesFechaRapida();
         }
 
 
@@ -430,6 +444,54 @@ namespace NoteDesk
             {
                 PanelFecha.Visibility =
                     Visibility.Collapsed;
+            }
+        }
+
+
+        // =========================================================
+        // ACCESOS RÁPIDOS Y CALENDARIO
+        // =========================================================
+
+        private void FechaRapida_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button boton &&
+                int.TryParse(boton.Tag as string, NumberStyles.Integer,
+                    CultureInfo.InvariantCulture, out int dias))
+            {
+                DateTime fecha = DateTime.Today.AddDays(dias);
+                SelectorFecha.SelectedDate = fecha;
+                SelectorFecha.DisplayDate = fecha;
+                ActualizarBotonesFechaRapida();
+            }
+        }
+
+        private void SelectorFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectorFecha != null && SelectorFecha.SelectedDate.HasValue)
+            {
+                SelectorFecha.ToolTip = null;
+            }
+            ActualizarBotonesFechaRapida();
+        }
+
+        private void ActualizarBotonesFechaRapida()
+        {
+            if (SelectorFecha == null || BtnFechaHoy == null ||
+                BtnFechaManana == null || BtnFechaSemana == null)
+            {
+                return;
+            }
+
+            DateTime? fecha = SelectorFecha.SelectedDate?.Date;
+            foreach (Button boton in new[] { BtnFechaHoy, BtnFechaManana, BtnFechaSemana })
+            {
+                int dias = int.Parse((string)boton.Tag, CultureInfo.InvariantCulture);
+                bool seleccionado = fecha == DateTime.Today.AddDays(dias);
+                boton.SetResourceReference(Control.BackgroundProperty,
+                    seleccionado ? "ColorMesSeleccionado" : "ColorSuperficie");
+                boton.SetResourceReference(Control.BorderBrushProperty,
+                    seleccionado ? "ColorBordeMesSeleccionado" : "ColorBorde");
+                boton.BorderThickness = new Thickness(seleccionado ? 2 : 1);
             }
         }
 
@@ -449,9 +511,6 @@ namespace NoteDesk
 
                     textBox.Text ==
                         "Agrega detalles adicionales..." ||
-
-                    textBox.Text ==
-                        "Ej. 25 de Abril, 2026" ||
 
                     textBox.Text ==
                         "Pega un enlace de Google Drive...")
@@ -485,12 +544,6 @@ namespace NoteDesk
                     {
                         textBox.Text =
                             "Agrega detalles adicionales...";
-                    }
-
-                    else if (textBox.Name == "TxtFecha")
-                    {
-                        textBox.Text =
-                            "Ej. 25 de Abril, 2026";
                     }
 
                     else if (textBox.Name == "TxtEnlaceDrive")
@@ -1002,14 +1055,15 @@ namespace NoteDesk
 
             if (SwitchFecha.IsChecked == true)
             {
-                if (!string.IsNullOrWhiteSpace(
-                        TxtFecha.Text) &&
-                    TxtFecha.Text !=
-                        "Ej. 25 de Abril, 2026")
+                if (!SelectorFecha.SelectedDate.HasValue)
                 {
-                    FechaTarea =
-                        TxtFecha.Text.Trim();
+                    MessageBox.Show("Selecciona una fecha de inicio válida.",
+                        "NoteDesk", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
                 }
+
+                FechaTarea = SelectorFecha.SelectedDate.Value.ToString(
+                    "yyyy-MM-dd", CultureInfo.InvariantCulture);
             }
 
 

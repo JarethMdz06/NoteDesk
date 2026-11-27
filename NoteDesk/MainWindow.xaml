@@ -94,87 +94,87 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
 
-            <!-- ================================================== -->
-            <!-- HEADER / BARRA SUPERIOR -->
-            <!-- ================================================== -->
+                <!-- ================================================== -->
+                <!-- HEADER / BARRA SUPERIOR -->
+                <!-- ================================================== -->
 
-            <Grid Grid.Row="0"
+                <Grid Grid.Row="0"
                   Margin="773,15,20,5">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            </Grid>
+                </Grid>
 
 
-            <!-- ================================================== -->
-            <!-- CONTENIDO PRINCIPAL -->
-            <!-- ================================================== -->
+                <!-- ================================================== -->
+                <!-- CONTENIDO PRINCIPAL -->
+                <!-- ================================================== -->
 
-            <Grid x:Name="VistaInicio"
+                <Grid x:Name="VistaInicio"
                   Grid.Row="1"
                   Margin="20,10,20,10">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.5*"/>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
 
-                <!-- ================================================== -->
-                <!-- COLUMNA IZQUIERDA -->
-                <!-- ================================================== -->
+                    <!-- ================================================== -->
+                    <!-- COLUMNA IZQUIERDA -->
+                    <!-- ================================================== -->
 
-                <StackPanel Grid.Column="0"
+                    <StackPanel Grid.Column="0"
                             VerticalAlignment="Top">
 
 
-                    <!-- NOTA ADHESIVA AMARILLA -->
+                        <!-- NOTA ADHESIVA AMARILLA -->
 
-                    <Grid Margin="0,0,0,20">
+                        <Grid Margin="0,0,0,20">
 
-                        <Border Background="{DynamicResource ColorHeader}"
+                            <Border Background="{DynamicResource ColorHeader}"
                                 CornerRadius="12"
                                 Padding="25,20"
                                 Effect="{StaticResource StickyShadow}"
                                 Margin="0">
 
-                            <StackPanel>
+                                <StackPanel>
 
-                                <TextBlock Text="Mis Tareas"
+                                    <TextBlock Text="Mis Tareas"
                                            FontSize="42"
                                            FontWeight="Bold"
                                            FontFamily="Segoe Script, Brush Script MT, Cursive"
                                            Foreground="{DynamicResource ColorTextoHeader}"/>
 
-                                <TextBlock Text="Pequeños pasos, grandes logros ♡"
+                                    <TextBlock Text="Pequeños pasos, grandes logros ♡"
                                            FontSize="15"
                                            FontFamily="Segoe Print, Comic Sans MS"
                                            Foreground="{DynamicResource ColorTextoHeader}"
                                            Opacity="0.85"
                                            Margin="0,5,0,0"/>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                        </Border>
-
-
+                            </Border>
 
 
 
-                        <!-- BOTÓN + -->
 
-                        <Button x:Name="BtnAddTask"
+
+                            <!-- BOTÓN + -->
+
+                            <Button x:Name="BtnAddTask"
                                 Width="50"
                                 Height="50"
                                 HorizontalAlignment="Right"
@@ -186,167 +186,167 @@
                                 Padding="0"
                                 Click="BtnAddTask_Click">
 
-                            <Button.Template>
+                                <Button.Template>
 
-                                <ControlTemplate TargetType="Button">
+                                    <ControlTemplate TargetType="Button">
 
-                                    <Grid Width="50"
+                                        <Grid Width="50"
                                           Height="50">
 
-                                        <Ellipse Width="50"
+                                            <Ellipse Width="50"
                                                  Height="50"
                                                  Fill="#c32818"
                                                  HorizontalAlignment="Center"
                                                  VerticalAlignment="Center">
 
-                                            <Ellipse.Effect>
+                                                <Ellipse.Effect>
 
-                                                <DropShadowEffect BlurRadius="10"
+                                                    <DropShadowEffect BlurRadius="10"
                                                                   ShadowDepth="3"
                                                                   Opacity="0.30"/>
 
-                                            </Ellipse.Effect>
+                                                </Ellipse.Effect>
 
-                                        </Ellipse>
+                                            </Ellipse>
 
 
-                                        <!-- SIGNO + -->
+                                            <!-- SIGNO + -->
 
-                                        <Grid Width="20"
+                                            <Grid Width="20"
                                               Height="20"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center">
 
-                                            <Border Width="2"
+                                                <Border Width="2"
                                                     Height="20"
                                                     Background="{DynamicResource ColorTextoHeader}"
                                                     CornerRadius="1"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"/>
 
-                                            <Border Width="20"
+                                                <Border Width="20"
                                                     Height="2"
                                                     Background="{DynamicResource ColorTextoHeader}"
                                                     CornerRadius="1"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"/>
 
+                                            </Grid>
+
                                         </Grid>
 
-                                    </Grid>
+                                    </ControlTemplate>
 
-                                </ControlTemplate>
+                                </Button.Template>
 
-                            </Button.Template>
+                            </Button>
 
-                        </Button>
-
-                    </Grid>
+                        </Grid>
 
 
-                    <!-- ================================================== -->
-                    <!-- FILTRO -->
-                    <!-- ================================================== -->
+                        <!-- ================================================== -->
+                        <!-- FILTRO -->
+                        <!-- ================================================== -->
 
-                    <Grid Margin="0,0,0,12">
+                        <Grid Margin="0,0,0,12">
 
-                        <TextBlock Text="Tareas"
+                            <TextBlock Text="Tareas"
                                    FontSize="18"
                                    FontWeight="Bold"
                                    Foreground="{DynamicResource ColorTexto}"
                                    VerticalAlignment="Center"/>
 
-                        <ComboBox x:Name="CmbFiltroCategoria"
+                            <ComboBox x:Name="CmbFiltroCategoria"
                                   Width="150"
                                   Height="36"
                                   HorizontalAlignment="Right"
                                   Style="{StaticResource NoteDeskComboBox}"
                                   SelectedValuePath="Tag">
-                            <ComboBoxItem Content="Todas" Tag="*" IsSelected="True"/>
-                            <ComboBoxItem Content="Work" Tag="Work"/>
-                            <ComboBoxItem Content="School" Tag="School"/>
-                            <ComboBoxItem Content="Home" Tag="Home"/>
-                            <ComboBoxItem Content="Shopping" Tag="Shopping"/>
-                            <ComboBoxItem Content="Personal" Tag="Personal"/>
-                            <ComboBoxItem Content="Hobbies" Tag="Hobbies"/>
-                            <ComboBoxItem Content="Health" Tag="Health"/>
-                            <ComboBoxItem Content="Other" Tag="Other"/>
-                            <ComboBoxItem Content="Sin categoría" Tag=""/>
-                        </ComboBox>
+                                <ComboBoxItem Content="Todas" Tag="*" IsSelected="True"/>
+                                <ComboBoxItem Content="Work" Tag="Work"/>
+                                <ComboBoxItem Content="School" Tag="School"/>
+                                <ComboBoxItem Content="Home" Tag="Home"/>
+                                <ComboBoxItem Content="Shopping" Tag="Shopping"/>
+                                <ComboBoxItem Content="Personal" Tag="Personal"/>
+                                <ComboBoxItem Content="Hobbies" Tag="Hobbies"/>
+                                <ComboBoxItem Content="Health" Tag="Health"/>
+                                <ComboBoxItem Content="Other" Tag="Other"/>
+                                <ComboBoxItem Content="Sin categoría" Tag=""/>
+                            </ComboBox>
 
-                    </Grid>
+                        </Grid>
 
 
-                    <!-- ================================================== -->
-                    <!-- LISTA DE TAREAS -->
-                    <!-- ================================================== -->
+                        <!-- ================================================== -->
+                        <!-- LISTA DE TAREAS -->
+                        <!-- ================================================== -->
 
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
                                   Height="360"
                                   Background="Transparent"
                                   BorderThickness="0">
 
-                        <StackPanel x:Name="ListTask"
+                            <StackPanel x:Name="ListTask"
                                     Background="Transparent">
 
-                        </StackPanel>
+                            </StackPanel>
 
-                    </ScrollViewer>
+                        </ScrollViewer>
 
-                </StackPanel>
+                    </StackPanel>
 
 
-                <!-- ================================================== -->
-                <!-- COLUMNA DERECHA -->
-                <!-- ================================================== -->
+                    <!-- ================================================== -->
+                    <!-- COLUMNA DERECHA -->
+                    <!-- ================================================== -->
 
-                <ScrollViewer Grid.Column="2"
+                    <ScrollViewer Grid.Column="2"
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
-                <StackPanel>
+                        <StackPanel Margin="5,4,10,8">
 
 
-                    <!-- ================================================== -->
-                    <!-- CALENDARIO DINÁMICO -->
-                    <!-- ================================================== -->
+                            <!-- ================================================== -->
+                            <!-- CALENDARIO DINÁMICO -->
+                            <!-- ================================================== -->
 
-                    <Border Background="{DynamicResource ColorTarjetaInterna}"
+                            <Border Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
-                            Padding="16"
-                            Margin="0,0,0,15"
+                            Padding="14,12"
+                            Margin="0,0,0,14"
                             Effect="{StaticResource CardShadow}">
 
-                        <StackPanel>
+                                <StackPanel>
 
 
-                            <!-- ========================================== -->
-                            <!-- ENCABEZADO DEL CALENDARIO -->
-                            <!-- ========================================== -->
+                                    <!-- ========================================== -->
+                                    <!-- ENCABEZADO DEL CALENDARIO -->
+                                    <!-- ========================================== -->
 
-                            <Grid Margin="0,0,0,10">
+                                    <Grid Margin="0,0,0,6">
 
-                                <TextBlock Text="Calendario"
+                                        <TextBlock Text="Calendario"
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Foreground="{DynamicResource ColorTexto}"/>
 
 
-                                <StackPanel Orientation="Horizontal"
+                                        <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center">
 
 
-                                    <!-- MES ANTERIOR -->
+                                            <!-- MES ANTERIOR -->
 
-                                    <Button Content="‹"
+                                            <Button Content="‹"
                                             Style="{StaticResource MainCalendarNavigationButton}"
                                             Margin="0,0,8,0"
                                             Click="MesAnterior_Click"/>
 
 
-                                    <!-- MES / AÑO DINÁMICO -->
+                                            <!-- MES / AÑO DINÁMICO -->
 
-                                    <TextBlock x:Name="TxtMesCalendario"
+                                            <TextBlock x:Name="TxtMesCalendario"
                                                Text="Mes Año"
                                                FontSize="13"
                                                FontWeight="SemiBold"
@@ -354,74 +354,74 @@
                                                VerticalAlignment="Center"/>
 
 
-                                    <!-- MES SIGUIENTE -->
+                                            <!-- MES SIGUIENTE -->
 
-                                    <Button Content="›"
+                                            <Button Content="›"
                                             Style="{StaticResource MainCalendarNavigationButton}"
                                             Margin="8,0,0,0"
                                             Click="MesSiguiente_Click"/>
 
-                                </StackPanel>
+                                        </StackPanel>
 
-                            </Grid>
+                                    </Grid>
 
 
-                            <!-- ========================================== -->
-                            <!-- DÍAS DE LA SEMANA -->
-                            <!-- ========================================== -->
+                                    <!-- ========================================== -->
+                                    <!-- DÍAS DE LA SEMANA -->
+                                    <!-- ========================================== -->
 
-                            <UniformGrid Columns="7"
-                                         Margin="0,0,0,8">
+                                    <UniformGrid Columns="7"
+                                         Margin="0,0,0,4">
 
-                                <TextBlock Text="Dom"
+                                        <TextBlock Text="Dom"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="Lun"
+                                        <TextBlock Text="Lun"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="Mar"
+                                        <TextBlock Text="Mar"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="Mié"
+                                        <TextBlock Text="Mié"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="Jue"
+                                        <TextBlock Text="Jue"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="Vie"
+                                        <TextBlock Text="Vie"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="Sáb"
+                                        <TextBlock Text="Sáb"
                                            FontSize="11"
                                            Foreground="{DynamicResource ColorTexto}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"/>
 
-                            </UniformGrid>
+                                    </UniformGrid>
 
 
-                            <!-- ========================================== -->
-                            <!-- DÍAS GENERADOS DESDE C# -->
-                            <!-- ========================================== -->
-                            <!--
+                                    <!-- ========================================== -->
+                                    <!-- DÍAS GENERADOS DESDE C# -->
+                                    <!-- ========================================== -->
+                                    <!--
                                 Aquí ya NO escribimos manualmente:
                                 
                                 1
@@ -433,208 +433,273 @@
                                 automáticamente dependiendo del mes.
                             -->
 
-                            <UniformGrid x:Name="CalendarioDias"
+                                    <UniformGrid x:Name="CalendarioDias"
                                          Columns="7"
                                          Rows="6"/>
 
-                        </StackPanel>
+                                </StackPanel>
 
-                    </Border>
+                            </Border>
 
 
-                    <!-- ================================================== -->
-                    <!-- ENFOQUE Y PROGRESO -->
-                    <!-- ================================================== -->
+                            <!-- ================================================== -->
+                            <!-- PROGRESO DE LA TAREA SELECCIONADA -->
+                            <!-- ================================================== -->
 
-                    <Border Background="{DynamicResource ColorTarjetaInterna}"
+                            <Border Background="{DynamicResource ColorTarjetaInterna}"
                             CornerRadius="16"
-                            Padding="20"
-                            Effect="{StaticResource CardShadow}"
-                            MinHeight="330">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                <TextBlock Text="◎"
-                                           FontSize="24"
-                                           FontWeight="Bold"
-                                           Foreground="{DynamicResource ColorBordeMesSeleccionado}"
-                                           VerticalAlignment="Center"
-                                           Margin="0,0,8,0"/>
-                                <TextBlock Text="Progreso"
-                                           FontSize="21"
+                            Padding="14,12"
+                            Margin="0,0,0,2"
+                            Effect="{StaticResource CardShadow}">
+                                <StackPanel>
+
+                                    <!-- ENCABEZADO -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <Viewbox Width="22" Height="22" Margin="0,0,8,0">
+                                            <Grid Width="24" Height="24">
+                                                <Ellipse Width="21" Height="21"
+                                                 Stroke="{DynamicResource ColorBordeMesSeleccionado}"
+                                                 StrokeThickness="1.8"/>
+                                                <Ellipse Width="13" Height="13"
+                                                 Stroke="{DynamicResource ColorBordeMesSeleccionado}"
+                                                 StrokeThickness="1.8"/>
+                                                <Path Data="M 12,12 L 22,2 M 17,2 L 22,2 L 22,7"
+                                              Stroke="{DynamicResource ColorBordeMesSeleccionado}"
+                                              StrokeThickness="2"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round"/>
+                                            </Grid>
+                                        </Viewbox>
+                                        <TextBlock Text="Progreso"
+                                           FontSize="19"
                                            FontWeight="Bold"
                                            Foreground="{DynamicResource ColorTexto}"
                                            VerticalAlignment="Center"/>
-                            </StackPanel>
+                                    </StackPanel>
 
-                            <TextBlock x:Name="TxtProgresoVacio"
+                                    <TextBlock x:Name="TxtProgresoVacio"
                                        Text="Selecciona una tarea para ver su progreso y sus subtareas."
                                        FontSize="12"
                                        TextWrapping="Wrap"
                                        Foreground="{DynamicResource ColorTextoSecundario}"
                                        Visibility="Collapsed"
-                                       Margin="0,12"/>
+                                       Margin="0,4,0,6"/>
 
-                            <StackPanel x:Name="PanelProgresoSeleccionado">
-                                <Grid Margin="0,0,0,14">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="56"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Width="48" Height="48"
-                                            CornerRadius="24"
-                                            Background="{DynamicResource ColorMesSeleccionado}"
-                                            VerticalAlignment="Center">
-                                        <TextBlock x:Name="TxtProgresoIcono"
-                                                   Text="✓"
-                                                   FontSize="22"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-                                    </Border>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0">
-                                        <TextBlock x:Name="TxtProgresoTitulo"
-                                                   FontSize="18"
-                                                   FontWeight="Bold"
-                                                   Foreground="{DynamicResource ColorTexto}"
-                                                   TextTrimming="CharacterEllipsis"/>
-                                        <Border x:Name="PanelProgresoCategoria"
-                                                HorizontalAlignment="Left"
+                                    <StackPanel x:Name="PanelProgresoSeleccionado"
+                                        Visibility="Collapsed">
+
+                                        <!-- INFORMACIÓN DE LA TAREA -->
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="38"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border Width="36" Height="36"
+                                                CornerRadius="18"
                                                 Background="{DynamicResource ColorMesSeleccionado}"
-                                                CornerRadius="9"
-                                                Padding="8,2"
-                                                Margin="0,4,0,0"
-                                                Visibility="Collapsed">
-                                            <TextBlock x:Name="TxtProgresoCategoria"
-                                                       FontSize="10"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="{DynamicResource ColorTexto}"/>
-                                        </Border>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="TxtProgresoFecha"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource ColorTextoSecundario}"
-                                                   TextAlignment="Right"/>
-                                        <Border x:Name="PanelProgresoPrioridad"
-                                                CornerRadius="9"
-                                                Padding="8,3"
-                                                Margin="0,5,0,0"
-                                                HorizontalAlignment="Right"
-                                                Visibility="Collapsed">
-                                            <TextBlock x:Name="TxtProgresoPrioridad"
-                                                       FontSize="10"
-                                                       FontWeight="Bold"/>
-                                        </Border>
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid Margin="0,0,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.8*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0"
-                                            Background="{DynamicResource ColorVentana}"
-                                            CornerRadius="14"
-                                            Padding="8"
-                                            Margin="0,0,10,0">
-                                        <StackPanel VerticalAlignment="Center">
-                                            <Grid Width="142" Height="142" HorizontalAlignment="Center">
-                                                <Ellipse x:Name="EllipseProgresoFondo"
-                                                         Margin="7"
-                                                         Stroke="{DynamicResource ColorBorde}"
-                                                         StrokeThickness="12"/>
-                                                <Path x:Name="PathProgreso"
-                                                      Stroke="#3FA772"
-                                                      StrokeThickness="12"
-                                                      StrokeStartLineCap="Round"
-                                                      StrokeEndLineCap="Round"
-                                                      Visibility="Collapsed"/>
-                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <TextBlock x:Name="TxtPorcentajeProgreso"
-                                                               Text="0%"
-                                                               FontSize="30"
-                                                               FontWeight="Bold"
-                                                               Foreground="{DynamicResource ColorTexto}"
-                                                               HorizontalAlignment="Center"/>
-                                                    <TextBlock x:Name="TxtTareasCompletadas"
-                                                               Text="0 de 0 subtareas"
-                                                               FontSize="11"
-                                                               Foreground="{DynamicResource ColorTextoSecundario}"
-                                                               TextAlignment="Center"
-                                                               TextWrapping="Wrap"/>
-                                                </StackPanel>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border Grid.Column="1"
-                                            Background="{DynamicResource ColorVentana}"
-                                            CornerRadius="14"
-                                            Padding="12">
-                                        <StackPanel>
-                                            <TextBlock Text="Subtareas"
-                                                       FontSize="13"
+                                                VerticalAlignment="Center">
+                                                    <TextBlock x:Name="TxtProgresoIcono"
+                                                       Text="✓"
+                                                       FontSize="18"
+                                                       Foreground="{DynamicResource ColorTexto}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                                </Border>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="7,0,0,0">
+                                                    <TextBlock x:Name="TxtProgresoTitulo"
+                                                       FontSize="16"
                                                        FontWeight="Bold"
                                                        Foreground="{DynamicResource ColorTexto}"
-                                                       Margin="0,0,0,8"/>
-                                            <TextBlock x:Name="TxtSubtareasVacias"
-                                                       Text="Agrega subtareas al crear o editar esta tarea."
+                                                       TextWrapping="Wrap"
+                                                       ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+                                                    <Border x:Name="PanelProgresoCategoria"
+                                                    HorizontalAlignment="Left"
+                                                    Background="{DynamicResource ColorMesSeleccionado}"
+                                                    CornerRadius="10"
+                                                    Padding="8,2"
+                                                    Margin="0,2,0,0"
+                                                    Visibility="Collapsed">
+                                                        <TextBlock x:Name="TxtProgresoCategoria"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource ColorTexto}"/>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Border Grid.Column="1"
+                                            BorderBrush="{DynamicResource ColorBorde}"
+                                            BorderThickness="1,0,0,0"
+                                            Padding="10,0,0,0"
+                                            VerticalAlignment="Center">
+                                                <StackPanel MaxWidth="150">
+                                                    <TextBlock x:Name="TxtProgresoFecha"
                                                        FontSize="11"
                                                        TextWrapping="Wrap"
-                                                       Foreground="{DynamicResource ColorTextoSecundario}"
-                                                       Visibility="Collapsed"/>
-                                            <ScrollViewer MaxHeight="136"
-                                                          VerticalScrollBarVisibility="Auto">
-                                                <StackPanel x:Name="PanelSubtareasProgreso"/>
-                                            </ScrollViewer>
-                                        </StackPanel>
-                                    </Border>
-                                </Grid>
+                                                       Foreground="{DynamicResource ColorTextoSecundario}"/>
+                                                    <Border x:Name="PanelProgresoPrioridad"
+                                                    CornerRadius="10"
+                                                    Padding="7,2"
+                                                    Margin="0,3,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Visibility="Collapsed">
+                                                        <TextBlock x:Name="TxtProgresoPrioridad"
+                                                           FontSize="10"
+                                                           FontWeight="Bold"/>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
 
-                            </StackPanel>
+                                        <!-- CÍRCULO Y LISTA DE SUBTAREAS -->
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.85*"/>
+                                                <ColumnDefinition Width="1.15*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Sin tarjeta de fondo: el círculo queda integrado -->
+                                            <Viewbox Grid.Column="0"
+                                             MaxWidth="122"
+                                             MaxHeight="122"
+                                             Stretch="Uniform"
+                                             StretchDirection="DownOnly"
+                                             VerticalAlignment="Center"
+                                             Margin="0,0,12,0">
+                                                <Grid Width="142" Height="142">
+                                                    <Ellipse x:Name="EllipseProgresoFondo"
+                                                     Margin="6"
+                                                     Stroke="{DynamicResource ColorBorde}"
+                                                     StrokeThickness="12"/>
+                                                    <Path x:Name="PathProgreso"
+                                                  Stretch="None"
+                                                  Stroke="#3FA772"
+                                                  StrokeThickness="12"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round"
+                                                  Visibility="Collapsed"/>
+                                                    <StackPanel Width="100" HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                        <TextBlock x:Name="TxtPorcentajeProgreso"
+                                                           Text="0%"
+                                                           FontSize="32"
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource ColorTexto}"
+                                                           HorizontalAlignment="Center"/>
+                                                        <TextBlock x:Name="TxtTareasCompletadas"
+                                                           Text="0 de 0 subtareas"
+                                                           FontSize="12"
+                                                           Foreground="{DynamicResource ColorTextoSecundario}"
+                                                           TextAlignment="Center"
+                                                           TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Viewbox>
+
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock x:Name="TxtSubtareasVacias"
+                                                   Text="Esta tarea no tiene subtareas."
+                                                   FontSize="12"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource ColorTextoSecundario}"
+                                                   Visibility="Collapsed"/>
+                                                <ScrollViewer MaxHeight="148"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      HorizontalScrollBarVisibility="Disabled">
+                                                    <StackPanel x:Name="PanelSubtareasProgreso"/>
+                                                </ScrollViewer>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- PRÓXIMO PASO: indicación, no botón -->
+                                        <Border Background="{DynamicResource ColorMesSeleccionado}"
+                                        BorderBrush="{DynamicResource ColorBorde}"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="9,6">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Viewbox Width="17" Height="17" Margin="0,0,7,0">
+                                                        <Path Data="M 3,12 L 20,12 M 13,5 L 20,12 L 13,19"
+                                                      Stroke="{DynamicResource ColorTexto}"
+                                                      StrokeThickness="2.3"
+                                                      StrokeStartLineCap="Round"
+                                                      StrokeEndLineCap="Round"
+                                                      StrokeLineJoin="Round"/>
+                                                    </Viewbox>
+                                                    <TextBlock Text="Próximo paso"
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource ColorTexto}"
+                                                       VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <Border Grid.Column="1"
+                                                BorderBrush="{DynamicResource ColorBorde}"
+                                                BorderThickness="1,0,0,0"
+                                                Margin="10,0,0,0"
+                                                Padding="10,0,0,0">
+                                                    <TextBlock x:Name="TxtProximoPaso"
+                                                       FontSize="12"
+                                                       Foreground="{DynamicResource ColorTexto}"
+                                                       TextWrapping="Wrap"
+                                                       VerticalAlignment="Center"/>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
                         </StackPanel>
-                    </Border>
+                    </ScrollViewer>
 
-                </StackPanel>
-                </ScrollViewer>
-
-            </Grid>
+                </Grid>
 
 
-            <!-- ================================================== -->
-            <!-- CONTENEDOR DE SECCIONES -->
-            <!--
+                <!-- ================================================== -->
+                <!-- CONTENEDOR DE SECCIONES -->
+                <!--
                  Aquí se muestran Calendario y Ajustes.
                  Inicio continúa siendo VistaInicio.
             -->
-            <!-- ================================================== -->
+                <!-- ================================================== -->
 
-            <ContentControl x:Name="ContenedorSeccion"
+                <ContentControl x:Name="ContenedorSeccion"
                             Grid.Row="1"
                             Visibility="Collapsed"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"/>
 
 
-            <!-- ================================================== -->
-            <!-- BARRA DE NAVEGACIÓN INFERIOR -->
-            <!-- ================================================== -->
+                <!-- ================================================== -->
+                <!-- BARRA DE NAVEGACIÓN INFERIOR -->
+                <!-- ================================================== -->
 
-            <Border Grid.Row="2"
+                <Border Grid.Row="2"
                     Background="{DynamicResource ColorHeader}"
                     CornerRadius="0,0,20,20"
                     Padding="15,10">
 
-                <UniformGrid Rows="1"
+                    <UniformGrid Rows="1"
                              Columns="3"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Center">
 
 
-                    <!-- INICIO -->
+                        <!-- INICIO -->
 
-                    <Border x:Name="NavInicio"
+                        <Border x:Name="NavInicio"
                             Width="150"
                             Height="38"
                             Background="{DynamicResource ColorTarjetaInterna}"
@@ -644,28 +709,28 @@
                             Cursor="Hand"
                             MouseLeftButtonUp="Inicio_Click">
 
-                        <StackPanel Orientation="Horizontal"
+                            <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
 
-                            <TextBlock Text="🏠"
+                                <TextBlock Text="🏠"
                                        FontSize="14"
                                        Margin="0,0,7,0"/>
 
-                            <TextBlock x:Name="TxtNavInicio"
+                                <TextBlock x:Name="TxtNavInicio"
                                        Text="Inicio"
                                        FontSize="13"
                                        FontWeight="Bold"
                                        Foreground="{DynamicResource ColorTexto}"/>
 
-                        </StackPanel>
+                            </StackPanel>
 
-                    </Border>
+                        </Border>
 
 
-                    <!-- CALENDARIO -->
+                        <!-- CALENDARIO -->
 
-                    <Border x:Name="NavCalendario"
+                        <Border x:Name="NavCalendario"
                             Width="150"
                             Height="38"
                             Background="Transparent"
@@ -675,28 +740,28 @@
                             Cursor="Hand"
                             MouseLeftButtonUp="Calendario_Click">
 
-                        <StackPanel Orientation="Horizontal"
+                            <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
 
-                            <TextBlock Text="📅"
+                                <TextBlock Text="📅"
                                        FontSize="14"
                                        Margin="0,0,7,0"/>
 
-                            <TextBlock x:Name="TxtNavCalendario"
+                                <TextBlock x:Name="TxtNavCalendario"
                                        Text="Calendario"
                                        FontSize="13"
                                        FontWeight="SemiBold"
                                        Foreground="{DynamicResource ColorTextoHeader}"/>
 
-                        </StackPanel>
+                            </StackPanel>
 
-                    </Border>
+                        </Border>
 
 
-                    <!-- AJUSTES -->
+                        <!-- AJUSTES -->
 
-                    <Border x:Name="NavAjustes"
+                        <Border x:Name="NavAjustes"
                             Width="150"
                             Height="38"
                             Background="Transparent"
@@ -706,27 +771,27 @@
                             Cursor="Hand"
                             MouseLeftButtonUp="Ajustes_Click">
 
-                        <StackPanel Orientation="Horizontal"
+                            <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
 
-                            <TextBlock Text="⚙"
+                                <TextBlock Text="⚙"
                                        FontSize="14"
                                        Margin="0,0,7,0"/>
 
-                            <TextBlock x:Name="TxtNavAjustes"
+                                <TextBlock x:Name="TxtNavAjustes"
                                        Text="Ajustes"
                                        FontSize="13"
                                        FontWeight="SemiBold"
                                        Foreground="{DynamicResource ColorTextoHeader}"/>
 
-                        </StackPanel>
+                            </StackPanel>
 
-                    </Border>
+                        </Border>
 
-                </UniformGrid>
+                    </UniformGrid>
 
-            </Border>
+                </Border>
             </Grid>
         </Grid>
 

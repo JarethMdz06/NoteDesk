@@ -162,6 +162,7 @@ namespace NoteDesk
             e.Handled = true;
         }
 
+        // Clic en la tarjeta: únicamente selecciona la tarea y actualiza Progreso.
         private void TaskCard_Click(
             object sender,
             MouseButtonEventArgs e)
@@ -172,8 +173,19 @@ namespace NoteDesk
                 return;
             }
 
+            e.Handled = true;
             SelectionRequested?.Invoke(_tarea);
+        }
 
+        // El botón de nota es la única acción que abre la ventana flotante.
+        private void BtnAbrirNota_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            AbrirNotaFlotante();
+        }
+
+        private void AbrirNotaFlotante()
+        {
             StickyTaskWindow? ventanaExistente =
                 Application.Current.Windows
                     .OfType<StickyTaskWindow>()

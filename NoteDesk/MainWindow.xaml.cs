@@ -334,22 +334,30 @@ namespace NoteDesk
                 ? tarea.Subtareas.Count(subtarea => subtarea.Completada)
                 : tarea.Completada ? 1 : 0;
             double progreso = completadas / (double)total;
-            int porcentaje = (int)Math.Round(progreso * 100);
+            int porcentaje = completadas == total ? 100 : completadas == 0 ? 0 : Math.Max(1, Math.Min(99, (int)Math.Round(progreso * 100)));
             TxtPorcentajeProgreso.Text = $"{porcentaje}%";
             TxtTareasCompletadas.Text = tieneSubtareas
                 ? $"{completadas} de {total} subtareas"
                 : $"{completadas} de 1 tarea";
 
+            // El próximo paso es la primera subtarea pendiente, en el orden de la lista.
+            SubtareaModel? proximaSubtarea = tarea.Subtareas
+                .FirstOrDefault(subtarea => !subtarea.Completada);
+
+            TxtProximoPaso.Text = tieneSubtareas
+                ? proximaSubtarea?.Titulo ?? "¡Tarea completada!"
+                : tarea.Completada ? "¡Tarea completada!" : "Completar la tarea principal";
+
             PathProgreso.Data = null;
             PathProgreso.Visibility = Visibility.Collapsed;
-            EllipseProgresoFondo.Stroke = (Brush)FindResource("ColorBorde");
-            if (porcentaje == 100)
+            EllipseProgresoFondo.SetResourceReference(Shape.StrokeProperty, "ColorBorde");
+            if (completadas == total)
             {
                 EllipseProgresoFondo.Stroke = (Brush)new BrushConverter().ConvertFromString("#3FA772")!;
                 return;
             }
 
-            if (porcentaje == 0)
+            if (completadas == 0)
             {
                 return;
             }
@@ -402,13 +410,14 @@ namespace NoteDesk
         {
             Border fila = new Border
             {
-                Background = (Brush)FindResource("ColorTarjetaInterna"),
-                BorderBrush = (Brush)FindResource("ColorBorde"),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(10),
-                Padding = new Thickness(9, 6, 9, 6),
-                Margin = new Thickness(0, 0, 0, 5)
+                Padding = new Thickness(8, 5, 8, 5),
+                MinHeight = 33,
+                Margin = new Thickness(0, 0, 0, 4)
             };
+            fila.SetResourceReference(Border.BackgroundProperty, "ColorSuperficie");
+            fila.SetResourceReference(Border.BorderBrushProperty, "ColorBorde");
             Grid contenido = new Grid();
             contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             contenido.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -430,11 +439,10 @@ namespace NoteDesk
                 FontSize = 12,
                 TextWrapping = TextWrapping.Wrap,
                 VerticalAlignment = VerticalAlignment.Center,
-                Foreground = (Brush)FindResource("ColorTexto"),
-                TextDecorations = subtarea.Completada ? TextDecorations.Strikethrough : null
+                FontWeight = FontWeights.Medium
             };
-            check.Checked += (_, _) => titulo.TextDecorations = TextDecorations.Strikethrough;
-            check.Unchecked += (_, _) => titulo.TextDecorations = null;
+            titulo.SetResourceReference(TextBlock.ForegroundProperty, "ColorTexto");
+            System.Windows.Automation.AutomationProperties.SetName(check, subtarea.Titulo);
             Grid.SetColumn(titulo, 1);
             contenido.Children.Add(titulo);
             fila.Child = contenido;

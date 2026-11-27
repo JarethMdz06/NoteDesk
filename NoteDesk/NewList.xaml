@@ -245,6 +245,98 @@
 
         </Style>
 
+        <!-- SELECTOR RÁPIDO DE FECHA -->
+        <Style x:Key="BotonFechaRapida" TargetType="Button">
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="Background" Value="{DynamicResource ColorSuperficie}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorBorde}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource ColorTexto}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="BordeFechaRapida"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BordeFechaRapida" Property="Background"
+                                        Value="{DynamicResource ColorMesSeleccionado}"/>
+                                <Setter TargetName="BordeFechaRapida" Property="BorderBrush"
+                                        Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="BordeFechaRapida" Property="BorderBrush"
+                                        Value="{DynamicResource ColorBordeMesSeleccionado}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DatePicker nativo: el texto es de solo lectura; se elige desde el calendario. -->
+        <Style x:Key="SelectorFechaNoteDesk" TargetType="DatePicker">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Foreground" Value="{DynamicResource ColorTexto}"/>
+            <Setter Property="Background" Value="{DynamicResource ColorVentana}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ColorBorde}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Grid x:Name="PART_Root">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="9"/>
+                            <Grid Margin="9,0,5,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="36"/>
+                                </Grid.ColumnDefinitions>
+                                <DatePickerTextBox x:Name="PART_TextBox"
+                                                   IsReadOnly="True"
+                                                   Background="Transparent"
+                                                   BorderThickness="0"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   FontSize="12"
+                                                   VerticalContentAlignment="Center"
+                                                   Padding="4,0"/>
+                                <Button x:Name="PART_Button" Grid.Column="1"
+                                        Width="34" Height="34" Padding="0"
+                                        Background="{DynamicResource ColorMesSeleccionado}"
+                                        Foreground="{DynamicResource ColorTexto}"
+                                        BorderThickness="0" Cursor="Hand"
+                                        Focusable="False" ToolTip="Abrir calendario"
+                                        AutomationProperties.Name="Abrir calendario">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                                <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets"
+                                                           FontSize="18" Foreground="{TemplateBinding Foreground}"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                            <Popup x:Name="PART_Popup" Placement="Bottom"
+                                   PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                   AllowsTransparency="True" StaysOpen="False"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
 
@@ -492,46 +584,44 @@
 
                         <StackPanel x:Name="PanelFecha"
                                     Visibility="Collapsed">
-
-                            <TextBlock Text="Fecha de inicio"
-                                       FontSize="12"
-                                       FontWeight="SemiBold"
+                            <UniformGrid Columns="3" Margin="-3,0,-3,12">
+                                <Button x:Name="BtnFechaHoy" Tag="0"
+                                        Style="{StaticResource BotonFechaRapida}"
+                                        Click="FechaRapida_Click">
+                                    <StackPanel>
+                                        <TextBlock Text="&#xE706;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="17" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Hoy" FontSize="12" Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="BtnFechaManana" Tag="1"
+                                        Style="{StaticResource BotonFechaRapida}"
+                                        Click="FechaRapida_Click">
+                                    <StackPanel>
+                                        <TextBlock Text="&#xE8AB;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="17" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="Mañana" FontSize="12" Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="BtnFechaSemana" Tag="7"
+                                        Style="{StaticResource BotonFechaRapida}"
+                                        Click="FechaRapida_Click">
+                                    <StackPanel>
+                                        <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="17" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="En 7 días" FontSize="12" Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                            </UniformGrid>
+                            <TextBlock Text="Fecha personalizada"
+                                       FontSize="12" FontWeight="SemiBold"
                                        Foreground="{DynamicResource ColorTexto}"
-                                       Margin="0,4,0,6"/>
-
-                            <Border Height="42"
-                                    Background="{DynamicResource ColorVentana}"
-                                    BorderBrush="#DED4BD"
-                                    BorderThickness="1"
-                                    CornerRadius="9">
-
-                                <Grid Margin="10,0">
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Text="▣"
-                                               FontSize="17"
-                                               Foreground="{DynamicResource ColorTexto}"
-                                               Opacity="0.7"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
-
-                                    <TextBox x:Name="TxtFecha"
-                                             Grid.Column="1"
-                                             Style="{StaticResource TextBoxLimpio}"
-                                             Text="Ej. 25 de Abril, 2026"
-                                             Foreground="{DynamicResource ColorTexto}"
-                                             Opacity="0.6"
-                                             GotFocus="TextBox_GotFocus"
-                                             LostFocus="TextBox_LostFocus"/>
-
-                                </Grid>
-
-                            </Border>
-
+                                       Margin="0,0,0,6"/>
+                            <DatePicker x:Name="SelectorFecha"
+                                        Style="{StaticResource SelectorFechaNoteDesk}"
+                                        Language="es-MX" SelectedDateFormat="Long"
+                                        SelectedDateChanged="SelectorFecha_SelectedDateChanged"
+                                        AutomationProperties.Name="Fecha de inicio"/>
                         </StackPanel>
 
                     </StackPanel>
