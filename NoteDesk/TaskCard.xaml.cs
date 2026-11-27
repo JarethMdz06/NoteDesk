@@ -9,6 +9,7 @@ namespace NoteDesk
     public partial class TaskCard : UserControl
     {
         private readonly TareaModel _tarea;
+        private bool _inicializando = true;
         private string _titulo;
         private string _descripcion;
         private string _fecha;
@@ -36,12 +37,9 @@ namespace NoteDesk
             _prioridad = tarea.Prioridad;
             _categoria = tarea.Categoria;
             ChkCompletada.IsChecked = tarea.Completada;
-            bool tieneSubtareas = tarea.Subtareas?.Count > 0;
-            ChkCompletada.IsEnabled = !tieneSubtareas;
-            ChkCompletada.Cursor = tieneSubtareas ? Cursors.Arrow : Cursors.Hand;
-            ChkCompletada.ToolTip = tieneSubtareas
-                ? "Esta tarea se completará al marcar todas sus subtareas."
-                : "Marcar tarea como completada";
+            ChkCompletada.IsEnabled = true;
+            ChkCompletada.Cursor = Cursors.Hand;
+            ChkCompletada.ToolTip = "Marcar o desmarcar la tarea completa";
             TxtTitulo.TextDecorations = tarea.Completada
                 ? TextDecorations.Strikethrough
                 : null;
@@ -103,6 +101,7 @@ namespace NoteDesk
                     TxtIconoCategoria.Text = "•••";
                 }
             }
+            _inicializando = false;
         }
 
         public void EstablecerSeleccionada(bool seleccionada)
@@ -117,26 +116,22 @@ namespace NoteDesk
 
         private void ChkCompletada_Changed(object sender, RoutedEventArgs e)
         {
-            if (_tarea.Subtareas?.Count > 0)
+            if (_inicializando)
             {
-                ChkCompletada.IsChecked = _tarea.Completada;
                 return;
             }
 
-            SelectionRequested?.Invoke(_tarea);
+            e.Handled = true;
             bool completada = ChkCompletada.IsChecked == true;
+            SelectionRequested?.Invoke(_tarea);
+
             if (completada == _tarea.Completada)
             {
                 return;
             }
 
-            _tarea.Completada = completada;
-            TxtTitulo.TextDecorations = completada
-                ? TextDecorations.Strikethrough
-                : null;
-            TxtTitulo.Opacity = completada ? 0.65 : 1;
+            // MainWindow guarda la tarea y sus subtareas juntas.
             CompletionChanged?.Invoke(_tarea, completada);
-            e.Handled = true;
         }
 
         private void BtnMenuTarea_Click(object sender, RoutedEventArgs e)
